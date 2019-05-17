@@ -111,6 +111,12 @@
 		{no:1, company:'A', good:'tv', count: 5 , price: 300000, date:'2017-12-12' ,category : 'plus',desc:'' },
 		{no:2, company:'A', good:'pc', count: 10 , price: 700000, date:'2018-10-19' ,category : 'etc',desc:'' },
 		{no:3, company:'D', good:'pc', count: 13 , price: 700000, date:'2018-11-01' ,category : 'plus',desc:'' },
+		{no:3, company:'B', good:'smartphone', count: 3 , price: 500000, date:'2018-11-02' ,category : 'etc',desc:'' },
+		{no:3, company:'D', good:'pc', count: 13 , price: 700000, date:'2018-11-01' ,category : 'plus',desc:'' },
+		{no:3, company:'D', good:'pc', count: 13 , price: 700000, date:'2018-11-01' ,category : 'plus',desc:'' },
+		{no:3, company:'D', good:'pc', count: 13 , price: 700000, date:'2018-11-01' ,category : 'plus',desc:'' },
+		{no:3, company:'D', good:'pc', count: 13 , price: 700000, date:'2018-11-01' ,category : 'plus',desc:'' },
+		{no:3, company:'D', good:'pc', count: 13 , price: 700000, date:'2018-11-01' ,category : 'plus',desc:'' },
 		
 		];
 	

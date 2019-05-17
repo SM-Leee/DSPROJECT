@@ -12,7 +12,6 @@ document.write("<script type='text/javascript' src='./assets/js/component/chartu
 document.write("<script type='text/javascript' src='./assets/js/component/piechart.js' ><" + "/script>");
 document.write("<script type='text/javascript' src='./assets/js/component/radarchart.js' ><" + "/script>");
 document.write("<script type='text/javascript' src='./assets/js/component/linechart.js' ><" + "/script>");
-<<<<<<< HEAD
 document.write("<script type='text/javascript' src='./assets/js/component/bubblechart.js' ><" + "/script>");
 document.write("<script type='text/javascript' src='./assets/js/component/barchart.js' ><" + "/script>");
 
@@ -70,46 +69,6 @@ function component(){
         barChart(barDataSet, select);
         console.log("1111111");
     })
-=======
-
-document.write("<script type='text/javascript' src='./assets/js/component/footer.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='./assets/js/component/button.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='./assets/js/component/cardlist.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='./assets/js/component/staticbutton.js' ><" + "/script>");
-
-function component(){
-	resizible();
-
-	headerTitle()
-	headerToggleMenu();
-	navigatorSubmenu();
-	inputFormat();
-	dropdownPicker();
-	periodPicker();
-	datePicker();
-	falsepiechart();
-	cardlistSetting();
-	footerSetting();
-	staticBtnSetting($('#ds-ui-staticBtn'), $('#ds-ui-staticShowBtn'));
-	/* 원형 차트 */
-	/* 기본적인 형태는 갖춰졌지만 UI적인 수정이 필요함 */    
-	$('.circle').each(function(){
-		select = '.circle[id='+$(this).attr('id')+'] ';
-		pieChart(dataSet, select);
-	})
-	/* 방사형 차트 (radar chart) */
-	$('.radar').each(function(){
-		select = '.radar[id='+$(this).attr('id')+'] ';
-		radarChart(dataSet, select);
-	})
-	/* 꺽은선 차트 (line chart) */
-	/* 아직 이건 차트의 사이즈 설정이 완전하지 않음 */
-	/* 또한 UI 적인 수정이 필요함 */
-	$('.line').each(function(){
-		select = '.line[id='+$(this).attr('id')+'] ';
-		lineChart(dataSet, select);
-	})
->>>>>>> refs/remotes/origin/master
 	basicButton();
 }
 const resizible = function () {
