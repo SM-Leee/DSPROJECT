@@ -38,8 +38,7 @@
 		</div>
 
 		<div class="contents">
-<<<<<<< HEAD
-			<div class='ds-ui-chart circle' id='circle2' data-standard='category' data-calc='sum' data-calc-detail='price count sum'></div>
+			<div class='ds-ui-chart circle' id='circle2' data-standard='category' data-calc='sum' data-calc-detail='price count mul'></div>
 			<div class='ds-ui-chart circle' id='circle1' data-set='dataSet'
 				data-index-position='left'></div>
 			<div class='ds-ui-chart circle' id='circle3' data-set='dataSet'
@@ -116,79 +115,6 @@
 		];
 	
 	
-=======
-			<div class='chart circle' id='circle1' data-set='dataSet' data-index-position='right'></div>
-			<!-- <div class='chart circle' id='title5' data-set='dataSet'></div> -->
-			<div class='chart radar' id='radar1' data-set='dataSet'
-				data-max='100'></div>
-			<div class='chart line' id='line3' data-set='dataSet' data-max='100'
-				data-min='0' data-dist='10'></div>
-			<!-- <div class='chart radar' id='title4' data-set='dataSet' data-max='100'></div> -->
-		</div>
-
-		<div class="footer">
-			<div class="ds-ui-footerBox">
-				<div data-color='#6498B5'>
-					<p>수입</p>
-					<p>200,200,000</p>
-				</div>
-				<div data-color='#E74D3A'>
-					<p>지출</p>
-					<p>200,200,000</p>
-				</div>
-			</div>
-			<div class="ds-ui-footerBox">
-				<div data-color='#6498B5' data-direction='horizen'>
-					<p>수입</p>
-					<p>200,200,000</p>
-				</div>
-			</div>
-			<div class="ds-ui-footerBox">
-				<div data-color='#6498B5'>
-					<p>수입</p>
-					<p>200,200,000</p>
-				</div>
-				<div data-color='#E74D3A'>
-					<p>지출</p>
-					<p>200,000</p>
-				</div>
-				<div data-color='#ABACB2'>
-					<p>미지급</p>
-					<p>322,432,000</p>
-				</div>
-			</div>
-		</div>
-		<div id='ds-ui-staticBtn'></div>
-		<div id='ds-ui-staticShowBtn'></div>
-	</div>
-
-
-	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/assets/js/ds.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/assets/js/app.js"></script>
-	<script type="text/javascript">
-	
-	const dataSet = [
-	    {title: 'index1',    data: 21,    color: 'blue'},
-	    {title: 'index2',    data: 54,    color: 'skyblue'},
-	    {title: 'index3',    data: 5,    color: 'olive'},
-	    //{title: 'index4',    data: 65,     color: 'yellow'},
-	    {title: 'index5',    data: 64,    color: 'gray'},
-	    {title: 'index6',    data: 55,    color: 'orange'},
-	    {title: 'index7',    data: 80,    color: 'purple'},
-	    {title: 'index8',   data: 30,    color: 'green'},
-	    //{title: 'index9',   data: 30,    color: 'black'}
-	    // {title: 'index1',    data: 50,    color: 'red'},
-	    // {title: 'index2',    data: 60,    color: 'green'},
-	    // {title: 'index3',    data: 50,    color: 'blue'},
-	    // {title: 'index4',    data: 90,    color: 'skyblue'},
-	     {title: 'index9',    data: 70,    color: 'yellow'},
-	    // {title: 'index6',    data: 80,     color: 'yellow'},
-	    // {title: 'index7',    data: 63,    color: 'gray'},
-	]
->>>>>>> refs/remotes/origin/master
 	</script>
 </body>
 </html>
