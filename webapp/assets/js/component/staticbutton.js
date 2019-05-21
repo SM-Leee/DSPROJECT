@@ -11,8 +11,8 @@ const staticBtnSetting = (staticBtn, staticShowBtn, staticPlus) => {
         "<i class='far fa-dot-circle'></i>"
     $(staticBtn).append(staticBtnItem);
     $(staticShowBtn).append(staticShowItem);
+    
     // click Event
-    const staticPlusBtn = $('#staticBtn-plus');
     $(staticShowBtn).click(function () {
         $(staticShowBtn).css('display', 'none');
         $(staticBtn).css({
@@ -21,11 +21,11 @@ const staticBtnSetting = (staticBtn, staticShowBtn, staticPlus) => {
             'top': staticBtnPosition.top + 'px'
         })
     })
+    const staticPlusBtn = $('#staticBtn-plus');
     const staticBtn_child = $(staticBtn).children('div');
     var timeout;
     var lastTap = 0;
-    $(staticPlusBtn).unbind("click").bind("click", function (e) {
-        // $(staticBtn).bind("touchend", function (e) {
+    $(staticPlusBtn).bind("click", function (e) {
         var currentTime = new Date().getTime();
         var tapLength = currentTime - lastTap;
         clearTimeout(timeout);
@@ -36,7 +36,7 @@ const staticBtnSetting = (staticBtn, staticShowBtn, staticPlus) => {
             e.preventDefault();
         } else {
             $(staticBtn_child).toggle(0, function () {
-                $(staticBtn_child[0]).css({
+                     $(staticBtn_child[0]).css({
                         'bottom': '0rem',
                         'right': '4rem',
                     }),

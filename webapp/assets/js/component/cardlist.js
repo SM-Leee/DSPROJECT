@@ -29,14 +29,14 @@ const cardlistSetting = () => {
 }
 const settingItem =
     "<div class='ds-ui-setting'>" +
-    "<i class='fas fa-trash-alt'></i>" +
+    "<i class='statusViewBtn fas fa-search'></i>" +
     "<i class='fas fa-wrench'></i>" +
+    "<i class='fas fa-trash-alt'></i>" +
     "</div>";
 const setting = function () {
     const cardlist = $('.ds-ui-cardlist');
     let cardlistWidth = $('.cardlist-wrapper').outerWidth();
-    
-// $('.cardlist').width(cardlistWidth + 'px');
+
     for (var i = 0; i < cardlist.length; i++) {
         $(cardlist[i]).append(settingItem);
     }
@@ -45,15 +45,14 @@ const setting = function () {
         $(cardlist[i]).attr('data-no', i);
         $(setting[i]).attr('setting-no', i)
     }
-    $(cardlist).bind('touchstart', function (e) {
-//        e.preventDefault();
-        sX = e.touches[0].screenX;
+    $(cardlist).bind('touchstart mousedown', function (e) {
+        sX = (e.type === 'mousedown') ? e.pageX : e.touches[0].screenX;
         selectCardlist($(this).attr('data-no'))
     })
-    const selectCardlist = (no) => $(cardlist).bind('touchend', function (e) {
+    const selectCardlist = (no) => $(cardlist).bind('touchend mouseup', function (e) {
         dataNo = ($(this).attr('data-no'));
-        fX = e.changedTouches[0].screenX;
-        const showSetting = cardlistWidth + 80;
+        fX = (e.type === 'mouseup') ? e.pageX : e.changedTouches[0].screenX;
+        const showSetting = cardlistWidth + 120;
         if (dataNo == no) {
             if ((fX - sX) / size > 0.20) {
                 $(setting[no]).css({
@@ -69,18 +68,18 @@ const setting = function () {
                         display: "flex"
                     }),
                     $(cardlist[no]).css({
-                        transform: "translate3d(-80px, 0, 0)",
+                        transform: "translate3d(-120px, 0, 0)",
                         width: showSetting + "px"
                     })
             }
-        }else {
-        	  $(setting[no]).css({
-                  display: "none"
-              }),
-              $(cardlist[no]).css({
-                  transform: "translate3d(0px, 0, 0)",
-                  width: cardlistWidth + "px"
-              })
+        } else {
+            $(setting[no]).css({
+                    display: "none"
+                }),
+                $(cardlist[no]).css({
+                    transform: "translate3d(0px, 0, 0)",
+                    width: cardlistWidth + "px"
+                })
         }
     })
 }

@@ -29,7 +29,12 @@ let lineChart = (dataSet, select) => {
         point = point + X_value + '% ' + beforedata + '% ';
         if(i+1 !== dataSet.length){point = point + ',';}
 
-        $(select + '.background').append('<div class="event data-point data-point'+i+'" data-value="'+d.data+'"></div>')
+        $(select + '.background').append(
+            '<div class="event data-point data-point' + i +
+            '" data-value="' + d.data + '">' + 
+            '<div class="data-point-value data-point-value' + i + '">' + d.data +
+            '</div>' +
+            '</div>')
         $(select + '.data-point'+i).css({
             'top':'calc('+beforedata+'% - 0.5rem)',
             'left':'calc('+X_value+'% - 0.5rem)'

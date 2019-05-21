@@ -38,7 +38,7 @@
 		</div>
 
 		<div class="contents">
-			<div id="ds-ui-piechart"></div>
+			
 		</div>
 
 		<div class="footer">

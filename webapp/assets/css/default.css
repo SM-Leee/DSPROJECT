@@ -7,6 +7,7 @@ ul, ol			{ list-style-type: none }
 
 .body{
 	display:none;
+	user-select: none;
 }
 
 .App {

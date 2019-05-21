@@ -19,8 +19,7 @@ document.write("<script type='text/javascript' src='./assets/js/component/footer
 document.write("<script type='text/javascript' src='./assets/js/component/button.js' ><" + "/script>");
 document.write("<script type='text/javascript' src='./assets/js/component/cardlist.js' ><" + "/script>");
 document.write("<script type='text/javascript' src='./assets/js/component/staticbutton.js' ><" + "/script>");
-
-let chartData;
+document.write("<script type='text/javascript' src='./assets/js/component/statusview.js' ><" + "/script>");
 
 function component(){
 	
@@ -37,20 +36,19 @@ function component(){
 	cardlistSetting();
 	footerSetting();
 	staticBtnSetting($('#ds-ui-staticBtn'), $('#ds-ui-staticShowBtn'));
+	statuslViewSetting();
+
 	/* 원형 차트 */
-	/* 기본적인 형태는 갖춰졌지만 UI적인 수정이 필요함 */    
+	/* 기본적인 형태는 갖춰졌지만 UI적인 수정이 필요함 */
 	$('.circle').each(function(){
 		select = '.circle[id='+$(this).attr('id')+'] ';
-		//chartData = $(select).data('set');
-		console.log($(select).data('standard'));
-		console.log($(select).data('calc'));
-		console.log($(select).data('calc-detail'));
-		pieChart(dataSet, select);
+		pieChart(pielinechartDataBinding(), select);
 	})
 	/* 방사형 차트 (radar chart) */
 	$('.radar').each(function(){
 		select = '.radar[id='+$(this).attr('id')+'] ';
-		radarChart(dataSet, select);
+		
+		formItems(exData, select);
 	})
 	/* 꺽은선 차트 (line chart) */
 	/* 아직 이건 차트의 사이즈 설정이 완전하지 않음 */
@@ -60,15 +58,15 @@ function component(){
 		lineChart(lineDataSet, select);
 	})
 	$('.bubble').each(function(){
-        select = '.bubble[id='+$(this).attr('id')+'] ';
-        bubbleChart(dataSet1, select);
-    })
+		select = '.bubble[id='+$(this).attr('id')+'] ';
+		bubbleChart(dataSet1, select);
+	})
 
-    $('.bar').each(function(){
-        select = '.bar[id='+$(this).attr('id')+'] ';
-        barChart(barDataSet, select);
-        console.log("1111111");
-    })
+	$('.bar').each(function(){
+		select = '.bar[id='+$(this).attr('id')+'] ';
+		barChart(barDataSet, select);
+		
+	})
 	basicButton();
 }
 const resizible = function () {

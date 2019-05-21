@@ -38,18 +38,16 @@
 		</div>
 
 		<div class="contents">
-			<div class='ds-ui-chart circle' id='circle2' data-standard='category' data-calc='sum' data-calc-detail='price count mul'></div>
-			<div class='ds-ui-chart circle' id='circle1' data-set='dataSet'
-				data-index-position='left'></div>
-			<div class='ds-ui-chart circle' id='circle3' data-set='dataSet'
-				data-index-position='top'></div>
-			<div class='ds-ui-chart circle' id='circle4' data-set='dataSet'
-				data-index-position='right'></div>
+			<div class='ds-ui-chart circle' id='circle2' data-binding='exampleData' data-standard='category' data-standard-transfer-naming = 'chartOption' data-calc='sum' data-calc-detail='mul price count'></div>
+			<div class='ds-ui-chart circle' id='circle1' data-binding='exampleData' data-standard='company' data-calc-detail='price' data-index-position='left'></div>
+			<div class='ds-ui-chart circle' id='circle3' data-binding='exampleData' data-standard='category' data-calc-detail='mul price count' data-index-position='top'></div>
+			<div class='ds-ui-chart circle' id='circle4' data-binding='exampleData' data-standard='company' data-calc-detail='price' data-index-position='right'></div>
+			
 			<div class="ds-ui-chart bar" id="bar1" data-set="dataSet" data-x="title"
 				data-y="120" data-dist-y="20" data-index-position="bottom"></div>
 			<!-- <div class='chart circle' id='title5' data-set='dataSet'></div> -->
 
-			<div class='ds-ui-chart radar' id='radar1' data-set='dataSet'
+			<div class='ds-ui-chart radar' id='radar1' data-set='exData'
 				data-max='100'></div>
 			<div class='ds-ui-chart line' id='line1' data-set='dataSet' data-x="7"
 				data-dist-x="1" data-y="4.5" data-dist-y="0.5"></div>
@@ -107,19 +105,24 @@
 	/* category : plus, minus, etc */
 	/* 회사 : A,B,C,D,E */
 	/* 상품명 : tv, radio, pc, smartphone, teblet, monitor */
-	const exampleData = [
-		{no:1, company:'A', good:'tv', count: 5 , price: 300000, date:'2017-12-12' ,category : 'plus',desc:'' },
-		{no:2, company:'A', good:'pc', count: 10 , price: 700000, date:'2018-10-19' ,category : 'etc',desc:'' },
-		{no:3, company:'D', good:'pc', count: 13 , price: 700000, date:'2018-11-01' ,category : 'plus',desc:'' },
-		{no:3, company:'B', good:'smartphone', count: 3 , price: 500000, date:'2018-11-02' ,category : 'etc',desc:'' },
-		{no:3, company:'D', good:'pc', count: 13 , price: 700000, date:'2018-11-01' ,category : 'plus',desc:'' },
-		{no:3, company:'D', good:'pc', count: 13 , price: 700000, date:'2018-11-01' ,category : 'plus',desc:'' },
-		{no:3, company:'D', good:'pc', count: 13 , price: 700000, date:'2018-11-01' ,category : 'plus',desc:'' },
-		{no:3, company:'D', good:'pc', count: 13 , price: 700000, date:'2018-11-01' ,category : 'plus',desc:'' },
-		{no:3, company:'D', good:'pc', count: 13 , price: 700000, date:'2018-11-01' ,category : 'plus',desc:'' },
-		
+	const exampleData =  
+		[
+			{no:1, company:'A', good:'tv', count: 5 , price: 300000, date:'2017-12-12' ,category : 'plus',desc:'' },
+			{no:2, company:'A', good:'pc', count: 10 , price: 700000, date:'2018-10-19' ,category : 'etc',desc:'' },
+			{no:3, company:'D', good:'pc', count: 13 , price: 700000, date:'2018-11-01' ,category : 'plus',desc:'' },
+			{no:4, company:'B', good:'smartphone', count: 3 , price: 500000, date:'2018-11-02' ,category : 'etc',desc:'' },
+			{no:5, company:'D', good:'pc', count: 13 , price: 4000, date:'2018-11-01' ,category : 'minus',desc:'' },
+			{no:6, company:'C', good:'pc', count: 13 , price: 1800000, date:'2018-11-01' ,category : 'minus',desc:'' },
+			{no:7, company:'C', good:'pc', count: 13 , price: 800000, date:'2018-11-01' ,category : 'etc',desc:'' },
+			{no:8, company:'D', good:'pc', count: 13 , price: 50000, date:'2018-11-01' ,category : 'plus',desc:'' },
+			{no:9, company:'C', good:'pc', count: 13 , price: 1500000, date:'2018-11-01' ,category : 'etc',desc:'' },
 		];
-	
+	const chartOption = 
+		[
+			{etc : '미지급'},
+			{plus : '수입'},
+			{minus : '지출'}
+		];
 	
 	</script>
 </body>

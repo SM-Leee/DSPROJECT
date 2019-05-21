@@ -51,9 +51,9 @@ let index_position = (select_tag, dataSet) => {
 	if(dataSet.length <= 10 && (select.indexOf('circle') != -1 || select.indexOf('bar') != -1)){
 		for(var i=0; i<dataSet.length;i++){
 			$(select+'.chart-index').append('<div id='+chartname+'legend'+i+'></div>');
-			console.log("status"+status);
 			if(status == 'right' || status == 'left'){
 				$(select+'#'+chartname+'legend'+i).css({'height':rightLegend+'%'});
+				$(select+'#'+chartname+'legend'+i).css({'width':'100%'});
 			} else {
 				$(select+'#'+chartname+'legend'+i).css({'text-align':'center'});
 				//$(select+'#pielegend'+i).css({'flex':'auto'});			
@@ -66,6 +66,7 @@ let index_position = (select_tag, dataSet) => {
 					$(select+'#'+chartname+'legend'+i).css({'height':'50%'});				
 				}
 			}
+			$(select+'#'+chartname+'legend'+i).css({'text-decoration':'none'});
 			$(select+'#'+chartname+'legend'+i).css({'display':'flex'});
 			$(select+'#'+chartname+'legend'+i).css({'float':'left'});
 			$(select+'#'+chartname+'legend'+i).css({'position':'relative'});
@@ -103,16 +104,12 @@ let data_background = (dataSet, select_tag) => {
 	let y = $(select_tag).data('y')
 	let dist_y = $(select_tag).data('dist-y')
 
-	console.log(typeof x, typeof y)
-
 	if(typeof x === 'number'){
-		console.log("number");
 		for(let i = 0; i <= Math.ceil(x/dist_x); i++){
 			$(select_tag+'.axis-X').append('<label>'+(i*dist_x)+'</label>')
 		}
 		$(select_tag+'.axis-X').css({'justify-content':'space-between'})
 	} else if(typeof x === 'string'){
-		console.log("string");
 		// console.log(dataSet[0][$(select_tag).data('x')])
 		for(let i = 0; i < dataSet.length; i++){
 			// for(let i = 0; i < 5; i++){
