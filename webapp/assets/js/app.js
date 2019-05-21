@@ -517,7 +517,6 @@ const pielinechartDataBinding = function(){
 		if(calc_detail[0] == 'div'){
 
 		}
-111111111111111111111111111
 		$.each(dataItem, function(){
 			let data = this[dataStandard];
 			if($.inArray(data, resultArr) === -1){
