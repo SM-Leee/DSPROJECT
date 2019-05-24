@@ -22,9 +22,7 @@ document.write("<script type='text/javascript' src='./assets/js/component/static
 document.write("<script type='text/javascript' src='./assets/js/component/statusview.js' ><" + "/script>");
 
 function component(){
-	
 	resizible();
-
 	headerTitle()
 	headerToggleMenu();
 	navigatorSubmenu();
@@ -42,13 +40,12 @@ function component(){
 	/* 기본적인 형태는 갖춰졌지만 UI적인 수정이 필요함 */
 	$('.circle').each(function(){
 		select = '.circle[id='+$(this).attr('id')+'] ';
-		pieChart(pielinechartDataBinding(), select);
+		pieChart(chartDataBinding('circle'), select);
 	})
 	/* 방사형 차트 (radar chart) */
 	$('.radar').each(function(){
 		select = '.radar[id='+$(this).attr('id')+'] ';
-		
-		formItems(exData, select);
+		formItems(chartDataBinding('radar'), select);
 	})
 	/* 꺽은선 차트 (line chart) */
 	/* 아직 이건 차트의 사이즈 설정이 완전하지 않음 */
@@ -57,15 +54,13 @@ function component(){
 		select = '.line[id='+$(this).attr('id')+'] ';
 		lineChart(lineDataSet, select);
 	})
-	$('.bubble').each(function(){
+	/*$('.bubble').each(function(){
 		select = '.bubble[id='+$(this).attr('id')+'] ';
 		bubbleChart(dataSet1, select);
-	})
-
+	})*/
 	$('.bar').each(function(){
 		select = '.bar[id='+$(this).attr('id')+'] ';
-		barChart(barDataSet, select);
-		
+		barChart(chartDataBinding('bar'), select);
 	})
 	basicButton();
 }

@@ -5,29 +5,6 @@ var togglemenu_visible = [ false ];
 var togglemenu_visibility = "hide";
 const footerBoxList = $('.ds-ui-footerBox');
 
-
-const dataSet = [
-	{title: '안녕',    data: 21,    color: 'blue'},
-	{title: '반가워',    data: 100,    color: 'skyblue'},
-	{title: 'index3',    data: 5,    color: 'olive'},
-
-	{title: 'index4',    data: 30,     color: 'red'},
-
-	{title: 'index5',    data: 64,    color: 'gray'},
-	{title: 'index6',    data: 55,    color: 'orange'},
-	{title: 'index7',    data: 80,    color: 'purple'},
-	{title: 'index8',   data: 30,    color: 'green'},
-	{title: 'index9',    data: 70,    color: 'yellow'},
-	{title: 'index9',   data: 30,    color: 'black'},
-
-	//{title: 'index1',    data: 50,    color: '#FF00FF'},
-	// {title: 'index2',    data: 60,    color: 'green'},
-	// {title: 'index3',    data: 50,    color: 'blue'},
-	// {title: 'index4',    data: 90,    color: 'skyblue'},
-
-	// {title: 'index6',    data: 80,     color: 'yellow'},
-	//{title: 'index10',    data: 63,    color: 'skyred'},
-	]
 const dataSet1 = [
 	{X:47, Y:68, Z:6, color:'blue'},
 	{X:21, Y:56, Z:9, color:'blue'},
@@ -41,19 +18,6 @@ const dataSet1 = [
 	{X:92, Y:95, Z:9, color:'blue'},
 	]
 
-const dataSet2 = [
-	{X:69, Y:25, Z:3, color:'orange'},
-	{X:33, Y:94, Z:6, color:'orange'},
-	{X:73, Y:57, Z:2, color:'orange'},
-	{X:21, Y:69, Z:7, color:'orange'},
-	{X:25, Y:96, Z:8, color:'orange'},
-	{X:41, Y:72, Z:10, color:'orange'},
-	{X:62, Y:42, Z:15, color:'orange'},
-	{X:21, Y:57, Z:15, color:'orange'},
-	{X:38, Y:86, Z:3, color:'orange'},
-	{X:20, Y:33, Z:7, color:'orange'},
-	]
-
 const lineDataSet = [
 	{grade:"2013-1", data:"3.18"},
 	{grade:"2013-2", data:"3.21"},
@@ -65,103 +29,92 @@ const lineDataSet = [
 	{grade:"2018-2", data:"3.50"}
 	]
 
-const barDataSet = [
-	{title:"yang", data:"100", color:"blue"},
-	{title:"sim", data:"70", color:"red"},
-	{title:"choi", data:"60", color:"green"},
-	{title:"lee", data:"80", color:"yellow"},
-	{title:"dog", data:"55", color:"gray"},
-	//{title:"yang", data:"100", color:"blue"},
-	//{title:"sim", data:"70", color:"red"},
-	//{title:"choi", data:"60", color:"green"},
-	//{title:"lee", data:"80", color:"yellow"},
-	//{title:"dog", data:"55", color:"gray"},
-	]
 
 const exData = [{
-	"data": [{
-		"title": "반가워",
-		"data": 54,
-		"color": "skyblue"
-	},
-	{
-		"title": "ㅎㅇ",
-		"data": 23,
-		"color": "skyblue"
-	},
-	{
-		"title": "r",
-		"data": 12,
-		"color": "skyblue"
-	},
-	{
-		"title": "s",
-		"data": 42,
-		"color": "skyblue"
-	},
-	{
-		"title": "x",
-		"data": 55,
-		"color": "skyblue"
-	}
-	]
-},
-{
-	"data": [{
-		"title": "반가워",
-		"data": 90,
-		"color": "skyblue"
-	},
-	{
-		"title": "ㅎㅇ",
-		"data": 18,
-		"color": "skyblue"
-	},
-	{
-		"title": "r",
-		"data": 77,
-		"color": "skyblue"
-	},
-	{
-		"title": "s",
-		"data": 56,
-		"color": "skyblue"
-	},
-	{
-		"title": "x",
-		"data": 91,
-		"color": "skyblue"
-	}
-	]
-},
-{
-	"data": [{
-		"title": "반가워",
-		"data": 23,
-		"color": "skyblue"
-	},
-	{
-		"title": "ㅎㅇ",
-		"data": 50,
-		"color": "skyblue"
-	},
-	{
-		"title": "r",
-		"data": 20,
-		"color": "skyblue"
-	},
-	{
-		"title": "s",
-		"data": 69,
-		"color": "skyblue"
-	},
-	{
-		"title": "x",
-		"data": 73,
-		"color": "skyblue"
-	}
-	]
-}
+    "더존비즈온": [{
+          "title": "반가워",
+          "data": 0.5,
+          "color": "skyblue"
+       },
+       {
+          "title": "ㅎㅇ",
+          "data": 0.7,
+          "color": "skyblue"
+       },
+       {
+          "title": "r",
+          "data": 0.33,
+          "color": "skyblue"
+       },
+       {
+          "title": "s",
+          "data": 0.41,
+          "color": "skyblue"
+       },
+       {
+          "title": "x",
+          "data": 0.1,
+          "color": "skyblue"
+       }
+    ]
+ },
+ {
+    "네이버": [{
+          "title": "반가워",
+          "data": 0.3,
+          "color": "skyblue"
+       },
+       {
+          "title": "ㅎㅇ",
+          "data": 0.8,
+          "color": "skyblue"
+       },
+       {
+          "title": "r",
+          "data": 0.12,
+          "color": "skyblue"
+       },
+       {
+          "title": "s",
+          "data": 0.54,
+          "color": "skyblue"
+       },
+       {
+          "title": "x",
+          "data": 0.31,
+          "color": "skyblue"
+       }
+    ]
+ }
+ // ,
+ // {
+ //    "다음": [{
+ //       "title": "반가워",
+ //       "data": 23,
+ //       "color": "skyblue"
+ //    },
+ //    {
+ //       "title": "ㅎㅇ",
+ //       "data": 50,
+ //       "color": "skyblue"
+ //    },
+ //    {
+ //       "title": "r",
+ //       "data": 20,
+ //       "color": "skyblue"
+ //    },
+ //    {
+ //       "title": "s",
+ //       "data": 69,
+ //       "color": "skyblue"
+ //    },
+ //    {
+ //       "title": "x",
+ //       "data": 73,
+ //       "color": "skyblue"
+ //    }
+ //    ]
+ // }
 ]
 const formData = [
 	{
@@ -221,7 +174,7 @@ const formData = [
 $(document).ready(function () {	
 	let pielinedata;
 	if($(".circle").length!=0){
-		pielinedata =pielinechartDataBinding();		
+		pielinedata =chartDataBinding('circle');		
 	}
 	ToggleButton();
 	DropdownPicker();
@@ -231,7 +184,10 @@ $(document).ready(function () {
 	footerTouchSlider(footerBoxList);
 	staticBtnTouchMove($('#ds-ui-staticBtn'), $('#ds-ui-staticShowBtn'));
 	pieChartClick();
+	barClick($('.bar-showdata'), $('.bar-showValue'));
+	
 });
+
 const ToggleButton = function(){
 	/* ToggleMenu */
 	if($("#ds-ui-menu").length != 0){
@@ -417,7 +373,7 @@ const statusItems = function(formData) {
 	var urls = '';
 	var headerContent = '';
 	var formContent = '';
-	console.log(formItemList)
+
 	for (var i = 0; i < formItemList.length; i++) {
 		urls = formItemList[i].url;
 		types = formItemList[i].type;
@@ -455,15 +411,75 @@ const statusItems = function(formData) {
 }
 
 
-const formItems = function(formData, select){
-	console.log(formData,'?')
-	console.log(formData.length)
-	for(var i = 0; i < formData.length; i ++) {
-		radarChart(formData[i].data, select)
+
+//radar chart 여러가지 데이터로 만들기
+const formItems = function (formData, select) {
+	let beforedata =0;
+	let maxValue = 0;
+	
+	if($(select).data('max') != undefined){
+		beforedata = $(select).data('max');
+	} else {
+		beforedata = 1;
 	}
+	maxValue = chartAxisNumberFormat(formData);
+	
+	let chartAfterData = [];
+	for (var i = 0; i < formData.length; i++) {
+		let ex2Object = new Object();
+		$.each(formData[i], function (key, value) {
+			let chartMiddleData = [];
+			$.each(value, function (key2, value2) {
+				let exObject = new Object();
+				$.each(value2, function(key3, value3){
+					if(key3 == 'data'){
+						exObject[key3] = ((value3/maxValue).toFixed(1)*1);
+					}else {
+						exObject[key3] = value3						
+					}
+				})
+				chartMiddleData.push(exObject);
+			})
+			ex2Object[key] = chartMiddleData;
+		});
+		chartAfterData.push(ex2Object)
+	}
+	console.log(exData)
+	console.log(chartAfterData);
+	
+	var keyItem = [];
+	var data;
+	// key 값 구하기
+	for (var i = 0; i < chartAfterData.length; i++) {
+		$.each(chartAfterData[i], function (key, value) {
+			keyItem[i] = key;
+		});
+	}
+	for (var i = 0; i < chartAfterData.length; i++) {
+		$.each(chartAfterData[i], function (key, value) {
+			data = value;
+			radarChart(data, select, keyItem)
+		});
+	}
+	
 }
 
 
+//bar chart click
+const barClick = (chartBar, chartBarValue) => {
+	chartBar.click(function(){
+		chartBar.css('opacity', 'initial');
+		
+		$(this).css({
+			'opacity' : '0.5'
+		})
+		chartBarValue.css('display', 'none');
+		/*$(this).children('div').css({
+			'display' : 'block',
+		})
+		 */
+	})
+}
 let chartData; //data-set 가져오기
 let calc_detail; // data-calc-detail 가져오기
 let dataAfterWork = []; //새로운 dataSet 만들기
@@ -472,21 +488,22 @@ let dataStandard; // data-standard 가져오기
 //색깔 저장
 let chartColor = ['Aqua','blue','blueviolet','burlywood','coral','cornflowerblue','crimson','darkblue','darkorange','deeppink','deepskyblue','forestgreen','gold','green','greenyellow','hotpink','indeianred','indigo','khaki','lightgreen','lightseagreen','lime','mediumaquamarine','mediumseagreen','midnightblue','mistyrose','orangered','orchid','palegreen','plum','powderblue','red','royalblue','silver','slateblue','steelblue','teal','tomato','yellow','yellowgreen'];
 
-const pielinechartDataBinding = function(){
+//bar chart databinding
+const chartDataBinding = function(name){
 	dataAfterWork = [];
 	dataStandard = $(select).data('standard');
 	chartData = $(select).data('binding');
 	dataCalc = $(select).data('calc');
-
 	dataItem = eval(chartData);
-	let dataNamingTransfer = eval($(select).data('standard-transfer-naming'));
-	
+
+	let dataNamingTransfer = eval($(select).data('transfer-naming'));
 
 	// circle-data-binding
 	let data_detail_space = $(select).data('calc-detail');
 	if(data_detail_space != null){
 		calc_detail = data_detail_space.split(' ');
 	}
+
 	let resultArr = [];
 	if(calc_detail[0] === 'mul' || calc_detail[0] === 'add' || calc_detail[0] === 'sub' || calc_detail[0] === 'div'){
 		// data-calc에서 총합 / 평균을 바로 구하는게 아니라 두개 이상의 데이터를 연관지어 계산해서 총합 / 평균을 구하고 싶을 경우 여기에 들어온다.
@@ -517,69 +534,260 @@ const pielinechartDataBinding = function(){
 		if(calc_detail[0] == 'div'){
 
 		}
-		$.each(dataItem, function(){
-			let data = this[dataStandard];
-			if($.inArray(data, resultArr) === -1){
-				resultArr.push(data)
-			};
-		})
-
-		for(let i=0;i<resultArr.length;i++){
-			let exObject = new Object();
-			let calc=0;
-			exObject.title = resultArr[i]
-			
-			if(dataNamingTransfer != undefined){
-				console.log($(dataNamingTransfer))
+		let x = $(select).data('x')
+		if(typeof x === 'string'){
+			let resultArr2 = [];
+			if($(".radar").length != 0){
+				console.log('radar')				
 			}
-			
-			let j = 0;
 			$.each(dataItem, function(){
-				if(this[dataStandard] == resultArr[i]){
-					calc=calc+this['calc'];
-					j++;
-				}
+				let data = this[x];
+				if($.inArray(data, resultArr2) === -1){
+					resultArr2.push(data)
+				};
 			})
-			if(dataCalc == 'avg'){
-				exObject.data = calc/j;
-			} else {
-				// default 값 : dataCalc == 'sum'
-				exObject.data = calc;	
-			}
-			exObject.color = chartColor[i];
-			dataAfterWork.push(exObject);
+			//오름차순 정렬
+			resultArr2.sort(function (a, b){
+				return a < b ?-1 : a > b ? 1 : 0;
+			})
 
+			for(let z=0; z< resultArr2.length; z++){
+				let result = [];
+				let dataMiddleWork = [];
+				$.each(dataItem, function(){
+					if(this[x] == resultArr2[z]){
+						result.push(this)
+					}
+				})
+				// dataStandard 중복값 분리
+				$.each(dataItem, function(){
+					let data = this[dataStandard];
+					if($.inArray(data, resultArr) === -1){
+						resultArr.push(data)
+					};
+				})
+				let falsetrue = false;
+				for(let i=0;i<resultArr.length;i++){
+					let exObject = new Object();
+					let calc=0;
+					if(dataNamingTransfer != undefined){
+						for(let l = 0; l < dataNamingTransfer.length; l++){
+							let nameValue = []
+							$.each(dataNamingTransfer[l], function(key, value){
+								nameValue.push(value);
+								if(key == 'transname'){																		
+									if(resultArr[i] == nameValue[0]){
+										exObject.title = value;
+										falsetrue = false;
+									}
+									if(resultArr2[i] == nameValue[0]){
+										falsetrue = true;
+									}
+								}
+							})
+						}
+						if(falsetrue){
+							exObject.title = resultArr[i];
+						}
+					} else {
+						exObject.title = resultArr[i];
+					}
+
+					let j = 0;
+					$.each(result, function(){
+						if(this[dataStandard] == resultArr[i]){
+							calc=calc+this['calc'];
+							j++;
+						}
+					})
+					if(dataCalc == 'avg'){
+						exObject.data = calc/j;
+					} else {
+						// default 값 : dataCalc == 'sum'
+						exObject.data = calc;	
+					}
+					if('radar' == name){
+						exObject.color = chartColor[z];
+					} else {
+						exObject.color = chartColor[i];						
+					}
+					
+					dataMiddleWork.push(exObject);
+
+				}
+				let ex2Object = new Object();
+				ex2Object[resultArr2[z]] = dataMiddleWork;
+				dataAfterWork.push(ex2Object);
+			}
+		} else {
+			//x의 기준이 없는 경우
+			$.each(dataItem, function(){
+				let data = this[dataStandard];
+				if($.inArray(data, resultArr) === -1){
+					resultArr.push(data)
+				};
+			})
+
+			for(let i=0;i<resultArr.length;i++){
+				let exObject = new Object();
+				let calc=0;
+
+				if(dataNamingTransfer != undefined){
+					for(let l = 0; l < dataNamingTransfer.length; l++){
+						let nameValue = []
+						$.each(dataNamingTransfer[l], function(key, value){
+							nameValue.push(value);
+							if(key == 'transname'){																		
+								if(resultArr[i] == nameValue[0]){
+									exObject.title = value;
+
+								}
+							}
+						})
+					}
+				} else {
+					exObject.title = resultArr[i]
+				}
+
+				let j = 0;
+				$.each(dataItem, function(){
+					if(this[dataStandard] == resultArr[i]){
+						calc=calc+this['calc'];
+						j++;
+					}
+				})
+				if(dataCalc == 'avg'){
+					exObject.data = calc/j;
+				} else {
+					// default 값 : dataCalc == 'sum'
+					exObject.data = calc;	
+				}
+				exObject.color = chartColor[i];
+				dataAfterWork.push(exObject);
+			}
 		}
 	} else {
 		// 하나의 data로 인하여 총합과 평균을 구해서 차트를 그리거나, 총합 / 평균을 구하지 않고 차트를 그리는 경우
-		$.each(dataItem, function(){
-			let data = this[dataStandard];
-			if($.inArray(data, resultArr) === -1){
-				resultArr.push(data)
-			};
-		})
-		for(let i=0;i<resultArr.length;i++){
-			let exObject = new Object();
-			let calc=0;
-			exObject.title = resultArr[i]
+		let x = $(select).data('x')
+		if(typeof x === 'string'){
+			let resultArr2 = [];
 
-			let j = 0;
 			$.each(dataItem, function(){
-				if(this[dataStandard] == resultArr[i]){
-					calc=calc+this['calc'];
-					j++;
-				}
+				let data = this[x];
+				if($.inArray(data, resultArr2) === -1){
+					resultArr2.push(data)
+				};
 			})
-			if(dataCalc == 'avg'){
-				exObject.data = calc/j;
-			} else {
-				// default 값 : dataCalc == 'sum'
-				exObject.data = calc;	
-			}
-			exObject.color = chartColor[i];
-			dataAfterWork.push(exObject);
+			//오름차순 정렬
+			resultArr2.sort(function (a, b){
+				return a < b ?-1 : a > b ? 1 : 0;
+			})
 
+			for(let z=0; z< resultArr2.length; z++){
+				let result = [];
+				let dataMiddleWork = [];
+				$.each(dataItem, function(){
+					if(this[x] == resultArr2[z]){
+						result.push(this)
+					}
+				})
+
+				$.each(dataItem, function(){
+					let data = this[dataStandard];
+					if($.inArray(data, resultArr) === -1){
+						resultArr.push(data)
+					};
+				})
+				for(let i=0;i<resultArr.length;i++){
+					let exObject = new Object();
+					let calc=0;
+
+					if(dataNamingTransfer != undefined){
+						for(let l = 0; l < dataNamingTransfer.length; l++){
+							let nameValue = []
+							$.each(dataNamingTransfer[l], function(key, value){
+								nameValue.push(value);
+								if(key == 'transname'){																		
+									if(resultArr[i] == nameValue[0]){
+										exObject.title = value;								
+									}
+								}
+							})
+						}
+					} else {
+						exObject.title = resultArr[i]
+					}
+
+					let j = 0;
+					$.each(dataItem, function(){
+						if(this[dataStandard] == resultArr[i]){
+							calc=calc+this['calc'];
+							j++;
+						}
+					})
+					if(dataCalc == 'avg'){
+						exObject.data = calc/j;
+					} else {
+						// default 값 : dataCalc == 'sum'
+						exObject.data = calc;	
+					}
+					if('radar' == name){
+						exObject.color = chartColor[z];
+					} else {
+						exObject.color = chartColor[i];						
+					}
+					dataMiddleWork.push(exObject);
+				}
+				let ex2Object = new Object();
+				ex2Object[resultArr2[z]] = dataMiddleWork;
+				dataAfterWork.push(ex2Object);
+			}
 		}
+		else {
+			$.each(dataItem, function(){
+				let data = this[dataStandard];
+				if($.inArray(data, resultArr) === -1){
+					resultArr.push(data)
+				};
+			})
+			for(let i=0;i<resultArr.length;i++){
+				let exObject = new Object();
+				let calc=0;
+
+				if(dataNamingTransfer != undefined){
+					for(let l = 0; l < dataNamingTransfer.length; l++){
+						let nameValue = [];
+						$.each(dataNamingTransfer[l], function(key, value){
+							nameValue.push(value);
+							if(key == 'transname'){																		
+								if(resultArr[i] == nameValue[0]){
+									exObject.title = value;								
+								}
+							}
+						})
+					}
+				} else {
+					exObject.title = resultArr[i]
+				}
+
+				let j = 0;
+				$.each(dataItem, function(){
+					if(this[dataStandard] == resultArr[i]){
+						calc=calc+this['calc'];
+						j++;
+					}
+				})
+				if(dataCalc == 'avg'){
+					exObject.data = calc/j;
+				} else {
+					// default 값 : dataCalc == 'sum'
+					exObject.data = calc;	
+				}
+				exObject.color = chartColor[i];
+				dataAfterWork.push(exObject);
+			}
+		}
+
 	}
 	dataCalc = '';
 	calc_detail = '';

@@ -38,23 +38,76 @@
 		</div>
 
 		<div class="contents">
-			<div class='ds-ui-chart circle' id='circle2' data-binding='exampleData' data-standard='category' data-standard-transfer-naming = 'chartOption' data-calc='sum' data-calc-detail='mul price count'></div>
-			<div class='ds-ui-chart circle' id='circle1' data-binding='exampleData' data-standard='company' data-calc-detail='price' data-index-position='left'></div>
-			<div class='ds-ui-chart circle' id='circle3' data-binding='exampleData' data-standard='category' data-calc-detail='mul price count' data-index-position='top'></div>
-			<div class='ds-ui-chart circle' id='circle4' data-binding='exampleData' data-standard='company' data-calc-detail='price' data-index-position='right'></div>
 			
-			<div class="ds-ui-chart bar" id="bar1" data-set="dataSet" data-x="title"
-				data-y="120" data-dist-y="20" data-index-position="bottom"></div>
-			<!-- <div class='chart circle' id='title5' data-set='dataSet'></div> -->
+			<!--CircleChart 
+			
+			필수 옵션 : data-binding  --- binding 해줄 dataTable
+					data-standard : 차트에 비교할 기준 
+					data-calc-detail : 차트에 비교해서 띄워줄 데이터
+					( 만약 차트에 비교될 데이터를 계산해서 넣고 싶은경우 mul price count (값과 갯수를 곱하여라) 이렇게 표시해주면된다 )
+			보조 옵션 : data-calc : 총합 / 평균 어떻게 비교할 껀지의 옵션 ( default값 : sum ) 
+					 data-index-position : 범례의 위치를 설정 ( default값 : bottom )
+					 data-transfer-naming : table 안에 이름을 한글로 변경하거나 원하고 싶은 단어로 변경하고 싶을때 쓰는 옵션 -->
+			<div class='ds-ui-chart circle' id='circle2'
+				data-binding='exampleData' data-standard='category'
+				data-transfer-naming='chartOption2' data-calc='avg'
+				data-calc-detail='mul price count'></div>
+			<div class='ds-ui-chart circle' id='circle1'
+				data-binding='exampleData' data-standard='company'
+				data-calc-detail='price' data-index-position='left'></div>
+			<div class='ds-ui-chart circle' id='circle3'
+				data-binding='exampleData' data-standard='category'
+				data-transfer-naming='chartOption2'
+				data-calc-detail='mul price count' data-index-position='top'></div>
+			<div class='ds-ui-chart circle' id='circle4'
+				data-binding='exampleData' data-standard='company'
+				data-calc-detail='price' data-index-position='right'></div>
+			
+			<!--BarChart 
+			
+			필수 옵션 : data-binding  --- binding 해줄 dataTable
+					data-standard : 차트에 비교할 기준 
+					data-calc-detail : 차트에 비교해서 띄워줄 데이터 
+					( 만약 차트에 비교될 데이터를 계산해서 넣고 싶은경우 mul price count (값과 갯수를 곱하여라) 이렇게 표시해주면된다 ) 
+			보조 옵션 : data-x : 새로운 기준을 잡아 data-standard들을 비교 ( x축 과 관련이 많음 )
+					 data-calc : 총합 / 평균 어떻게 비교할 껀지의 옵션 ( default값 : sum ) 
+					 data-index-position : 범례의 위치를 설정 ( default값 : bottom )
+					 data-transfer-naming : table 안에 이름을 한글로 변경하거나 원하고 싶은 단어로 변경하고 싶을때 쓰는 옵션 -->
+			<div class="ds-ui-chart bar" id="bar2" data-binding='exampleData'
+				data-standard='category' data-calc-detail='mul price count'></div>
+			<div class="ds-ui-chart bar" id="bar1" data-binding='exampleData'
+				data-x='company' data-standard='category'
+				data-transfer-naming='chartOption2'
+				data-calc-detail='mul price count'></div>
+			<div class="ds-ui-chart bar" id="bar3" data-binding='exampleData'
+				data-x='category' data-standard='company'
+				data-transfer-naming='chartOption2'
+				data-calc-detail='mul price count' data-index-position="bottom"></div>
+			<div class="ds-ui-chart bar" id="bar2" data-binding='exampleData'
+				data-standard='category' data-transfer-naming='chartOption2'
+				data-calc-detail='mul price count' data-index-position="bottom"></div>
+			
+			<!--RadarChart 
+				많은 데이터를 넣는 것을 기준으로 잡았음
+			필수 옵션 : data-binding  --- binding 해줄 dataTable
+					data-standard : 차트에 비교할 기준 
+					data-calc-detail : 차트에 비교해서 띄워줄 데이터 
+					( 만약 차트에 비교될 데이터를 계산해서 넣고 싶은경우 mul price count (값과 갯수를 곱하여라) 이렇게 표시해주면된다 ) 
+					data-x : 새로운 기준을 잡아 data-standard들을 비교 ( x축 과 관련이 많음 )
+			보조 옵션 : data-max : 기준점의 최고값 ( default값 : 1 ) 
+					 data-calc : 총합 / 평균 어떻게 비교할 껀지의 옵션 ( default값 : sum ) 
+					 data-index-position : 범례의 위치를 설정 ( default값 : bottom )
+					 data-transfer-naming : table 안에 이름을 한글로 변경하거나 원하고 싶은 단어로 변경하고 싶을때 쓰는 옵션 -->
 
-			<div class='ds-ui-chart radar' id='radar1' data-set='exData'
-				data-max='100'></div>
-			<div class='ds-ui-chart line' id='line1' data-set='dataSet' data-x="7"
-				data-dist-x="1" data-y="4.5" data-dist-y="0.5"></div>
+			<div class='ds-ui-chart radar' id='radar1' data-binding='exampleData'
+				data-standard='category' data-calc-detail='mul price count' data-x='company' data-transfer-naming='chartOption2'></div>
+
+			<div class='ds-ui-chart line' id='line1' data-set='dataSet'
+				data-x="7" data-dist-x="1" data-y="4.5" data-dist-y="0.5"></div>
 			<div class='ds-ui-chart bubble' id='bubble1' data-set='dataSet1'
 				data-x="120" data-dist-x="20" data-y='120' data-dist-y="20"
 				data-index-position="bottom"></div>
-			<!-- <div class='chart radar' id='title4' data-set='dataSet' data-max='100'></div> -->
+
 		</div>
 
 		<div class="footer">
@@ -95,35 +148,354 @@
 
 
 	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-	
+
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/ds.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/app.js"></script>
-	
+
 	<script type="text/javascript">
-	/* category : plus, minus, etc */
-	/* 회사 : A,B,C,D,E */
-	/* 상품명 : tv, radio, pc, smartphone, teblet, monitor */
-	const exampleData =  
-		[
-			{no:1, company:'A', good:'tv', count: 5 , price: 300000, date:'2017-12-12' ,category : 'plus',desc:'' },
-			{no:2, company:'A', good:'pc', count: 10 , price: 700000, date:'2018-10-19' ,category : 'etc',desc:'' },
-			{no:3, company:'D', good:'pc', count: 13 , price: 700000, date:'2018-11-01' ,category : 'plus',desc:'' },
-			{no:4, company:'B', good:'smartphone', count: 3 , price: 500000, date:'2018-11-02' ,category : 'etc',desc:'' },
-			{no:5, company:'D', good:'pc', count: 13 , price: 4000, date:'2018-11-01' ,category : 'minus',desc:'' },
-			{no:6, company:'C', good:'pc', count: 13 , price: 1800000, date:'2018-11-01' ,category : 'minus',desc:'' },
-			{no:7, company:'C', good:'pc', count: 13 , price: 800000, date:'2018-11-01' ,category : 'etc',desc:'' },
-			{no:8, company:'D', good:'pc', count: 13 , price: 50000, date:'2018-11-01' ,category : 'plus',desc:'' },
-			{no:9, company:'C', good:'pc', count: 13 , price: 1500000, date:'2018-11-01' ,category : 'etc',desc:'' },
-		];
-	const chartOption = 
-		[
-			{etc : '미지급'},
-			{plus : '수입'},
-			{minus : '지출'}
-		];
-	
+		/* category : plus, minus, etc */
+		/* 회사 : A,B,C,D,E */
+		/* 상품명 : tv, radio, pc, smartphone, teblet, monitor */
+		const exampleData = [ 
+			{no : 1, company : 'A', good : 'tv', count : 5,	price : 300000,	date : '2017-12-12', category : 'plus', desc : ''},
+			{no : 2, company : 'A', good : 'pc', count : 10, price : 700000, date : '2018-10-19', category : 'etc', desc : ''},
+			{no : 3, company : 'D', good : 'pc', count : 13, price : 700000, date : '2018-11-01', category : 'plus', desc : ''},
+			{no : 4, company : 'B', good : 'smartphone', count : 3, price : 500000, date : '2018-11-02', category : 'etc', desc : ''},
+			{no : 5, company : 'D',
+			good : 'pc',
+			count : 13,
+			price : 400000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : ''
+		}, {
+			no : 6,
+			company : 'C',
+			good : 'tv',
+			count : 10,
+			price : 1800000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : ''
+		}, {
+			no : 7,
+			company : 'C',
+			good : 'radio',
+			count : 12,
+			price : 800000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : ''
+		}, {
+			no : 8,
+			company : 'D',
+			good : 'pc',
+			count : 21,
+			price : 50000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : ''
+		}, {
+			no : 9,
+			company : 'C',
+			good : 'pc',
+			count : 4,
+			price : 1500000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : ''
+		}, {
+			no : 10,
+			company : 'A',
+			good : 'pc',
+			count : 3,
+			price : 2500000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : ''
+		}, {
+			no : 11,
+			company : 'A',
+			good : 'pc',
+			count : 10,
+			price : 500000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : ''
+		}, {
+			no : 12,
+			company : 'A',
+			good : 'pc',
+			count : 14,
+			price : 400000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : ''
+		}, {
+			no : 13,
+			company : 'A',
+			good : 'pc',
+			count : 12,
+			price : 800000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : ''
+		}, {
+			no : 14,
+			company : 'B',
+			good : 'pc',
+			count : 18,
+			price : 400000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : ''
+		}, {
+			no : 15,
+			company : 'B',
+			good : 'pc',
+			count : 11,
+			price : 900000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : ''
+		}, {
+			no : 16,
+			company : 'B',
+			good : 'pc',
+			count : 19,
+			price : 200000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : ''
+		}, {
+			no : 17,
+			company : 'B',
+			good : 'pc',
+			count : 8,
+			price : 1100000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : ''
+		}, {
+			no : 18,
+			company : 'B',
+			good : 'pc',
+			count : 5,
+			price : 1300000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : ''
+		}, {
+			no : 19,
+			company : 'C',
+			good : 'pc',
+			count : 7,
+			price : 1500000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : ''
+		}, {
+			no : 20,
+			company : 'C',
+			good : 'pc',
+			count : 14,
+			price : 700000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : ''
+		}, {
+			no : 21,
+			company : 'C',
+			good : 'pc',
+			count : 13,
+			price : 500000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : ''
+		}, {
+			no : 22,
+			company : 'C',
+			good : 'pc',
+			count : 18,
+			price : 400000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : ''
+		}, {
+			no : 23,
+			company : 'C',
+			good : 'pc',
+			count : 3,
+			price : 1900000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : ''
+		}, {
+			no : 24,
+			company : 'D',
+			good : 'pc',
+			count : 17,
+			price : 200000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : ''
+		}, {
+			no : 25,
+			company : 'D',
+			good : 'pc',
+			count : 8,
+			price : 1000000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : ''
+		}, {
+			no : 26,
+			company : 'D',
+			good : 'pc',
+			count : 12,
+			price : 500000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : ''
+		}, {
+			no : 27,
+			company : 'D',
+			good : 'pc',
+			count : 13,
+			price : 500000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : ''
+		}, {
+			no : 28,
+			company : 'D',
+			good : 'pc',
+			count : 15,
+			price : 700000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : ''
+		}, {
+			no : 29,
+			company : 'A',
+			good : 'pc',
+			count : 9,
+			price : 1000000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : ''
+		}, {
+			no : 30,
+			company : 'A',
+			good : 'pc',
+			count : 12,
+			price : 100000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : ''
+		}, {
+			no : 31,
+			company : 'A',
+			good : 'pc',
+			count : 10,
+			price : 600000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : ''
+		}, {
+			no : 32,
+			company : 'B',
+			good : 'pc',
+			count : 14,
+			price : 400000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : ''
+		}, {
+			no : 33,
+			company : 'B',
+			good : 'pc',
+			count : 15,
+			price : 900000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : ''
+		}, {
+			no : 34,
+			company : 'B',
+			good : 'pc',
+			count : 15,
+			price : 900000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : ''
+		}, {
+			no : 35,
+			company : 'C',
+			good : 'pc',
+			count : 12,
+			price : 700000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : ''
+		}, {
+			no : 36,
+			company : 'C',
+			good : 'pc',
+			count : 13,
+			price : 300000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : ''
+		}, {
+			no : 37,
+			company : 'C',
+			good : 'pc',
+			count : 6,
+			price : 1700000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : ''
+		}, {
+			no : 38,
+			company : 'D',
+			good : 'pc',
+			count : 20,
+			price : 300000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : ''
+		}, {
+			no : 39,
+			company : 'D',
+			good : 'pc',
+			count : 13,
+			price : 500000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : ''
+		}, {
+			no : 40,
+			company : 'D',
+			good : 'pc',
+			count : 9,
+			price : 1500000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : ''
+		} ];
+		const chartOption2 = [ {
+			category : 'etc',
+			transname : '미지급'
+		}, {
+			category : 'plus',
+			transname : '수입'
+		}, {
+			category : 'minus',
+			transname : '지출'
+		} ];
 	</script>
 </body>
 </html>

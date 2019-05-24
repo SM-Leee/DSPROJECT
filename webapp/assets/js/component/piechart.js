@@ -6,7 +6,7 @@ let pieChart = (dataSet, select) => {
 	for(let i = 0; i < dataSet.length; i++){
 		sum = sum + dataSet[i].data;
 	}
-	console.log(select);
+	
 	$(select).html(
 			'<div class="pie-wrapper chart-wrapper">'+
 			'<div class="circle-shape"></div>'+
