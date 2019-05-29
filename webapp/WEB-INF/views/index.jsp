@@ -33,6 +33,7 @@
 				<div data-href='currentassets'>현재 자산</div>
 				<div data-href='byperiod'>기간별</div>
 				<div data-href='documententry'>전표입력</div>
+				<div>ggggg</div>
 				<div data-href='index' class="selected">예시</div>
 			</div>
 		</div>
@@ -40,7 +41,7 @@
 		<div class="contents">
 			
 			<!--CircleChart 
-			
+					적은 요의 비율 표시(양유형)
 			필수 옵션 : data-binding  --- binding 해줄 dataTable
 					data-standard : 차트에 비교할 기준 
 					data-calc-detail : 차트에 비교해서 띄워줄 데이터
@@ -64,7 +65,7 @@
 				data-calc-detail='price' data-index-position='right'></div>
 			
 			<!--BarChart 
-			
+				요소의 크기 표시 ( 양 유형 )
 			필수 옵션 : data-binding  --- binding 해줄 dataTable
 					data-standard : 차트에 비교할 기준 
 					data-calc-detail : 차트에 비교해서 띄워줄 데이터 
@@ -88,6 +89,7 @@
 				data-calc-detail='mul price count' data-index-position="bottom"></div>
 			
 			<!--RadarChart 
+				표준값에 대한 차이를 다각도로 제시 ( 분포유형)
 				많은 데이터를 넣는 것을 기준으로 잡았음
 			필수 옵션 : data-binding  --- binding 해줄 dataTable
 					data-standard : 차트에 비교할 기준 
@@ -101,13 +103,26 @@
 
 			<div class='ds-ui-chart radar' id='radar1' data-binding='exampleData'
 				data-standard='category' data-calc-detail='mul price count' data-x='company' data-transfer-naming='chartOption2'></div>
+			
+			<!-- LineChart
+				시간 축에 따라 총량 변화 표시
+				라인 차트에서는 범례가 필요가 없음.
+				기준이 1개이고, 시간에 따라 변화를 나타낸다 / ex) A회사에서 기간별(년도별 / 월도 / 일별)에 따라 (갯수의총합, 총합, 수입, 지출, 미지급)의 변화들을 볼수 있따.
+				x축은 기간별 / y축은 그 해당하는 값들을 나타낸다. 
+				
+				data-calc-detail=''
+				data-calc-detail-standard = 'count'
 
+				data-calc-detail='mul price count'
+				category의 수입만 추출해 해시오
+				data-calc-detail-standard= 'category plus'
+				
+			 -->
+			<!-- <div class='ds-ui-chart line' id='line1' data-binding='exampleData'
+					data-standard='company A' data-x-date='년도별/분기별/월별/일별' 
+					data-calc-detail='mul price count' data-calc-detail-standard= 'category plus'></div> -->
 			<div class='ds-ui-chart line' id='line1' data-set='dataSet'
 				data-x="7" data-dist-x="1" data-y="4.5" data-dist-y="0.5"></div>
-			<div class='ds-ui-chart bubble' id='bubble1' data-set='dataSet1'
-				data-x="120" data-dist-x="20" data-y='120' data-dist-y="20"
-				data-index-position="bottom"></div>
-
 		</div>
 
 		<div class="footer">

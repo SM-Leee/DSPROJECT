@@ -3,7 +3,38 @@ let heightSize = window.screen.availHeight;
 let setLocate = 0;
 var togglemenu_visible = [ false ];
 var togglemenu_visibility = "hide";
-const footerBoxList = $('.ds-ui-footerBox');
+const defaultIcon = [{
+    krw: "<i class='fas fa-won-sign'></i></span>",
+    dollor: "<i class='fas fa-dollar-sign'></i>",
+    status: "<i class='statusViewBtn fas fa-search'></i>",
+    modify: "<i class='modifyBtn fas fa-wrench'></i>",
+    remove: "<i class='removeBtn fas fa-trash-alt'></i>"
+}]
+const tableOption = [{
+        img: '이미지'
+    },
+    {
+        company: '회사'
+    },
+    {
+        good: '상품'
+    },
+    {
+        count: '개수'
+    },
+    {
+        price: '가격'
+    },
+    {
+        date: '일자'
+    },
+    {
+        category: '분류'
+    },
+    {
+        desc: '설명'
+    }
+]
 
 const dataSet1 = [
 	{X:47, Y:68, Z:6, color:'blue'},
@@ -28,149 +59,6 @@ const lineDataSet = [
 	{grade:"2018-1", data:"2.75"},
 	{grade:"2018-2", data:"3.50"}
 	]
-
-
-const exData = [{
-    "더존비즈온": [{
-          "title": "반가워",
-          "data": 0.5,
-          "color": "skyblue"
-       },
-       {
-          "title": "ㅎㅇ",
-          "data": 0.7,
-          "color": "skyblue"
-       },
-       {
-          "title": "r",
-          "data": 0.33,
-          "color": "skyblue"
-       },
-       {
-          "title": "s",
-          "data": 0.41,
-          "color": "skyblue"
-       },
-       {
-          "title": "x",
-          "data": 0.1,
-          "color": "skyblue"
-       }
-    ]
- },
- {
-    "네이버": [{
-          "title": "반가워",
-          "data": 0.3,
-          "color": "skyblue"
-       },
-       {
-          "title": "ㅎㅇ",
-          "data": 0.8,
-          "color": "skyblue"
-       },
-       {
-          "title": "r",
-          "data": 0.12,
-          "color": "skyblue"
-       },
-       {
-          "title": "s",
-          "data": 0.54,
-          "color": "skyblue"
-       },
-       {
-          "title": "x",
-          "data": 0.31,
-          "color": "skyblue"
-       }
-    ]
- }
- // ,
- // {
- //    "다음": [{
- //       "title": "반가워",
- //       "data": 23,
- //       "color": "skyblue"
- //    },
- //    {
- //       "title": "ㅎㅇ",
- //       "data": 50,
- //       "color": "skyblue"
- //    },
- //    {
- //       "title": "r",
- //       "data": 20,
- //       "color": "skyblue"
- //    },
- //    {
- //       "title": "s",
- //       "data": 69,
- //       "color": "skyblue"
- //    },
- //    {
- //       "title": "x",
- //       "data": 73,
- //       "color": "skyblue"
- //    }
- //    ]
- // }
-]
-const formData = [
-	{
-		"title": "",
-		"type": "img",
-		"url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/ReceiptSwiss.jpg/200px-ReceiptSwiss.jpg",
-		"value": ""
-	},
-	{
-		"title": "일자",
-		"type": "date",
-		"value": "2019-05-15",
-		"icon": ""
-	},
-	{
-		"title": "거래처",
-		"type": "text",
-		"value": "더존비즈온",
-		"icon": ""
-	},
-	{
-		"title": "상품",
-		"type": "text",
-		"value": "WEHAGO",
-		"icon": ""
-	},
-	{
-		"title": "가격",
-		"type": "num",
-		"value": "100,100,100",
-		"icon": ""
-	},
-	{
-		"title": "상세설명",
-		"type": "textArea",
-		"value": "더존비즈온 ERP 프로그램",
-		"icon": ""
-	},
-	{
-		"title": "상품",
-		"type": "text",
-		"value": "WEHAGO",
-		"icon": ""
-	},{
-		"title": "상세설명",
-		"type": "textArea",
-		"value": "더존비즈온 ERP 프로그램",
-		"icon": ""
-	},
-	{
-		"title": "상세설명",
-		"type": "textArea",
-		"value": "더존비즈온 ERP 프로그램",
-		"icon": ""
-	}
-	]
 $(document).ready(function () {	
 	let pielinedata;
 	if($(".circle").length!=0){
@@ -181,12 +69,128 @@ $(document).ready(function () {
 	inputBoxFormat();
 	fileUploadButton();
 	buttonClick();
-	footerTouchSlider(footerBoxList);
+	footerTouchSlider($('.ds-ui-footerBox'));
 	staticBtnTouchMove($('#ds-ui-staticBtn'), $('#ds-ui-staticShowBtn'));
 	pieChartClick();
 	barClick($('.bar-showdata'), $('.bar-showValue'));
-	
+	subtopicprevnextClick();
+	SubtopicTouchSlider($('.ds-ui-subtopic-box'));
+	modifyevent();
 });
+const modifyevent = () => {
+    const modifyBtn = $('.modifyBtn');
+    $(modifyBtn).click(function(){
+    	
+        location.href='documententry?no='+$(this).parent('div').data('no'); 
+    })
+    
+}
+const cardlistDataBinding = () => {
+	   // data mapping, binding
+	   const cardlistUi = $('.ds-ui-cardlistAll');
+	   let cardlist_detail = [];
+	   let cardlistAfterWork = [];
+	   let data_cardlist_detail = [];
+	   cardlistData = $(cardlistUi).data('mapping');
+	   let col_num = $(cardlistUi).children('div');
+	   for (var i = 0; i < col_num.length; i++) {
+	      data_cardlist_detail[i] = $(col_num[i]).data('detail');
+	   }
+	   cardItem = eval(cardlistData)
+	   if (col_num.length == 1) {
+	      cardlist_detail[0] = data_cardlist_detail[0]
+	   } else {
+	      cardlist_detail = data_cardlist_detail.slice(' ');
+	   }
+	   $.each(cardItem, function (j) {
+	      var data = [];
+	      for (var i = 0; i < cardlist_detail.length; i++) {
+	         let search_detail = cardlist_detail[i]
+	         data[i] = this[search_detail];
+	      }
+	      cardlistAfterWork.push(data);
+	   })
+	   cardlistUi.empty()
+
+	   category = $(cardlistUi).data('category');
+	   if (category != null) {
+	      const category_obj = []
+	      $.each(cardItem, function (j) {
+	         data = this[category];
+	         category_obj.push(data);
+	      })
+	      $.each(cardItem, function (i) {
+	         let color_pick = category_obj[i]
+	         var newArr = color_option.filter(function (item) {
+	            return item.category === color_pick;
+	         });
+	         if (newArr.length === 0) {
+	            color = 'black'
+	         } else {
+	            color = newArr[0].color;
+	         }
+	         cardlistAfterWork[i].push(color);
+	      })
+	   } else {
+	      $.each(cardItem, function (i) {
+	         cardlistAfterWork[i].push('black')
+	      })
+	   }
+	   // no
+	   $.each(cardItem, function (i) {
+	      var data = [];
+	      data = (this['no'])
+	      cardlistAfterWork[i].push(data);
+	   })
+	   return cardlistAfterWork;
+	}
+	const iconLoad = (target) => {
+	   var icons = []
+	   for (var i = 0; i < target.length; i++) {
+	      icons[i] = ($(target[i]).data('icon') == null) ? '' : ($(target[i]).data('icon'));
+	   }
+	   for (var i = 0; i < icons.length; i++) {
+	      $.each(defaultIcon[0], function (key, value) {
+	         if (key == icons[i]) {
+	            icons[i] = value;
+	         }
+	      })
+	   }
+	   return icons;
+	}
+
+	// statusViewMapping
+	const statusViewMapping = (no) => {
+	   let statusData = eval(exampleData);
+	   let statusAfterWork = [];
+	   let newArr;
+	   $.each(statusData, function (i) {
+	      newArr = statusData.filter(function (item) {
+	         return item.no === no;
+	      })
+	   })
+
+	   // console.log(newArr)
+	   // var test = 'company'
+
+	   // delete newArr[0].no;
+
+	   const colNames = []
+	   const newName = {}
+	   var keyname = ''
+	   //  json key rename
+	   for (var i = 0; i < tableOption.length; i++) {
+	      // console.log(Object.keys(newArr[0      ])[i], 'key');
+	      $.each(tableOption[i], function (key, value) {
+	         for (var j = 0; j < tableOption.length; j++) {
+	            if (key == Object.keys(newArr[0])[j + 1]) {
+	               newName[keyname + value] = Object.values(newArr[0])[j + 1];
+	            }
+	         }
+	      })
+	   }
+	   return newName;
+	}
 
 const ToggleButton = function(){
 	/* ToggleMenu */
@@ -206,8 +210,8 @@ const ToggleButton = function(){
 }
 const DropdownPicker = function(){
 	/* DropdownPicker */
-	if($("#ds-ui-dropdown-picker-box").length != 0){
-		$('.dropdown-picker').click(function(){
+	if($(".ds-ui-dropdown-picker").length != 0){
+		$('.ds-ui-dropdown-picker').click(function(){
 			$(this).toggleClass("show");
 		})
 	}
@@ -263,6 +267,10 @@ const fileUploadButton = function(){
 const buttonClick = function(){
 	/*input data*/
 	$('.basicBtn').click(function(){
+		if(getParameterByName('no') != ''){
+			location.href='byperiod';
+		}
+		
 		/*datepicker data*/
 		console.log($('.ds-ui-datepicker-box input').val());
 		/*dropdown data*/
@@ -289,18 +297,49 @@ const pieChartClick = function(){
 			let dataSetPie = $('#'+parentPie+' .pie');
 
 			for(let i = 1; i < dataSetPie.length+1; i++){
-				sum = sum + $('#'+parentPie+' .pie'+i).data('value');
+				sum = sum + $('#'+parentPie+' .pie'+i).data('ds-value');
 			}
 
-			value = $(this).data('value')/sum;
+			value = $(this).data('ds-value')/sum;
 			let percent = Math.floor(value*100);
-			$('#'+parentPie+' .circle-title').text($(this).data('circletitle'));
+			$('#'+parentPie+' .circle-title').text($(this).data('ds-circletitle'));
 			$('#'+parentPie+' .circle-percent-item').text(percent+"%");		
 		})
 	}
 }
+//subtopicTouchSlider
+const SubtopicTouchSlider = function(SubtopicList){
+	let lX = 0,
+	qX = 0,
+	locate = $('.subtopic-selected').parent('div').data('ds-page');
+	$('#ds-ui-subtopic').bind('touchstart mousedown', function (e) {
+		
+		if($('.App').width() > 600){
+			e.preventDefault();
+		}
+		lX = (e.type === 'mousedown') ? e.pageX : e.touches[0].screenX;
+	})
+
+	$('#ds-ui-subtopic').bind('touchend mouseup', function (e) {
+		qX = (e.type === 'mouseup') ? e.pageX : e.changedTouches[0].screenX;
+		// 왼쪽
+		if ((qX - lX) / size > 0.20) {
+			setLocate = (locate - 1) < 0 ? (SubtopicList.length - 1) : (locate - 1);
+			slideFooter(SubtopicList, locate, setLocate);
+			locate--;
+			locate = locate < 0 ? (locate = SubtopicList.length - 1) : locate;
+		}
+		// 오른쪽
+		if ((qX - lX) / size < -0.20) {
+			setLocate = (locate + 1) == SubtopicList.length ? 0 : (locate + 1);
+			slideFooter(SubtopicList, locate, setLocate);
+			locate++;
+			locate = (locate == SubtopicList.length) ? locate = 0 : locate;
+		}
+	})
+}
 //footerTouchSlider
-const footerTouchSlider = (footerBoxList) => {
+const footerTouchSlider = function(footerBoxList){
 	let sX = 0,
 	fX = 0,
 	locate = 0;
@@ -338,7 +377,7 @@ const slideFooter = (footerBoxList, locate, setLocate) => {
 };
 
 //staticMove
-const staticBtnTouchMove = (staticBtn, staticShowBtn) => {
+const staticBtnTouchMove = function(staticBtn, staticShowBtn){
 	$(staticBtn).bind('touchmove', function (e) {
 		e.preventDefault();
 		var touchLocation = e.targetTouches[0];
@@ -354,7 +393,7 @@ const staticBtnTouchMove = (staticBtn, staticShowBtn) => {
 	});
 }
 //일단 붙
-const staticBtnTouchEnd = (left, top, staticBtn, staticShowBtn) => {
+const staticBtnTouchEnd = function(left, top, staticBtn, staticShowBtn){
 	$(staticBtn).bind('touchend', function (e) {
 		if (left < 0 || left > size || top < 0 || top > heightSize) {
 			$(staticBtn).css('display', 'none');
@@ -416,14 +455,34 @@ const statusItems = function(formData) {
 const formItems = function (formData, select) {
 	let beforedata =0;
 	let maxValue = 0;
-	
+	let maxValue2 =[];
 	if($(select).data('max') != undefined){
 		beforedata = $(select).data('max');
 	} else {
 		beforedata = 1;
 	}
 	maxValue = chartAxisNumberFormat(formData);
+
+	// maxValue를 기준점이 다 다르게 만들어 주기
 	
+	//let dataSetMake;
+	//let xTarget = [];
+	//for(let j = 0;j < formData.length; j++){
+	//	$.each(formData[j], function(key,value){
+	//		xTarget.push(key)
+	//	})			
+	//}
+	//console.log(xTarget)
+	//dataSetMake = [];
+	//for(let i=0; i<formData.length; i++){
+	//	formData[i][xTarget[i]].map(function(d, j){
+	//		dataSetMake.push(d);
+	//	})
+	//}
+	//console.log(dataSetMake)
+	//var uniq = dataSetMake[title].reduce(function(a,b){if (a.indexOf(b) < 0 ) a.push(b);return a;},[]);
+	//console.log(dataSetMake['title'])
+	//
 	let chartAfterData = [];
 	for (var i = 0; i < formData.length; i++) {
 		let ex2Object = new Object();
@@ -444,9 +503,8 @@ const formItems = function (formData, select) {
 		});
 		chartAfterData.push(ex2Object)
 	}
-	console.log(exData)
-	console.log(chartAfterData);
-	
+
+
 	var keyItem = [];
 	var data;
 	// key 값 구하기
@@ -461,7 +519,7 @@ const formItems = function (formData, select) {
 			radarChart(data, select, keyItem)
 		});
 	}
-	
+
 }
 
 
@@ -469,7 +527,7 @@ const formItems = function (formData, select) {
 const barClick = (chartBar, chartBarValue) => {
 	chartBar.click(function(){
 		chartBar.css('opacity', 'initial');
-		
+
 		$(this).css({
 			'opacity' : '0.5'
 		})
@@ -611,7 +669,7 @@ const chartDataBinding = function(name){
 					} else {
 						exObject.color = chartColor[i];						
 					}
-					
+
 					dataMiddleWork.push(exObject);
 
 				}
@@ -792,4 +850,51 @@ const chartDataBinding = function(name){
 	dataCalc = '';
 	calc_detail = '';
 	return dataAfterWork;
+}
+
+const subtopicprevnextClick = function(){
+	$('.fa-angle-left.subtopic').click(function(){
+		if($('#subtopic-box0').data('page') != 0){
+			for(let i=0; i<$('.ds-ui-subtopic-box').length; i++){
+				let datasetReset = $('#subtopic-box'+i).data('page');
+				$('#subtopic-box'+i).data('page', datasetReset+1);
+				$('#subtopic-box'+i).css('transform' , 'translate3d('+(datasetReset+1)*100+"%"+', 0, 0)')
+				if($('#subtopic-box'+i).data('page') == 0){
+					$('#subtopic-box'+i).css('display',"flex");
+				} else {
+					$('#subtopic-box'+i).css('display',"none");
+				}
+			}
+			$('.fa-angle-left.subtopic').css('color','white')
+			$('.fa-angle-right.subtopic').css('color','white')
+		}
+		if($('#subtopic-box0').data('page') == 0){
+			$('.fa-angle-left.subtopic').css('color','#00AAF0')
+		}
+	})
+	$('.fa-angle-right.subtopic').click(function(){
+		if($('#subtopic-box'+($('.ds-ui-subtopic-box').length-1)).data('page') != 0){
+			for(let i=0; i<$('.ds-ui-subtopic-box').length; i++){
+				let datasetReset = $('#subtopic-box'+i).data('page');
+				$('#subtopic-box'+i).data('page', datasetReset-1);
+				$('#subtopic-box'+i).css('transform' , 'translate3d('+(datasetReset-1)*100+"%"+', 0, 0)')
+				if($('#subtopic-box'+i).data('page') == 0){
+					$('#subtopic-box'+i).css('display',"flex");
+				} else {
+					$('#subtopic-box'+i).css('display',"none");
+				}
+			}
+			$('.fa-angle-right.subtopic').css('color','white')
+			$('.fa-angle-left.subtopic').css('color','white')
+		}
+		if($('#subtopic-box'+($('.ds-ui-subtopic-box').length-1)).data('page') == 0){
+			$('.fa-angle-right.subtopic').css('color','#00AAF0')
+		}
+	})
+}
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }

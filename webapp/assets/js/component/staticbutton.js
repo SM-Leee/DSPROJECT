@@ -25,7 +25,7 @@ const staticBtnSetting = (staticBtn, staticShowBtn, staticPlus) => {
     const staticBtn_child = $(staticBtn).children('div');
     var timeout;
     var lastTap = 0;
-    $(staticPlusBtn).bind("click", function (e) {
+    $(staticPlusBtn).click( function (e) {
         var currentTime = new Date().getTime();
         var tapLength = currentTime - lastTap;
         clearTimeout(timeout);

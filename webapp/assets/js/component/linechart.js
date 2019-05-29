@@ -8,9 +8,10 @@ let lineChart = (dataSet, select) => {
             '<div  class="line-background data-background"></div>'+
         '</div>'
     )
-    index_position(select, dataSet)
+    //index_position(select, dataSet)
     data_background(dataSet, select)
-
+    $(select+'.line-wrapper').css({'height':'100%', 'width':'100%'})
+   
     /* 가로선 그리는 부분 */
     /* 좀 더 수정이 필요함 */
     // for(let i = 0; i < dist; i++){
@@ -46,10 +47,10 @@ let lineChart = (dataSet, select) => {
 
     $(select+'.showdata').append('<div class="line-showdata"></div>')
     $(select + '.line-background').css({
-        'top': 'calc(50% - ' + (stand_size / 3) + 'px)',
-        'left': 'calc(50% - ' + (stand_size / 2) + 'px)',
-        'width': stand_size,
-        'height': stand_size/3*2
+        'top': 'calc(0)',
+        'left': 'calc(0)',
+        'width': '100%',
+        'height': '100%'
     })
 
     $(select + '.line-showdata').css({

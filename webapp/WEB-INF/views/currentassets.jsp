@@ -30,9 +30,10 @@
 		</div>
 		<div class="navigator">
 			<div id="ds-ui-subtopic">
-				<div data-href='currentassets' class="selected">현재 자산</div>
+				<div data-href='currentassets'  class="selected">현재 자산</div>
 				<div data-href='byperiod'>기간별</div>
 				<div data-href='documententry'>전표입력</div>
+				<div>ggggg</div>
 				<div data-href='index'>예시</div>
 			</div>
 		</div>

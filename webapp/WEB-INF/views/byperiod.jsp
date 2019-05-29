@@ -33,101 +33,462 @@
 				<div data-href='currentassets'>현재 자산</div>
 				<div data-href='byperiod' class="selected">기간별</div>
 				<div data-href='documententry'>전표입력</div>
+				<div>ggggg</div>
 				<div data-href='index'>예시</div>
 			</div>
 		</div>
 
 		<div class="contents">
- 			
-			 <div class='periodpicker'>
-            </div>
+
+			<div class='periodpicker'></div>
 
 			<!-- cardlist -->
-                <div class='cardlist-wrapper'>
-                    <div class='ds-ui-cardlist' data-color='#6498B5'>
-                        <div>04/29 월</div>
-                        <div>더존비즈온</div>
-                        <div>3,600,000</div>
-                    </div>
-                    <div class='ds-ui-cardlist' data-color='#E74D3A'>
-                        <div>04/29 월</div>
-                        <div>더존비즈온</div>
-                        <div>3,600,000</div>
-                    </div>
-                    <div class='ds-ui-cardlist' data-color='#ABACB2'>
-                        <div>04/29 월</div>
-                        <div>더존비즈온</div>
-                        <div>300,222,000</div>
-                    </div>
-                    <div class='ds-ui-cardlist'>
-                        <div>04/29 월</div>
-                        <div>더존비즈온</div>
-                        <div>300,222</div>
-                    </div>
-                    <div class='ds-ui-cardlist'>
-                        <div>04/29 월</div>
-                        <div>더존비즈온</div>
-                        <div>300,222</div>
-                    </div>
-                     <div class='ds-ui-cardlist'>
-                        <div>04/29 월</div>
-                        <div>더존비즈온</div>
-                        <div>300,222</div>
-                    </div>
-                     <div class='ds-ui-cardlist'>
-                        <div>04/29 월</div>
-                        <div>더존비즈온</div>
-                        <div>300,222</div>
-                    </div>
-                     <div class='ds-ui-cardlist'>
-                        <div>04/29 월</div>
-                        <div>더존비즈온</div>
-                        <div>300,222</div>
-                    </div>
-                    
-                </div>
+			<div class='ds-ui-cardlistAll' data-mapping='exampleData'
+				data-category='category' data-setting='true'>
+				<div data-detail='date'></div>
+				<div data-detail='company' data-icon='dollor'></div>
+				<!-- icon : krw  dollor -->
+				<div data-detail='price' data-icon='krw'></div>
+			</div>
 
 		</div>
 		<div class="footer">
 			<div class="ds-ui-footerBox">
-                <div data-color='#6498B5'>
-                    <p>수입</p>
-                    <p>200,200,000</p>
-                </div>
-                <div data-color='#E74D3A'>
-                    <p>지출</p>
-                    <p>200,200,000</p>
-                </div>
-            </div>
-            <div class="ds-ui-footerBox">
-                <div data-color='#6498B5' data-direction='horizen'>
-                    <p>수입</p>
-                    <p>200,200,000</p>
-                </div>
-            </div>
-            <div class="ds-ui-footerBox">
-                <div data-color='#6498B5'>
-                    <p>수입</p>
-                    <p>200,200,000</p>
-                </div>
-                <div data-color='#E74D3A'>
-                    <p>지출</p>
-                    <p>200,000</p>
-                </div>
-                <div data-color='#ABACB2'>
-                    <p>미지급</p>
-                    <p>322,432,000</p>
-                </div>
-            </div>
+				<div data-color='#6498B5'>
+					<p>수입</p>
+					<p>200,200,000</p>
+				</div>
+				<div data-color='#E74D3A'>
+					<p>지출</p>
+					<p>200,200,000</p>
+				</div>
+			</div>
+			<div class="ds-ui-footerBox">
+				<div data-color='#6498B5' data-direction='horizen'>
+					<p>수입</p>
+					<p>200,200,000</p>
+				</div>
+			</div>
+			<div class="ds-ui-footerBox">
+				<div data-color='#6498B5'>
+					<p>수입</p>
+					<p>200,200,000</p>
+				</div>
+				<div data-color='#E74D3A'>
+					<p>지출</p>
+					<p>200,000</p>
+				</div>
+				<div data-color='#ABACB2'>
+					<p>미지급</p>
+					<p>322,432,000</p>
+				</div>
+			</div>
 		</div>
 		<div id='ds-ui-staticBtn'></div>
 		<div id='ds-ui-staticShowBtn'></div>
+		<div id='ds-ui-setting'>
+			<div data-icon='status'></div>
+			<div data-icon='modify'></div>
+			<div data-icon='remove'></div>
+		</div>
+		<div id='ds-ui-statusView'>
+			<div data-col='header' data-detail='이미지'></div>
+			<div data-col='2' data-detail='상품'></div>
+			<div data-col='2' data-detail='회사'></div>
+			<div data-col='2' data-detail='분류'></div>
+			<div data-col='2' data-detail='일자'></div>
+			<div data-col='1' data-detail='설명'></div>
+			<div data-col='2' data-detail='가격'></div>
+		</div>
 	</div>
 	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/ds.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/app.js"></script>
-	
+	<script>
+		const exampleData = [ 
+			{no : 1, company : 'A', good : 'tv', count : 5,	price : 300000,	date : '2017-12-12', category : 'plus', desc : '안녕하세요? 최기석입니다 반갑습니다 하이하이', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/ReceiptSwiss.jpg/200px-ReceiptSwiss.jpg'
+},
+			{no : 2, company : 'A', good : 'pc', count : 10, price : 700000, date : '2018-10-19', category : 'etc', desc : '', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/ReceiptSwiss.jpg/200px-ReceiptSwiss.jpg'
+},
+			{no : 3, company : 'D', good : 'pc', count : 13, price : 700000, date : '2018-11-01', category : 'plus', desc : '', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/ReceiptSwiss.jpg/200px-ReceiptSwiss.jpg'
+},
+			{no : 4, company : 'B', good : 'smartphone', count : 3, price : 500000, date : '2018-11-02', category : 'etc', desc : '', img: ''},
+			{no : 5, company : 'D',
+			good : 'pc',
+			count : 13,
+			price : 400000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : '',
+			img: ''
+		}, {
+			no : 6,
+			company : 'C',
+			good : 'tv',
+			count : 10,
+			price : 1800000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : '',
+			img: ''
+		}, {
+			no : 7,
+			company : 'C',
+			good : 'radio',
+			count : 12,
+			price : 800000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : '',
+			img: ''
+		}, {
+			no : 8,
+			company : 'D',
+			good : 'pc',
+			count : 21,
+			price : 50000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : '',
+			img: ''
+		}, {
+			no : 9,
+			company : 'C',
+			good : 'pc',
+			count : 4,
+			price : 1500000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : '',
+			img: ''
+		}, {
+			no : 10,
+			company : 'A',
+			good : 'pc',
+			count : 3,
+			price : 2500000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : '',
+			img: ''
+		}, {
+			no : 11,
+			company : 'A',
+			good : 'pc',
+			count : 10,
+			price : 500000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : '',
+			img: ''
+		}, {
+			no : 12,
+			company : 'A',
+			good : 'pc',
+			count : 14,
+			price : 400000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : '',
+			img: ''
+		}, {
+			no : 13,
+			company : 'A',
+			good : 'pc',
+			count : 12,
+			price : 800000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : '',
+			img: ''
+		}, {
+			no : 14,
+			company : 'B',
+			good : 'pc',
+			count : 18,
+			price : 400000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : '',
+			img: ''
+		}, {
+			no : 15,
+			company : 'B',
+			good : 'pc',
+			count : 11,
+			price : 900000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : '',
+			img: ''
+		}, {
+			no : 16,
+			company : 'B',
+			good : 'pc',
+			count : 19,
+			price : 200000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : '',
+			img: ''
+		}, {
+			no : 17,
+			company : 'B',
+			good : 'pc',
+			count : 8,
+			price : 1100000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : '',
+			img: ''
+		}, {
+			no : 18,
+			company : 'B',
+			good : 'pc',
+			count : 5,
+			price : 1300000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : '',
+			img: ''
+		}, {
+			no : 19,
+			company : 'C',
+			good : 'pc',
+			count : 7,
+			price : 1500000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : '',
+			img: ''
+		}, {
+			no : 20,
+			company : 'C',
+			good : 'pc',
+			count : 14,
+			price : 700000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : '',
+			img: ''
+		}, {
+			no : 21,
+			company : 'C',
+			good : 'pc',
+			count : 13,
+			price : 500000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : '',
+			img: ''
+		}, {
+			no : 22,
+			company : 'C',
+			good : 'pc',
+			count : 18,
+			price : 400000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : '',
+			img: ''
+		}, {
+			no : 23,
+			company : 'C',
+			good : 'pc',
+			count : 3,
+			price : 1900000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : '',
+			img: ''
+		}, {
+			no : 24,
+			company : 'D',
+			good : 'pc',
+			count : 17,
+			price : 200000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : '',
+			img: ''
+		}, {
+			no : 25,
+			company : 'D',
+			good : 'pc',
+			count : 8,
+			price : 1000000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : '',
+			img: ''
+		}, {
+			no : 26,
+			company : 'D',
+			good : 'pc',
+			count : 12,
+			price : 500000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : '',
+			img: ''
+		}, {
+			no : 27,
+			company : 'D',
+			good : 'pc',
+			count : 13,
+			price : 500000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : '',
+			img: ''
+		}, {
+			no : 28,
+			company : 'D',
+			good : 'pc',
+			count : 15,
+			price : 700000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : '',
+			img: ''
+		}, {
+			no : 29,
+			company : 'A',
+			good : 'pc',
+			count : 9,
+			price : 1000000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : '',
+			img: ''
+		}, {
+			no : 30,
+			company : 'A',
+			good : 'pc',
+			count : 12,
+			price : 100000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : '',
+			img: ''
+		}, {
+			no : 31,
+			company : 'A',
+			good : 'pc',
+			count : 10,
+			price : 600000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : '',
+			img: ''
+		}, {
+			no : 32,
+			company : 'B',
+			good : 'pc',
+			count : 14,
+			price : 400000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : '',
+			img: ''
+		}, {
+			no : 33,
+			company : 'B',
+			good : 'pc',
+			count : 15,
+			price : 900000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : '',
+			img: ''
+		}, {
+			no : 34,
+			company : 'B',
+			good : 'pc',
+			count : 15,
+			price : 900000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : '',
+			img: ''
+		}, {
+			no : 35,
+			company : 'C',
+			good : 'pc',
+			count : 12,
+			price : 700000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : '',
+			img: ''
+		}, {
+			no : 36,
+			company : 'C',
+			good : 'pc',
+			count : 13,
+			price : 300000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : '',
+			img: ''
+		}, {
+			no : 37,
+			company : 'C',
+			good : 'pc',
+			count : 6,
+			price : 1700000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : '',
+			img: ''
+		}, {
+			no : 38,
+			company : 'D',
+			good : 'pc',
+			count : 20,
+			price : 300000,
+			date : '2018-11-01',
+			category : 'plus',
+			desc : '',
+			img: ''
+		}, {
+			no : 39,
+			company : 'D',
+			good : 'pc',
+			count : 13,
+			price : 500000,
+			date : '2018-11-01',
+			category : 'minus',
+			desc : '',
+			img: ''
+		}, {
+			no : 40,
+			company : 'D',
+			good : 'pc',
+			count : 9,
+			price : 1500000,
+			date : '2018-11-01',
+			category : 'etc',
+			desc : '',
+			img: ''
+		} ];
+		  const color_option = [{
+              category: 'etc',
+              color: 'red'
+          },
+          {
+              category: 'plus',
+              color: 'blue'
+          },
+          {
+              category: 'minus',
+              color: 'green'
+          }
+      ];
+		  
+		</script>
+
 </body>
 </html>

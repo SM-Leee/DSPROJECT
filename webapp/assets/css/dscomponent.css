@@ -53,6 +53,18 @@
 	color: #C0C0C0;
 }
 
+@media (min-width:768px){
+	#menu-icon-table {
+        width:0;
+        height: 0;
+        margin:0;
+        flex:0;
+    }
+    .menu-icon{
+        display:none !important;
+    }
+}
+
 /* ds-ui-data-ToggleItem */
 .ds-ui-toggleMenuItem-table {
 	width: 91%;
@@ -77,6 +89,8 @@
 	font-weight: bold;
 	color: #00AAF0;
 }
+
+
 /* ds-ui-toggleTitle */
 .ds-ui-toggleMenuTitle-table {
 	width: 91%;
@@ -85,7 +99,6 @@
 	border-bottom: 1px solid #00AAF0;
 	display: table;
 }
-
 .ds-ui-toggleMenuTitle {
 	display: table-cell;
 	vertical-align: middle;
@@ -102,7 +115,14 @@
 	border-right: 3px solid white;
 	z-index:9999;
 }
-
+/* pc화면 */
+@media(min-width:768px){
+    .ds-ui-toggleMenu{
+        margin-left:-20%;
+        width:20%;
+    
+    }
+}
 @media ( max-width :768px) {
 	.ds-ui-toggleMenu {
 		transform: translate3d(-100%, 0, 0);
@@ -129,18 +149,28 @@
 }
 /* ds-ui-subtopic */
 #ds-ui-subtopic {
-	border-top: 0.5px solid white;
+	border-top: 1px solid white;
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+	/* slice를 하면 height가 늘어남. */
+	
+}
+.ds-ui-subtopic-box{	
+	
+	border-left: 1px solid white;
+	flex:8;
 	display: flex;
 	flex-direction: row;
 	height: 100%;
 }
-
 /* ds-ui-subtopicItem */
 .ds-ui-subtopicItem {
 	flex: 1;
 	background: #00AAF0;
 	font-weight: bold;
 	user-select: none;
+	border-right: 1px solid white;
 }
 
 .ds-ui-subtopicItem .sub {
@@ -158,13 +188,13 @@
 	font-size: 130%;
 }
 
-.ds-ui-subtopicItem:hover {
+/* .ds-ui-subtopicItem:hover {
 	background: white;
 }
 
 .ds-ui-subtopicItem a:hover {
 	color: #00AAF0;
-}
+} */
 
 .subtopic-selected {
 	background: white;
@@ -197,7 +227,7 @@
 
 .ds-ui-dropdown-picker-box div {
 	width: 26%;
-	text-align: left;
+	text-align: center;
 	display: table;
 	height: 100%;
 }
@@ -207,7 +237,7 @@
 	vertical-align: middle;
 }
 
-.dropdown-picker {
+.ds-ui-dropdown-picker {
 	-webkit-appearance: none; /* 네이티브 외형 감추기 */
 	-moz-appearance: none;
 	appearance: none;
@@ -221,7 +251,7 @@
 	border-radius: 5px;
 }
 
-.dropdown-picker.show {
+.ds-ui-dropdown-picker.show {
 	background: url(../images/angle-up-solid.svg) no-repeat 95% 50%;
 	background-size: 10%;
 }
@@ -230,7 +260,7 @@
 .ds-ui-input {
 	width: 47%;
 	height: 7%;
-	font-size: 4vmin;
+	font-size: 140%;
 	margin: 1.5%;
 	/* display: flex;
 	flex-direction: row; */
@@ -241,6 +271,9 @@
 	text-align: center;
 }
 
+.ds-ui-input.onlynumber input {
+	text-align: center;
+}
 .ds-ui-input.rowlong.columnlong {
 	height: 40%;
 }
@@ -250,9 +283,9 @@
 }
 
 .ds-ui-input div {
-	width: 26%;
+	width: 27%;
 	display: table;
-	text-align: left;
+	text-align: center;
 	height: 100%;
 	float: left;
 }
@@ -282,7 +315,7 @@
 	border: 1px solid lightgray;
 	border-radius: 5px;
 	float: left;
-	font-size: 4vmin;
+	font-size: 100%;
 }
 
 .ds-ui-input.rowlong.columnlong div {
@@ -305,44 +338,39 @@
 	padding: 2%;
 	border: 1px solid lightgray;
 	border-radius: 5px;
-	font-size: 4vmin;
+	font-size: 100%;
 }
 
 .ds-ui-input.kwdnumber input {
-	width: 58%;
+	width: 59%;
 	background: url(../images/won-sign-solid.svg) no-repeat 98% 50%;
-	background-size: 4vmin;
-	padding-right: 6vmin;
+	background-size: 12%;
+	padding-right: 11%;
 	text-align: right;
 }
 
 .ds-ui-input.kwdnumber.rowlong input {
 	width: 80%;
 }
+@media(max-width : 375px) {
+	.ds-ui-input {
+		font-size : 120%;
+	}
+	.ds-ui-input input {
+		font-size : 120%;
+	}
+	.ds-ui-input.columnlong textarea {
+		font-size:120%;
+	}
+	/* .ds-ui-input.kwdnumber input{
+		width:56%;
+	} */
+}
 
 /* date-picker */
-.ds-ui-datepicker-box {
-   width: 44%;
-    height: 7%;
-    display: flex;
-    float: left;
-    font-size: 4vmin;
-    margin: 1.5%;
-}
-.ds-ui-datepicker-box>.datepicker-label-box {
-   text-align:left;
-   height:100%;
-   width:26%;
-   flex:1;
-   display:table;
-}
-.ds-ui-datepicker-box>.datepicker-label-box>label {
-   display:table-cell;
-   vertical-align: middle;
-}
 /* date-picker */
 .ds-ui-datepicker-box {
-   width: 44%;
+   width: 47%;
     height: 7%;
     display: flex;
     float: left;
@@ -355,6 +383,7 @@
    width:26%;
    flex:1;
    display:table;
+   text-align: center;
 }
 .ds-ui-datepicker-box>.datepicker-label-box>label {
    display:table-cell;
@@ -381,7 +410,7 @@
     border: 1px solid lightgray;
     border-radius: 5px;
     font-size: 4vmin;
-    width: 58%;
+    width: 61%;
     background-size: 5vmin;
     padding-right: 5vmin;
     text-align: left;
@@ -411,47 +440,57 @@
 
 .popup {
    position: absolute;
-   width: 79%;
-   height: 140vmin;
-   top: 46%;
-   left: 50%;
-   transform: translate(-50%, -50%);
-   background: #fff;
-   box-shadow: 0px 1px 13px -5px rgba(0, 0, 0, 0.75);
+    width: 79%;
+    height: 73%;
+    max-height: 520px;
+    top: 47%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    box-shadow: 0px 1px 13px -5px rgba(0, 0, 0, 0.75);
 }
 
 .popup-content {
    display: flex;
-   flex-direction: column;
-   flex: 1;
-   height: 100%;
-   font-size: 1.2em;
+    flex-direction: column;
+    height: 100%;
+    font-size: 1.2em;
 }
 
 .popup-header {
-   flex: 1;
    background-color: #1A73E9;
-   color: white;
-   border-top-left-radius: 2px;
-   border-top-right-radius: 2px;
+    color: white;
+    border-top-left-radius: 2%;
+    border-top-right-radius: 2%;
 }
 
 .popup-body {
-   flex: 7;
-   padding: 5vw;
+   display: flex;
+    flex: 1;
+   height: 63%;
+    padding: 5%;
+    max-height: 350px;
 }
 
 .popup-footer {
-   flex: 1;
-   padding: 5px 10px 5px 10px;
-   text-align: center;
+   display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    height: 10%;
 }
 
 .popup-set-tb {
    display: flex;
-   justify-content: space-around;
+    flex: 1;
 }
-
+.popup-set-tb div {
+	flex:1;
+}	
+.flex-same {
+   flex: 1;
+}
 .popup-set-tb a {
    color: #1A73E9;
    text-decoration: none;
@@ -483,7 +522,6 @@
    display: flex;
    flex: 1;
    flex-direction: column;
-   padding-top: 3px;
 }
 
 .date-tb-title {
@@ -504,15 +542,15 @@
    font-size: 1.2em;
 }
 
-.ic-express-np>div {
+.ic-express-np > div {
    width: 0;
 }
 
 .date-tb {
    display: flex;
-   justify-content: center;
-   font-size: 3.5vmin;
-   margin-top: 5px;
+    justify-content: center;
+    font-size: 3.1vmin;
+    margin-top: 2%;
 }
 
 .date-tb th, .date-tb td {
@@ -523,16 +561,20 @@
    color: lightslategrey;
 }
 
-.fa {
+.ic-express-np .fa {
    font-size: 20px;
 }
 
-.fa-angle-left {
+.ic-express-np .fa-angle-left {
    position: fixed;
    right: 83%;
    width: 24px;
 }
-
+.ic-express-np .fa-angle-right {
+   position: fixed;
+   left: 83%;
+   width: 24px;
+}
 .selecting {
    border-radius: 24px;
    box-shadow: inset 0px 0px 0px 100px lightgray;
@@ -544,17 +586,7 @@
    color: white;
 }
 
-.fa-angle-right {
-   position: fixed;
-   left: 83%;
-   width: 24px;
-}
-
 /* footItem */
-.footer {
-   min-height: 70px;
-   max-height: 70px;
-}
 .ds-ui-footerBox {
    color : white;
    flex:1;
@@ -624,7 +656,7 @@
 .font-white {
 	color: white;
 }
-
+/* cardlist */
 .cardlist {
    /* cardlist 최소 높이 */
    height: 70px;
@@ -679,12 +711,13 @@
 .ds-ui-cardlist {
    margin-bottom: 10px;
    display: flex;
-   transition: all 100ms ease 0s;
+   transition: all 10ms ease 0s;
 }
-
+#ds-ui-setting {
+   display: none;
+}
 .ds-ui-setting {
    display: none;
-   width: 120px;
    height: 70px;
    padding: 10px 2px 2px 2px;
    align-items: center;
@@ -758,7 +791,6 @@
     display: grid;
     grid-template-columns: 40px 1fr;
     grid-template-rows: 1fr 40px;
-    
     width: 100%;
     height: 100%;
 
@@ -807,6 +839,7 @@
     height: 100%;
     margin: 0.5rem;
     background-color: #FFFFC0;
+    -webkit-clip-path:circle(50% at 50% 50%);
     clip-path: circle(50% at 50% 50%);
 }
 .circle {
@@ -839,7 +872,8 @@
     top: 0;
     left: 0;
     transform-origin: center;
-    clip-path: polygon(0 0, 0 0, 0 0, 0 0, 0 0, 50% 50%);
+    /* -webkit-clip-path:polygon(0 0, 0 0, 0 0, 0 0, 0 0, 50% 50%);
+    clip-path: polygon(0 0, 0 0, 0 0, 0 0, 0 0, 50% 50%); */
     z-index:-1;
     /* transition: 0.5s; */
 }
@@ -848,6 +882,7 @@
 	width: 100%;
     height: 100%;
 	background-color: white;
+	-webkit-clip-path:circle(23%);
 	clip-path:circle(23%);
 	z-index:0;
 }
@@ -855,13 +890,14 @@
 	position:absolute;
 	width: 100%;
     height: 100%;
+    -webkit-clip-path:circle(18%);
 	clip-path:circle(18%);
 	z-index:4;
 }
 .circle-percent{
 	width: 100%;
     height: 100%;
-    background-color: #F0C0FF;
+    background-color: white;
 	display:table;
 }
 
@@ -893,6 +929,9 @@
 }
 
 /* lineChart */
+.line {
+	height:250px;
+}
 .line-background {
     position: absolute;
     /* border-left:3px solid black; */
@@ -1126,6 +1165,40 @@
    height: 100%;
 }
 
+.statusView,
+.statusView-content {
+   border-radius: 2px;
+}
+
+.statusView {
+   position: absolute;
+   width: 85%;
+   /* height: 140vmin; */
+   /* height: 20vmin; */
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background: #FFFFFF;
+   box-shadow: 0px 1px 13px -5px rgba(0, 0, 0, 0.75);
+}
+
+/* imgView */
+.imgView {
+   position: absolute;
+   width: 90%;
+   height: 90%;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background: #FFFFFF;
+   box-shadow: 0px 1px 13px -5px rgba(0, 0, 0, 0.75);
+}
+
+.imgView>img {
+   width: 100%;
+   height: 100%;
+}
+
 .statusView-content {
    display: flex;
    flex-direction: column;
@@ -1151,7 +1224,8 @@
 .statusView-body {
    flex: 7;
    overflow: auto;
-   padding: 5vw;
+   /* padding: 5vw; */
+   margin : 0px 5px 0px 5px
 }
 
 .statusView-body>div {
@@ -1179,6 +1253,8 @@
 
 .status-value {
    text-align: center;
+   /* word-break    pre와 동일한 속성으로 변경 */
+   word-break:break-all;
 }
 
 /* overlay */

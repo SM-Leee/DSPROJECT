@@ -1,3 +1,4 @@
+/*document.open();*/
 document.write("<script type='text/javascript' src='./assets/js/component/falsepiechart.js' ><" + "/script>");
 
 document.write("<script type='text/javascript' src='./assets/js/component/input.js' ><" + "/script>");
@@ -20,7 +21,7 @@ document.write("<script type='text/javascript' src='./assets/js/component/button
 document.write("<script type='text/javascript' src='./assets/js/component/cardlist.js' ><" + "/script>");
 document.write("<script type='text/javascript' src='./assets/js/component/staticbutton.js' ><" + "/script>");
 document.write("<script type='text/javascript' src='./assets/js/component/statusview.js' ><" + "/script>");
-
+/*docuemnt.close();*/
 function component(){
 	resizible();
 	headerTitle()
@@ -34,7 +35,7 @@ function component(){
 	cardlistSetting();
 	footerSetting();
 	staticBtnSetting($('#ds-ui-staticBtn'), $('#ds-ui-staticShowBtn'));
-	statuslViewSetting();
+	statuslViewCheck();
 
 	/* 원형 차트 */
 	/* 기본적인 형태는 갖춰졌지만 UI적인 수정이 필요함 */
@@ -65,7 +66,7 @@ function component(){
 	basicButton();
 }
 const resizible = function () {
-	const restartHeight = () => { $('.App').css('height', $(window).height() + 'px'); }
+	const restartHeight = function() { $('.App').css('height', $(window).height() + 'px'); }
 	const minHeight = function(){ $('.App').css('minHeight', $(window).height() + 'px'); }
 	minHeight();
 	restartHeight();

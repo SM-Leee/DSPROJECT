@@ -256,6 +256,7 @@ const chartAxisNumberFormat = function(dataSet){
 	$.each(dataSet[0], function(key, value){
 		typeofvalue = typeof value;
 	})
+	
 	let xTarget = [];
 	for(let j = 0;j < dataSet.length; j++){
 		$.each(dataSet[j], function(key,value){
@@ -272,8 +273,9 @@ const chartAxisNumberFormat = function(dataSet){
 	} else {
 		dataSetMake = dataSet;
 	}
-
+	
 	let dataAxis = [];
+	
 	for(let i=0; i<dataSetMake.length; i++){
 		dataAxis.push(dataSetMake[i].data);
 	}

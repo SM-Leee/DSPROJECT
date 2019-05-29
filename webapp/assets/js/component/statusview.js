@@ -3,35 +3,94 @@ let statusViewHTML =
     "<div class='overlay'></div>" +
     "<div class='statusView'>" +
     "<div class='statusView-content'>" +
-    "<div class='statusView-header'>" +
-    "</div>" +
-    "<div class='statusView-body'></div>" +
-    "</div>" +
+    // "<div class='statusView-header'>" +
+    // "</div>" +
+    // "<div class='statusView-body'></div>" +
+    // "</div>" +
     "</div>" +
     "</div>"
-
-const statuslViewSetting = () => {
+//  부모의 setting-no 값 가져오면 된다.
+const statuslViewCheck = () => {
     const statusViewBtn = $('.statusViewBtn');
     if ($(statusViewBtn).length != 0) {
-        showStatusView(statusViewHTML, statusViewBtn)
+        statusViewSetting(statusViewBtn)
     }
 }
 // status View
-const showStatusView = (html, btn) => {
+const statusViewSetting = (btn) => {
     $(btn).on('click', function (e) {
-        $('body')
-            .hide()
-            .append(html)
-            .fadeIn('fast', function () {})
+        let no = $(this).parent().data('no')
+        //  ($(btn).parent().data('no'));
+        let statusViewData = statusViewMapping(no);
+        const statusViewUi = $('#ds-ui-statusView')
+        const statusViewSetting_children = $(statusViewUi).children();
 
-        let headerDiv = $('.statusView-header').height();
-        statusViewContents()
-        // type = 'img'가 없을 때 default icon 생성
-        $('.textArea').css('width', '97%');
+        let statusResult = {}
+
+        var keyname = ''
+        let statusCols = [];
+        let statusItems = [];
+        for (var i = 0; i < statusViewSetting_children.length; i++) {
+            statusItems[i] = $(statusViewSetting_children[i]).data('detail')
+            statusCols[i] = $(statusViewSetting_children[i]).data('col')
+            $.each(statusViewData, function (key, value) {
+                if (statusItems[i] == key) {
+                    statusResult[keyname + statusItems[i]] = value
+                }
+            })
+        }
+        var header = ''
+        var body = ''
         const defaultImgIcon =
             "<div class='status-img'>" +
             "<i class='far fa-image'></i>" +
             "</div>"
+        for (var i = 0; i < statusItems.length; i++) {
+            if (statusCols[i] == 'header') {
+                let icon = (Object.values(statusResult)[i] == '') ? defaultImgIcon :
+                    "<img data-imgurl='" + Object.values(statusResult)[i] + "'" + " class='imgUrl' src='" + Object.values(statusResult)[i] + "'" + "/>"
+                header +=
+                    "<div class='statusView-header'>" +
+                    icon +
+                    "</div>"
+            } else {
+                body +=
+                    "<div class='col" + statusCols[i] + "'" + ">" +
+                    "<span class='status-title'>" + Object.keys(statusResult)[i] + "</span>" +
+                    "<span class='status-value'>" + Object.values(statusResult)[i] + "</span>" +
+                    "</div>"
+            }
+        }
+        let html =
+            "<div class='statusViewBox'>" +
+            "<div class='overlay'></div>" +
+            "<div class='statusView'>" +
+            "<div class='statusView-content'>" +
+            header +
+            "<div class='statusView-body'>" +
+            body +
+            "</div>" +
+            "</div>" +
+            "</div>"
+
+
+        $('#ds-ui-statusView')
+            .hide()
+            .append(html)
+            .fadeIn('fast')
+
+
+
+        // $('.statusView').css({
+        // })
+
+
+        let headerDiv = $('.statusView-header').height();
+        // type = 'img'가 없을 때 default icon 생성
+        $('.col1').css({
+            'width': '97%'
+        })
+
         if ($('.statusView-header').children().length == 0) {
             $('.statusView-header').append(defaultImgIcon)
         }
@@ -43,19 +102,8 @@ const showStatusView = (html, btn) => {
         closeStatusView($('.statusView'))
     })
 }
-const statusViewContents = () => {
-    //var formData = request2.response;
-    //info = 'formData'
-	console.log(formData,'asdadsasd')
-    statusItems(formData);
-    
-}
-
-const appendHtml = (formContent, targetElement) => {
-    $(targetElement).append(formContent);
-
-}
 const closeStatusView = (touchLocate) => {
+    let size = $('.App').width()
     $(touchLocate).bind('touchstart mousedown', function (e) {
         sX = (e.type === 'mousedown') ? e.pageX : e.touches[0].screenX;
     })
@@ -81,8 +129,8 @@ const closeStatusView = (touchLocate) => {
                 })
             setTimeout(function () {
                 $(touchLocate)
-                .parent()
-                .remove();
+                    .parent()
+                    .remove();
             }, 500);
         }
     })
@@ -108,7 +156,4 @@ const showImg = (html, imgUrl) => {
         "<img src='" + imgUrl + "'>"
     )
     closeStatusView($('.imgView'))
-}
-const bigViewSetting = () => {
-
 }

@@ -31,7 +31,7 @@ let pieChart = (dataSet, select) => {
 		prevAngle = angle;
 		value = d.data / sum;
 
-		$(select + '.circle-shape').append('<div class="event pie'+(index+1)+' pie" data-value="'+d.data+'" data-circletitle="'+d.title+'"></div>');
+		$(select + '.circle-shape').append('<div class="event pie'+(index+1)+' pie" data-ds-value="'+d.data+'" data-ds-circletitle="'+d.title+'"></div>');
 
 		let tag = '.pie'+(index+1);
 		let clip;
@@ -127,10 +127,11 @@ let pieChart = (dataSet, select) => {
 				clip = 'polygon('+startClip+'% 0, '+endClip+'% 0, 50% 50%)';
 			}
 		}
+		
 		$(select + tag).css({
 			'background-color': d.color,
 			'clip-path': '-webkit-'+clip,
-			'clip-path': clip
+			'clip-path': ''+clip
 		}); 
 	})
 	$(select + '.circle-shape').append(
