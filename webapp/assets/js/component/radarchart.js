@@ -77,8 +77,8 @@ let radarChart = (d, select, keyItem) => {
             "</div>"
         )
         $(select + '.data-count' + count + '.data-point' + i).css({
-            'left': 'calc(' + ((beforedata * Math.sin(Math.PI * angle / 360 * 2)) + 50) + '% - 0.35rem)',
-            'top': 'calc(' + ((beforedata * Math.cos(Math.PI * angle / 360 * 2) * -1) + 50) + '% - 0.35rem)',
+            'left': 'calc(' + ((beforedata * Math.sin(Math.PI * angle / 360 * 2)) + 50) + '% - 0.33rem)',
+            'top': 'calc(' + ((beforedata * Math.cos(Math.PI * angle / 360 * 2) * -1) + 50) + '% - 0.27rem)',
         })
 
 

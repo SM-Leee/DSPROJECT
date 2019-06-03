@@ -21,6 +21,8 @@ document.write("<script type='text/javascript' src='./assets/js/component/button
 document.write("<script type='text/javascript' src='./assets/js/component/cardlist.js' ><" + "/script>");
 document.write("<script type='text/javascript' src='./assets/js/component/staticbutton.js' ><" + "/script>");
 document.write("<script type='text/javascript' src='./assets/js/component/statusview.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='./assets/js/component/dataTable.js' ><" + "/script>");
+
 /*docuemnt.close();*/
 function component(){
 	resizible();
@@ -36,7 +38,9 @@ function component(){
 	footerSetting();
 	staticBtnSetting($('#ds-ui-staticBtn'), $('#ds-ui-staticShowBtn'));
 	statuslViewCheck();
-
+	if($('.data-table').length != 0) {
+		dataTable_Html();
+	}
 	/* 원형 차트 */
 	/* 기본적인 형태는 갖춰졌지만 UI적인 수정이 필요함 */
 	$('.circle').each(function(){

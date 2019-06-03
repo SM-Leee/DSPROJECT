@@ -10,16 +10,6 @@ const defaultIcon = [{
 	modify: "<i class='modifyBtn fas fa-wrench'></i>",
 	remove: "<i class='removeBtn fas fa-trash-alt'></i>"
 }]
-const lineDataSet = [
-	{grade:"2013-1", data:"3.18"},
-	{grade:"2013-2", data:"3.21"},
-	{grade:"2016-1", data:"3.87"},
-	{grade:"2016-2", data:"3.33"},
-	{grade:"2017-1", data:"3.03"},
-	{grade:"2017-2", data:"3.13"},
-	{grade:"2018-1", data:"2.75"},
-	{grade:"2018-2", data:"3.50"}
-	]
 $(document).ready(function () {	
 	let pielinedata;
 	if($(".circle").length!=0){
@@ -38,6 +28,7 @@ $(document).ready(function () {
 	modifyevent();
 	legendPick();
 	lineChartTileClick($('.line-title'));
+	dataTableOper();
 });
 const lineChartTileClick = (Target) => {
 	let clickparent;
@@ -682,6 +673,540 @@ const footerTouchSlider = function(footerBoxList){
 		}
 	})
 }
+
+//dataTable
+const dataTableOper = () => {
+	// if($('.data-table').length == 0) return;
+	dataTable_Customizing();
+	dataTable_Render();
+	dataTable_Search();
+}
+
+// 표시하길 원하는 컬럼의 명과 그의 별명부여.
+const dataTable_Customizing = () => {
+
+	let $dataTable = $('.data-table'),
+	dsCustomize = eval($dataTable.data('dsCustomizing')),
+	customize_Object = Object.entries(dsCustomize),
+	dataTableObject = eval($dataTable.data('dsBinding')),
+	dataTableObj_Property = Object.keys(dataTableObject[0]),
+	excludeProperty = [];
+
+	for(var i=0; i<dataTableObj_Property.length; i++) {
+		let columnName = dataTableObj_Property[i];
+		if(dsCustomize.hasOwnProperty(columnName) == false) {
+			excludeProperty.push(columnName);
+		}
+	}
+
+	// console.log(customize_Object); // before
+	$.each(dataTableObject, (index, row) => {
+		for(var i=0; i<customize_Object.length; i++) {
+			let new_key = customize_Object[i][1],
+			old_key = customize_Object[i][0];
+			if(index == 0 && old_key == $dataTable.data('dsColumnHeader')) $dataTable.data('dsColumnHeader', new_key); 
+			row[ new_key ] = row[ old_key ];
+			delete row[ old_key ];
+		}
+
+		let exclude_Column = '';
+		for(var i=0; i<excludeProperty.length; i++) {
+			exclude_Column = excludeProperty[i];
+			delete row[exclude_Column];
+		}
+	});
+	// $dataTable.data('dsColumnHeader')
+
+	// console.log(dataTableObject);    // after
+
+}
+
+const dataTable_Render = function(dataTableObject) {
+	if(dataTableObject == undefined) dataTableObject = [];
+	dataTableBind(dataTableObject);
+	columnOptionHandler();
+	dataTable_Scroll();
+	fxRendering();
+	fx_Toggle();
+	dataTable_Sort();
+	viewImgUrl($('.data-table .grid-row .ext-img'));
+}
+
+// dataTable - search... : s
+const dataTable_Search = () => {
+	let $inputSearchBox = $('.ds-ui-data-table-options').find('.search'),
+	$inputSearch = $inputSearchBox.children();
+	if($inputSearch.length != 0) {
+		if( $inputSearchBox.data('dsPlaceholder') != undefined )
+			$inputSearch.attr('placeholder', $inputSearchBox.data('dsPlaceholder'));
+		$inputSearch.on('keyup', (e) => {
+			let input = e.target.value.toLowerCase().trim();
+			if(input == '') {
+				// $('.data-table .grid-row-header .header-column, .data-table .grid-body .grid-row').removeClass('searched');
+				console.log('removeClass : searched!');
+				dataTable_Re_Render();
+				return;
+			}
+			onFilter(input); // send value input text
+		});
+	}
+};
+
+const onFilter = function(val) { // get value from input
+	let tableData = eval($('.data-table').data('dsBinding')),
+	searchedTableData = [],
+	filter_reg = new RegExp(val);
+	$.each(tableData, function(index, row) {
+		let column_data='';
+		for(let i=0; i<Object.values(row).length; i++) {
+			column_data = Object.values(row)[i].toString().toLowerCase().trim();
+			if(checkExtension(column_data) != "None") break;
+			if(column_data.match(filter_reg) != null) {
+				searchedTableData.push(row);
+				break;
+			}
+		}
+	});
+	// console.log(searchedTableData);
+	dataTable_Re_Render(searchedTableData);
+}
+
+const dataTable_Re_Render = function (searchedTableData) {
+	// dataTable remove
+	$('.data-table-wrap .data-table').children().remove();
+	$('.data-table').unwrap('.data-table-wrap');
+	$('.data-table').parents('.popupBox').remove();
+	// dataTable render
+	dataTable_Html();
+	dataTable_Render(searchedTableData);
+}
+// dataTable - search... : e
+
+// dataTable - DataBinding...
+const dataTableBind = (tableData) => {
+	let $dataTable = $('.data-table'),
+	dataObject = eval($dataTable.data('dsBinding'));
+	if(tableData.length != 0)   dataObject = tableData;
+	// console.log(dataObject);
+	if(dataObject.length !=0) {
+		let columnHeaderName = $dataTable.data('dsColumnHeader');
+
+		// dsColumnHeader Presence Check
+		if(columnHeaderName != undefined) {
+			//is True -> in dataObject's key check
+			if(!columnHeaderName in dataObject[0]) {
+				console.error('data-ds-column-Header does not exist in DataObject');
+				return ;
+			}
+			// ==>... columnHeader exist!
+
+			// key's length == 1 -> column.length == 1
+			// [ All Expression. / standardColumn&(headerColumn:standardColumn) ]
+			// 2 or more... dataRendering ( headerColumn:standardColumn remove. )
+			let rowHeader = '',
+			columnHeader = '',
+			rowsColumns = '',
+			columnFooter = '',
+			tmp = [],
+			reCount = 0;
+			$.each($(dataObject), (index, rowData) => {
+				// console.log(rowData);
+				if(index == 0) {
+					reCount = 0;
+					for(var i=0; i < Object.keys(rowData).length; i++) {
+						if( Object.keys(rowData).length >= 2 && 
+								Object.keys(rowData)[i] == columnHeaderName) continue;
+
+						columnHeader += '<div class="header-column c' + (reCount + 1) + '">' + Object.entries(rowData)[i][0] + '<span></span></div>';
+						columnFooter += '<div class="header-column c' + (reCount + 1) + '"></div>';
+						tmp.push(Object.entries(rowData)[i][0]);
+						reCount++;
+					}
+				}
+
+				rowsColumns += 
+					'<div class="grid-row r' + (index + 1) + '" style="grid-row: ' + (index + 1) + '">';
+				reCount = 0;
+				for(var i=0; i < Object.keys(rowData).length; i++) {
+					if( Object.keys(rowData).length >= 2 && 
+							Object.keys(rowData)[i] == columnHeaderName) continue;
+					let cell_data = Object.values(rowData)[i];
+					const EXT = checkExtension(cell_data);
+					switch(EXT) {
+					case "Image" : {
+						cell_data = "<img data-imgurl=" + cell_data + " src=" + 'https://cdn3.iconfinder.com/data/icons/galaxy-open-line-gradient-i/200/image-512.png' + " class=ext-img />";
+						break;
+					}
+					case "Document" : {
+						cell_data = "<a href=" + cell_data + "><img src='https://cdn3.iconfinder.com/data/icons/galaxy-open-line-gradient-i/200/memo-512.png' alt='documentfile' class='ext-doc' /></a>";
+						break;
+					}
+					}
+					rowsColumns += '<div class="grid-cell c' + (reCount + 1) + '">' + cell_data + '</div>';
+					reCount++;
+				}
+				// console.log(i); // length check
+				rowsColumns += '</div>';
+				rowHeader += '<div class="header-column r' + (index + 1) + '">' + rowData[columnHeaderName] +'</div>';
+
+			});
+			$('.data-table .grid-row-header').append(rowHeader);
+			$('.data-table .grid-body').append(rowsColumns);
+			$('.data-table .grid-header').append(columnHeader);
+			$('.data-table .grid-footer').append(columnFooter);
+
+		}
+	}
+}
+
+// data-table Total Function : start
+// 1. value type : number check
+// 2. Without false => func oper
+// 3. data-rendering...
+
+// toggle totals & average
+const fx_Toggle = () => {
+	let $fx = $('.data-table .grid-footer-header');
+	if($fx.length != 0) {
+		$fx.children().on('click', (e) => {
+			if($fx.children().text() == 'Totals') $fx.children().text('Average');
+			else $fx.children().text('Totals');
+			fxRendering();
+		});
+	}
+}
+
+const fxRendering = () => {
+	// Totals, Average인지 구분
+	if(!$('.data-table .grid-footer-header')) return console.error('The .grid-footer-header does not exist.');
+
+	let $footerHeader = $('.data-table .grid-footer-header');
+	let columnText = $footerHeader.children().text();
+
+	// Included characters check...
+	let $footerColumns = $('.data-table .grid-footer').children(),
+	fx = {
+		sum:[],
+		average:[]
+	};
+
+	$footerColumns.each((index1, column) => {
+		let cellNumber = null;
+		$('.data-table-wrap .data-table .grid-body .' + column.classList[1]).each((index2, cell) => {
+			if(index2==0) cellNumber = 0;
+			let cellText = cell.innerText;
+			if(cellNumber == 'NaN') return;
+			if( cellText.match(/[^0-9]/) ) {
+				cellNumber = 'NaN';
+				return;
+			}
+			cellNumber += parseFloat(cellText);
+		});
+
+		//render
+		if(cellNumber != 'NaN') {
+			fx.sum.push( { 'column': '.' + column.classList[1], 'value':cellNumber } );
+
+			let avg = cellNumber / $('.data-table-wrap .data-table .grid-body .' + column.classList[1]).length;
+			if(columnText == 'Average') cellNumber = avg;
+			fx.average.push( { 'column': '.' + column.classList[1], 'value':avg } );
+
+			$('.data-table .grid-footer .' + column.classList[1]).text(cellNumber);
+
+		} else $('.data-table .grid-footer .' + column.classList[1]).text('NaN');
+	});
+}
+// data-table Total Function : end
+
+// data-table Sort : s , sort event mapping
+const dataTable_Sort = () => {
+	$('.grid-header .header-column').on('click', (e) => {
+		let self = e.target;
+		if($(self)[0].tagName == 'SPAN') self = self.parentElement;
+		sortTable(self);
+	});
+};
+// data-table Sort handler
+const sortTable = (self) => {
+	let currentTable = '#' + findRootParentId('.data-table', self),
+	$self = $(self),
+	clickedColumnClass = '.' +  $(self)[0].classList[1],
+	$currentTable = $(currentTable),
+	$columnList = $currentTable.find('.grid-body .grid-row ' + clickedColumnClass),
+	columnsLength = $currentTable.find('.grid-body .grid-row ' + clickedColumnClass).length,
+	rows = [];
+
+	for(var i=0; i<columnsLength; i++) {
+		let row = $columnList[i].parentElement.classList[1],
+		column = $columnList[i].innerText;
+		rows.push( { 'row': row, 'column': column } );
+	}
+	// type check number, character
+	let cellNumber = null;
+	$('.data-table-wrap .data-table .grid-body ' + clickedColumnClass).each((index2, cell) => {
+		if(index2==0) cellNumber = 0;
+		let cellText = cell.innerText;
+		if(cellNumber == 'NaN') return;
+		if( cellText.match(/[^0-9]/) ) {
+			cellNumber = 'NaN';
+			return;
+		}
+		cellNumber += parseFloat(cellText);
+	});
+
+
+	///////////////////////////////
+	if(cellNumber != 'NaN') {
+		rows.sort((next, current) => { return next.column-current.column; });
+	} else {
+		// column standard..
+		rows.sort( (next, current) => {
+			if (next.column > current.column) return 1;
+			if (next.column < current.column) return -1;
+			return 0;
+		} );
+	} 
+
+	// toggle-Text(▼ ▲) init...
+	$currentTable.find('.grid-header span').text("");
+	// final sort Decision & toggle-Text(▼ ▲)
+	if( !($self.hasClass("asc")) ) {
+		$self.removeClass("desc");
+		$self.addClass("asc");
+		$self.find("span").text("▲");
+	} else if(($self.hasClass("asc"))){
+		rows.reverse();
+		$self.removeClass("asc");
+		$self.addClass("desc");
+		$self.find("span").text("▼");
+	}
+	// row rendering...
+	rowRendering( $currentTable, rows );
+
+}
+
+const rowRendering = ($currentTable, rows) => {
+	$.each(rows, (index, current) => {
+		let currentRow = '.' + current.row,
+		changeRowNumber = index + 1;
+		$currentTable.find(currentRow).addClass('*r' + changeRowNumber);
+		$currentTable.find(currentRow).removeClass(current.row);
+	});
+
+	$.each($currentTable.find('.grid-row-header .header-column, .grid-body .grid-row'), (index, row) => {
+		let changeClassName = row.className.replace('*', ''),
+		rowNumber = changeClassName.split(' ')[1].replace('r', '');
+		$(row).removeClass().addClass(changeClassName).attr('style', 'grid-row:' + rowNumber);
+	});
+
+}
+
+// data-table Sort : e
+
+//columnOption : s
+const columnOptionHandler = () => {
+	$('.columnSetting-btn').unbind('click').bind('click', (e1) => {
+		let targetRootId = findRootParentId('.data-table', e1.target);
+		// let $dataTablePB = $('#' + targetRootId + '_pb');
+		let dataTablePBId = '#' + targetRootId + '_pb';
+
+		if(targetRootId != null && $(dataTablePBId).length == 0) {
+			dataTableOptionModal($('#' + targetRootId)); // popupBox에 id 부여됨
+			$(dataTablePBId).find('.data-table').attr('style','border:unset');
+			$(dataTablePBId).find('.popup-body').attr('style','padding:unset');
+			$(dataTablePBId).find('#' + targetRootId + '-check').on('click', (e2) => $(dataTablePBId).addClass('popup-off'));
+			$(dataTablePBId).find('.grid-cell').on('click', (e2) => columnSwitch(e2.target ,targetRootId));
+		}
+		$(dataTablePBId).removeClass('popup-off');
+	});
+}
+
+const columnSwitch = (self, dataTableId) => {
+	dataTableId = '#' + dataTableId;
+	// let dataTablePBId = dataTableId + '_pb';
+
+	//popupBox's Row
+	let $self = $(self); 
+
+	if($self[0].className.indexOf('toggle') != -1 || $self.parent()[0].className.indexOf('toggle') != -1) { // 'toggle has true => find Parent grid-cell
+		$self = $self.parents('.grid-cell');
+	}
+
+	// columns selected option
+	let selectedColumnClass = '.' +  $self[0].classList[1],
+	$selectedRow = $self.parent();
+
+	// popupBox column switch (on/off)
+	let switchConfig = {
+			'$selectedRow': $selectedRow,
+			'dataTableId': dataTableId,
+			'selectedColumnClass': selectedColumnClass
+	}
+
+	$selectedRow.hasClass('column-off') ? 
+			switchOn(switchConfig) : switchOff(switchConfig);
+}
+
+// rendering popupBox & dataTable
+const switchOn = (config) => {
+	config.$selectedRow.removeClass('column-off');
+	config.$selectedRow.find('.toggle').addClass('toggle--active');
+	$(config.dataTableId).find(config.selectedColumnClass).removeClass('off');
+}
+const switchOff = (config) => {
+	config.$selectedRow.addClass('column-off');
+	config.$selectedRow.find('.toggle').removeClass('toggle--active');
+	$(config.dataTableId).find(config.selectedColumnClass).addClass('off');
+}
+
+// decorate
+const dataTableOptionModal = ($dataTable) => {
+	$dataTable.data('dsIsPopup', false);
+
+	basicModal($dataTable);
+	decorateModalDataTable($dataTable);
+
+	$dataTable.data('dsIsPopup', true);
+}
+
+const decorateModalDataTable = ($dataTable) => {
+	console.log(1111);
+	let $targetPB = $('#' + $dataTable[0].id + '_pb');
+	//headerViewRender
+	let standardColumn = $dataTable.data('dsColumnHeader');
+	// console.log(standardColumn);
+
+	let dateHeader = 
+		"<div class='popup-data-header'>" +
+		"<div class='data-title'>" +
+		"<span>" + standardColumn + "</span>" +
+		"<img class='standard-change-btn' src='assets/images/arrow-down.png'>" +
+		"</div>" +
+		"</div>";
+
+	$targetPB.find('.popup-header')
+	.append(dateHeader);
+
+	//bodyViewRender
+	let dateBody = '<div class="data-table"><div class="grid-body popup-columns">';
+	let standardDataBody = 
+		'<div class="popup-change-body off" style="padding:unset;">' +
+		'<div class="data-table" style="border:unset">' +
+		'<div class="grid-body popup-columns">';
+	$dataTable.find('.grid-header').children().each((index, column) => {
+		var columnText = (column.innerText).replace(/▼/gi, '').replace(/▲/gi, '');
+		dateBody += 
+			'<div class="grid-row row-gradation popup-column" style="grid-row: ' + (index + 1) + '">' +
+			'<div class="grid-cell c' + (index + 1) + '">'+ 
+			columnText + 
+			"<div class='toggle toggle--active'>" +
+			"<div class='toggle__rail' data-ds-on='YES' data-ds-off='NO'>" +
+			"<div class='toggle__ball'></div>" +
+			"<span>ON</span>" +
+			"<span class='toggle__off'>OFF</span>" +
+			"</div>" +
+			"</div>" +
+			'</div>' +
+			'</div>';
+		standardDataBody +=
+			'<div class="grid-row popup-column" style="grid-row: '  + (index + 1) +  '">' +
+			'<div class="grid-cell c"'  + (index + 1) +  '>' + columnText + '<a href="#">change</a></div>' +
+			'</div>';
+	});
+	dateBody += '</div></div></div>';
+	standardDataBody += 
+		'</div>' +
+		'</div>' +
+		'</div>';
+
+	$targetPB.find('.popup-body')
+	.append(dateBody).after(standardDataBody);
+
+	stdColumnChange_Mode($targetPB);
+
+	stdColumnChange_Action($dataTable, $targetPB);
+
+	row = "<div class='flex-same'><a id=" + $dataTable[0].id + "-check href='#check'>column select</a></div>";
+	$('#'+$dataTable[0].id+'_pb').find('.popup-set-tb').append(row);
+}
+
+// standardColumn change Action
+const stdColumnChange_Action = ($dataTable, $targetPB) => {
+	$std_changeBody = $targetPB.find('.popup-change-body');
+	$std_changeBody.find('a').on('click', (e) => {
+		let clicked_data = $(e.target)[0].previousSibling.data;
+		$dataTable.data('dsColumnHeader', clicked_data);
+		// data-table Re_Render
+		let result = window.confirm("Do you really want to change ? [ " + clicked_data + " ]");
+		if(result  == true) {
+			$('.ds-ui-input.search').children().val('');
+			dataTable_Re_Render([]);
+		} else return;
+	});
+}
+// standardColumn change Mode...
+const stdColumnChange_Mode = ($targetPB) => {
+	$targetPB.find('.standard-change-btn').on('click', () => {
+		let $body = $targetPB.find('.popup-body'),
+		$changeBody = $targetPB.find('.popup-change-body');
+		if($body.hasClass('off')){
+			$body.removeClass('off');
+			$changeBody.addClass('off');
+			$targetPB.find('.popup-footer').removeClass('off');
+			$targetPB.find('.standard-change-btn').attr('src', 'assets/images/arrow-down.png');
+		} else {
+			$changeBody.removeClass('off');
+			$body.addClass('off');
+			$targetPB.find('.popup-footer').addClass('off');
+			$targetPB.find('.standard-change-btn').attr('src', 'assets/images/arrow-up.png');
+		}
+	});
+}
+
+//columnOption : e
+
+const dataTable_Scroll = () => {
+	let gridHeader = document.querySelector('.grid-header');
+	let gridBody = document.querySelector('.grid-body');
+	let gridRow = document.querySelector('.grid-row-header');
+	let gridFooter = document.querySelector('.grid-footer');
+	gridBody.addEventListener('scroll', (e) => {
+		gridFooter.scrollLeft = gridHeader.scrollLeft = gridBody.scrollLeft;
+		gridRow.scrollTop = gridBody.scrollTop;
+	});
+}
+
+// util : start
+// event oper.. find current-target's box-root (... class two more)
+const findRootParentId = (findroot, curent) => {
+	$currentParents = $(curent).parents();
+	for(i=0; i<$currentParents.length; i++) {
+		if($(findroot)[0].className == $currentParents[i].className) return $currentParents[i].id;
+	}
+	console.error("cannot find the root...");
+	return null;
+}
+// check extension
+const checkExtension = function(file_url) {
+	let ext_check = '';
+	ext_check = imageExtension(file_url);
+	if(ext_check == true) return "Image";
+	ext_check = docExtension(file_url);
+	if(ext_check == true) return "Document";
+	// return console.log("this is not Image or Document extension.");
+	return "None";
+}
+const imageExtension = function(file_url) {
+	const IMG_FORMAT = "\.(bmp|gif|jpg|jpeg|png)$"; //image reg
+	if((new RegExp(IMG_FORMAT, "i")).test(file_url)) return true;
+	return false;
+}
+const docExtension = function(file_url) {
+	const DOC_FORMAT = "\.(ppt|pptx|doc|docx|xls|pdf|hwp|txt)$"; // document reg
+	if((new RegExp(DOC_FORMAT, "i")).test(file_url)) return true;
+	return false;
+}
+
 //slideFooter
 const slideFooter = (footerBoxList, locate, setLocate) => {
 	if (footerBoxList.length !== 1) {
