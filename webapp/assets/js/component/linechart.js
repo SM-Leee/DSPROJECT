@@ -1,31 +1,62 @@
-let lineChart = (dataSet, select) => {
-    // console.log($(select).attr('class'), $(select).attr('id'))
+let lineChart = (dataSet, select, title) => {
+	
     let point = '';
-    let dist = ($(select).data('max')-$(select).data('min'))/$(select).data('dist');
-
-    $(select).html(
-        '<div class="line-wrapper chart-wrapper">'+
-            '<div  class="line-background data-background"></div>'+
-        '</div>'
-    )
+    let lineChartTitleName = '';
+    // line chart 제목 처리 하는거 조금만더 생각해볼것
+    if(title == ''){
+    	
+    	lineChartTitleName = '임시데이터';
+    	$(select).append(
+    			'<div class="line-wrapper chart-wrapper">'+
+    	        '<div class="line-title">' +
+    	        '<div>'+
+    	        	'<label>'+lineChartTitleName+'</label>'+
+    	        '</div>'+
+    	        	'</div>'+
+    	            '<div  class="line-background data-background"></div>'+
+    	        '</div>'
+    	);
+    } else {
+    	let calc_detail = [];
+    	let titlecalcdetail;
+    	if($(select).data('calc-detail') != null){
+    		calc_detail = $(select).data('calc-detail').split(' ');
+    	}
+    	if(calc_detail.length != 1){
+    		if(calc_detail[0] === 'mul'){
+    			titlecalcdetail = '총합';
+    		}
+    		if(calc_detail[0] === 'avg'){
+    			
+    		}
+    	} else {
+    		console.log(eval('tableOption'))
+    		for(let i=0; i < eval('tableOption').length; i++){
+    			$.each(eval('tableOption')[i], function(key, value){
+    				if(key == $(select).data('calc-detail')){
+    					titlecalcdetail = value;
+    				}
+    			})
+    		}
+    	}
+    	
+    	lineChartTitleName = title[2]+' '+title[0]+ '의 '+ title[1]+ ' '+titlecalcdetail;
+    	$(select+'.line-title div label').empty();
+    	$(select+'.line-title div label').text(lineChartTitleName);
+    	$(select+'.line-wrapper').append(
+    			'<div  class="line-background data-background"></div>'+
+    	        '</div>'	
+    	);
+    }
     //index_position(select, dataSet)
     data_background(dataSet, select)
     $(select+'.line-wrapper').css({'height':'100%', 'width':'100%'})
    
-    /* 가로선 그리는 부분 */
-    /* 좀 더 수정이 필요함 */
-    // for(let i = 0; i < dist; i++){
-    //     $(select + '.line-background').append('<div class="stand-line stand-line'+i+'"></div>');
-    //     $(select + '.stand-line'+i).css({
-    //         'top':(100/dist*i) + '%'
-    //     })
-    // }
-
     dataSet.map(function(d, i){
   
         let X_value = 100/(dataSet.length-1)*i;
         // let beforedata = (100-(d.data-$(select).data('min'))/($(select).data('y')-$(select).data('min'))*100);
-        let beforedata = (100-(d.data-0)/($(select).data('y')-0)*100);
+        let beforedata = (100-(d.data-0)/(chartAxisNumberFormat(dataSet))*100);
 
         point = point + X_value + '% ' + beforedata + '% ';
         if(i+1 !== dataSet.length){point = point + ',';}
@@ -33,7 +64,7 @@ let lineChart = (dataSet, select) => {
         $(select + '.background').append(
             '<div class="event data-point data-point' + i +
             '" data-value="' + d.data + '">' + 
-            '<div class="data-point-value data-point-value' + i + '">' + d.data +
+            '<div class="data-point-value data-point-value' + i + '">' /*+ d.data*/ +
             '</div>' +
             '</div>')
         $(select + '.data-point'+i).css({
@@ -50,9 +81,8 @@ let lineChart = (dataSet, select) => {
         'top': 'calc(0)',
         'left': 'calc(0)',
         'width': '100%',
-        'height': '100%'
+        'height': '85%'
     })
-
     $(select + '.line-showdata').css({
         'clip-path': '-webkit-'+point,
         'clip-path': point

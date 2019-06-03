@@ -40,7 +40,7 @@ let index_position = (select_tag, dataSet) => {
 			'flex-direction':position[status]
 		})
 		status = (status == 'top'||status == 'bottom')?'height':'width';
-		
+
 		if(status == 'height'){
 			$(select_tag+'.chart-wrapper').css({'height':'calc(100% - 60px)'})
 			$(select_tag+'.chart-index').css({'height':'60px'})
@@ -57,7 +57,7 @@ let index_position = (select_tag, dataSet) => {
 	let rightLegend = 100/dataSetMake.length;
 	let chartname;
 	status = $(select).data('index-position');
-	
+
 	if(select_tag.indexOf('circle') != -1){
 		chartname = 'pie';
 	}
@@ -69,7 +69,7 @@ let index_position = (select_tag, dataSet) => {
 	}
 	if(dataSetMake.length <= 10 && (select_tag.indexOf('circle') != -1 || select_tag.indexOf('bar') != -1 || select_tag.indexOf('radar') != -1) ){
 		for(var i=0; i<dataSetMake.length;i++){
-			$(select+'.chart-index').append('<div id='+chartname+'legend'+i+'></div>');
+			 $(select+'.chart-index').append('<div class="'+chartname+'legend" data-no="'+i+'" id='+chartname+'legend'+i+'></div>');
 			if(status == 'right' || status == 'left'){
 				$(select+'#'+chartname+'legend'+i).css({'height':rightLegend+'%'});
 				$(select+'#'+chartname+'legend'+i).css({'width':'100%'});
@@ -141,18 +141,15 @@ let data_background = (dataSet, select_tag) => {
 	if(y == undefined){
 		y = (dataAxisString.substr(0, (dataAxisString.length - 4*(Math.ceil(dataAxisString.length/4)-1))))*1;
 		let dataSubFormat = y/5;
-		if(dataSubFormat % 1 != 0) {
+		
+		if(dataSubFormat % 1 != 0 &$ (y+'').length == 1) {
+			y =(dataAxisString.substr(0, ((dataAxisString.length+1) - 4*(Math.ceil(dataAxisString.length/4)-1))));
+			y = (y.substring(0,1) + "." + y.substring(1,y.length))*1;
 			//소숫점이 존재하는지 않하는지?
 			dist_y = dataSubFormat;
 		} else {
 			dist_y = '';
-			for(let i=0; i<dataSubFormat.toString().length; i++){
-				if(i == 0){
-					dist_y = dist_y + dataSubFormat.toString().substr(i,1);
-				}else {
-					dist_y = dist_y + 0;
-				}
-			}
+			dist_y = dataSubFormat;
 		}		
 	}
 	if(Math.ceil(dataAxisString.length/4) == 1){
@@ -178,37 +175,43 @@ let data_background = (dataSet, select_tag) => {
 
 		// type이 string 이거나 없을때 
 		if(typeof x === 'string'){
-			let dataNamingTransfer = eval($(select_tag).data('transfer-naming'));
-			let falsetrue = false;
-			for(let i = 0; i < dataSet.length; i++){
-				if(dataNamingTransfer != undefined){
-					$.each(dataSet[i], function(key, value2){
+			if($(select_tag).hasClass('line')){
+				for(let i = 0; i <dataSet.length; i++){
+					$(select_tag+'.axis-X').append('<label>'+dataSet[i]['grade']+'</label>')
+				}
+			} else {
+				let dataNamingTransfer = eval($(select_tag).data('transfer-naming'));
+				let falsetrue = false;
+				for(let i = 0; i < dataSet.length; i++){
+					if(dataNamingTransfer != undefined){
+						$.each(dataSet[i], function(key, value2){
 
-						for(let l=0; l<dataNamingTransfer.length; l++){
-							let nameValue = [];
-							$.each(dataNamingTransfer[l], function(index, value){
-								nameValue.push(value);
-								if(index == 'transname'){
-									if(key == nameValue[0]){
-										$(select_tag+'.axis-X').append('<div>'+value+'</div>')
-										falsetrue = false;
+							for(let l=0; l<dataNamingTransfer.length; l++){
+								let nameValue = [];
+								$.each(dataNamingTransfer[l], function(index, value){
+									nameValue.push(value);
+									if(index == 'transname'){
+										if(key == nameValue[0]){
+											$(select_tag+'.axis-X').append('<div>'+value+'</div>')
+											falsetrue = false;
+										}
+										//조건이 하나더 있어야댐 그걸 고민중......
+										if(value2[l].title == value && key != nameValue[0]){
+											falsetrue = true;
+										}									
 									}
-									//조건이 하나더 있어야댐 그걸 고민중......
-									if(value2[l].title == value && key != nameValue[0]){
-										falsetrue = true;
-									}									
-								}
-							})
-						}
-						if(falsetrue){
-							$(select_tag+'.axis-X').append('<div>'+key+'</div>')
-						}
+								})
+							}
+							if(falsetrue){
+								$(select_tag+'.axis-X').append('<div>'+key+'</div>')
+							}
 
-					})
-				} else {					
-					$.each(dataSet[i], function(key){
-						$(select_tag+'.axis-X').append('<div>'+key+'</div>')
-					})
+						})
+					} else {					
+						$.each(dataSet[i], function(key){
+							$(select_tag+'.axis-X').append('<div>'+key+'</div>')
+						})
+					}
 				}
 			}
 		} else {
@@ -217,13 +220,17 @@ let data_background = (dataSet, select_tag) => {
 			}
 
 		}
-		$(select_tag+'.axis-X').css({'justify-content':'space-around'})
-		$(select_tag+'.axis-X>label').css({'flex':'1'})
+		if($(select_tag).hasClass('line')){
+			$(select_tag+'.axis-X').css({'justify-content':'space-between'})
+		} else {
+			$(select_tag+'.axis-X').css({'justify-content':'space-around'})
+			$(select_tag+'.axis-X>label').css({'flex':'1'})			
+		}
+
 
 	}
 
 	if(typeof y === 'number'){
-		// console.log("number");
 		for(let i = 0; i <= Math.ceil(y/dist_y); i++){
 			let iDist_y = 0;
 			if(dist_y.toString().length < 4 && dist_y  % 1 != 0){
@@ -234,7 +241,7 @@ let data_background = (dataSet, select_tag) => {
 				iDist_y = (i*dist_y)
 			}
 			$(select_tag+'.axis-Y').append('<label>'+iDist_y+'</label>')
-			
+
 		}
 		$(select_tag+'.axis-Y').css({'justify-content':'space-between'})
 	} else if(typeof y === 'string'){
@@ -256,7 +263,7 @@ const chartAxisNumberFormat = function(dataSet){
 	$.each(dataSet[0], function(key, value){
 		typeofvalue = typeof value;
 	})
-	
+
 	let xTarget = [];
 	for(let j = 0;j < dataSet.length; j++){
 		$.each(dataSet[j], function(key,value){
@@ -273,9 +280,9 @@ const chartAxisNumberFormat = function(dataSet){
 	} else {
 		dataSetMake = dataSet;
 	}
-	
+
 	let dataAxis = [];
-	
+
 	for(let i=0; i<dataSetMake.length; i++){
 		dataAxis.push(dataSetMake[i].data);
 	}

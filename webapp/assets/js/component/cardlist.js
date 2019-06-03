@@ -1,14 +1,15 @@
 // cardlist ui
 const cardlistSetting = () => {
     const cardlistUi = $('.ds-ui-cardlistAll')
-    //  icon 집어넣기
-    //  해당 element의 자식들이 div로 이루어져 있거나
-    // let cardlistUi_children = $(cardlistUi).children('div');
-    // 해당 형식으로 인자를 넣어줘야 편함
-    let cardlistUi_children = $(cardlistUi).children('div');
-
-    var icons = iconLoad(cardlistUi_children)
+    icons = []
+    let cardlistUi_children = $(cardlistUi).children('div');;
+    var icons_input = [];
+    for(var i =0; i < $(cardlistUi).children('div').length; i ++){
+        icons_input[i] = $(cardlistUi_children[i]).data('icon') == null ? '' : $(cardlistUi_children[i]).data('icon');
+    }
     // icon end
+    icons = iconLoad(icons_input)
+
     cardlistAfterWork_result = cardlistDataBinding();
     let data_length = ($(cardlistAfterWork_result[0]).length - 2)
 
@@ -98,17 +99,23 @@ const cardlistSetting = () => {
     }
 
     if ($(cardlistUi).data('setting') === true) {
-        setting(cardlist);
+        let icon_item = [];
+        icon_item[0] = $(cardlistUi).data('icon');
+        let icons = icon_item[0].split(' ')
+        setting(cardlist, icons);
     }
 }
 
-const setting = function (target) {
+const setting = function (target, icon_target) {
+    $('.App').append(
+        "<div id='ds-ui-setting'>" +
+        "</div>"
+        )
     const settingUi = $('#ds-ui-setting')
-    const settingUi_children = $(settingUi).children('div')
-    const icons = iconLoad(settingUi_children)
+    const icons_items = iconLoad(icon_target)
     $(settingUi).empty();
-    for (var i = 0; i < icons.length; i++) {
-        $(settingUi).append(icons[i])
+    for (var i = 0; i < icons_items.length; i++) {
+        $(settingUi).append(icons_items[i])
     }
     let targetWidth = $(target).outerWidth();
     for (var i = 0; i < target.length; i++) {
@@ -130,23 +137,20 @@ const setting = function (target) {
         let size = $('.App').width();
         dataNo = ($(this).attr('data-no'));
         fX = (e.type === 'mouseup') ? e.pageX : e.changedTouches[0].screenX;
-        let settingWidth = (settingUi_children.length * 40);
+        let settingWidth = (icons_items.length * 40);
         const showSetting = targetWidth + settingWidth;
         $('.ds-ui-setting').css('width', settingWidth + 'px')
         if (dataNo == no) {
             if ((fX - sX) / size > 0.20) {
-                // $(setting[no]).css({
                 $(this).children('.ds-ui-setting').css({
                         display: "none"
                     }),
-                    // $(target[no]).css({
                     $(this).css({
                         transform: "translate3d(0px, 0, 0)",
                         width: targetWidth + "px"
                     })
             }
             if ((fX - sX) / size < -0.20) {
-                // $(setting[no]).css({
                 $(this).children('.ds-ui-setting').css({
 
                         display: "flex"
@@ -157,18 +161,8 @@ const setting = function (target) {
                         width: showSetting + "px"
                     })
             }
-        } 
-        // else {
-        //     $(setting).css({
-        //     // $(this).children('.ds-ui-setting').css({
-        //             display: "none"
-        //         }),
-        //         $(target).css({
-        //         // $(this).css({
-        //             transform: "translate3d(0px, 0, 0)",
-        //             width: targetWidth + "px"
-        //         })
-        // }
+        }
+    
     })
 }
 // delete cardlist
@@ -179,14 +173,14 @@ const deleteTargetCheck = () => {
     }
 }
 const deleteSetting = (btn) => {
-    $(btn).on('click', function(){
+    $(btn).on('click', function () {
         let no = $(this).parent().data('no')
 
         const cardlistItem = $('.ds-ui-cardlist');
 
-        for(var i = 0; i < cardlistItem.length; i++){
+        for (var i = 0; i < cardlistItem.length; i++) {
             // console.log($(cardlistItem[i]).data('no'), 'no')
-            if($(cardlistItem[i]).data('no') == no ){
+            if ($(cardlistItem[i]).data('no') == no) {
                 $(cardlistItem[i]).css('display', 'none')
                 // $(cardlistItem[0]).css('display', 'none');
                 // $(this).parent().parent().css('display', 'none');

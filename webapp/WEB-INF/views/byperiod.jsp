@@ -33,73 +33,64 @@
 				<div data-href='currentassets'>현재 자산</div>
 				<div data-href='byperiod' class="selected">기간별</div>
 				<div data-href='documententry'>전표입력</div>
-				<div>ggggg</div>
 				<div data-href='index'>예시</div>
+				<div>ggggg</div>
 			</div>
 		</div>
 
 		<div class="contents">
-
 			<div class='periodpicker'></div>
-
 			<!-- cardlist -->
 			<div class='ds-ui-cardlistAll' data-mapping='exampleData'
-				data-category='category' data-setting='true'>
+				data-category='category' data-setting='true'
+				data-icon='status modify remove'>
 				<div data-detail='date'></div>
 				<div data-detail='company' data-icon='dollor'></div>
-				<!-- icon : krw  dollor -->
 				<div data-detail='price' data-icon='krw'></div>
 			</div>
+			
 
 		</div>
-		<div class="footer">
-			<div class="ds-ui-footerBox">
-				<div data-color='#6498B5'>
-					<p>수입</p>
-					<p>200,200,000</p>
-				</div>
-				<div data-color='#E74D3A'>
-					<p>지출</p>
-					<p>200,200,000</p>
-				</div>
-			</div>
-			<div class="ds-ui-footerBox">
-				<div data-color='#6498B5' data-direction='horizen'>
-					<p>수입</p>
-					<p>200,200,000</p>
-				</div>
-			</div>
-			<div class="ds-ui-footerBox">
-				<div data-color='#6498B5'>
-					<p>수입</p>
-					<p>200,200,000</p>
-				</div>
-				<div data-color='#E74D3A'>
-					<p>지출</p>
-					<p>200,000</p>
-				</div>
-				<div data-color='#ABACB2'>
-					<p>미지급</p>
-					<p>322,432,000</p>
-				</div>
-			</div>
-		</div>
+		 <!-- 컬럼을 선택해서 필터링(standard) 할 수 있다. -->
+        <!-- 동일한 value를 필터링 할 수 없음  -->
+        <!-- count는 해당 standard 조건들의 총 개수를 나타낸다 -->
+        <!-- add는 해당 standard 조건들의 총 합을 나타낸다 ex)개수, A회사에서 수입한 TV의 총 개수  -->
+        <!-- mul은 'mul col1 col2' mul 두개의 컬럼을 선택해서 곱한다 ex)곱하기, A회사에서 수입된 tv의 금액(count*price)-->
+        <div class="footer">
+           <!-- data-direction의 default direction은 vertical이다 -->
+            <div class="ds-ui-footerBox">
+                <div data-color='#6498B5' data-direction='horizen'>
+                    <p>A 회사 pc 총 수입 개수</p>
+                    <p data-standard='A tv plus' data-calc-detail='count '></p>
+                </div>
+                <div data-color='#E74D3A'>
+                    <p>총 수출 개수</p>
+                    <p data-standard='etc' data-calc-detail='count'></p>
+                </div>
+            </div>
+            <div class="ds-ui-footerBox">
+                <div data-color='#6498B5' data-direction='horizen'>
+                    <p>A 회사 총 수입 개수</p>
+                    <p data-standard='A plus' data-calc-detail='count'></p>
+                </div>
+            </div>
+            <div class="ds-ui-footerBox">
+                <div data-color='#6498B5' data-direction='vertical'>
+                    <p>C 회사 수출 금액</p>
+                    <p data-standard='D plus' data-calc-detail='add count'></p>
+                </div>
+                <div data-color='#E74D3A'>
+                    <p>총 수출 금액</p>
+                    <p data-standard='minus' data-calc-detail='mul price count'></p>
+                </div>
+                <div data-color='#ABACB2'>
+                    <p>총 수입 금액</p>
+                    <p data-standard='plus' data-calc-detail='mul price count'></p>
+                </div>
+            </div>
+        </div>
 		<div id='ds-ui-staticBtn'></div>
 		<div id='ds-ui-staticShowBtn'></div>
-		<div id='ds-ui-setting'>
-			<div data-icon='status'></div>
-			<div data-icon='modify'></div>
-			<div data-icon='remove'></div>
-		</div>
-		<div id='ds-ui-statusView'>
-			<div data-col='header' data-detail='이미지'></div>
-			<div data-col='2' data-detail='상품'></div>
-			<div data-col='2' data-detail='회사'></div>
-			<div data-col='2' data-detail='분류'></div>
-			<div data-col='2' data-detail='일자'></div>
-			<div data-col='1' data-detail='설명'></div>
-			<div data-col='2' data-detail='가격'></div>
-		</div>
 	</div>
 	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript"
@@ -487,7 +478,40 @@
               color: 'green'
           }
       ];
-		  
+		  const statusViewOption = [
+		        {
+		            img: '이미지',
+		            col: 'header'
+		        },
+		        {
+		            good: '상품',
+		            col: 2
+		        },
+		        {
+		            company: '회사',
+		            col: 2
+		        },
+		        {
+		            count: '개수',
+		            col: 2
+		        },
+		        {
+		            price: '가격',
+		            col: 2
+		        },
+		        {
+		            date: '일자',
+		            col: 2
+		        },
+		        {
+		            category: '분류',
+		            col: 2
+		        },
+		        {
+		            desc: '설명',
+		            col: 1
+		        }
+		        ]
 		</script>
 
 </body>

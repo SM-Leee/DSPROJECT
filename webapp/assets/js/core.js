@@ -41,27 +41,33 @@ function component(){
 	/* 기본적인 형태는 갖춰졌지만 UI적인 수정이 필요함 */
 	$('.circle').each(function(){
 		select = '.circle[id='+$(this).attr('id')+'] ';
-		pieChart(chartDataBinding('circle'), select);
+		pieChart(chartDataBinding('circle', ''), select);
 	})
 	/* 방사형 차트 (radar chart) */
 	$('.radar').each(function(){
 		select = '.radar[id='+$(this).attr('id')+'] ';
-		formItems(chartDataBinding('radar'), select);
+		formItems(chartDataBinding('radar', ''), select);
 	})
 	/* 꺽은선 차트 (line chart) */
 	/* 아직 이건 차트의 사이즈 설정이 완전하지 않음 */
 	/* 또한 UI 적인 수정이 필요함 */
-	$('.line').each(function(){
-		select = '.line[id='+$(this).attr('id')+'] ';
-		lineChart(lineDataSet, select);
-	})
 	/*$('.bubble').each(function(){
 		select = '.bubble[id='+$(this).attr('id')+'] ';
 		bubbleChart(dataSet1, select);
 	})*/
 	$('.bar').each(function(){
 		select = '.bar[id='+$(this).attr('id')+'] ';
-		barChart(chartDataBinding('bar'), select);
+		barChart(chartDataBinding('bar', ''), select);
+	})
+	$('.line').each(function(){
+		select = '.line[id='+$(this).attr('id')+'] ';
+		//년도별
+		//let btnClickDataset = ['A', 'plus', '년도별', '2016', '2019'];
+		//분기별
+		//let btnClickDataset = ['A', 'plus', '분기별', '2018'];
+		//월별
+		//let btnClickDataset = ['A', 'plus', '월별', '2018'];
+		lineChart(chartDataBinding('line',''), select, '');
 	})
 	basicButton();
 }

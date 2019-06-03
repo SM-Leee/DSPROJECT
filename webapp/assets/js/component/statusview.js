@@ -3,13 +3,8 @@ let statusViewHTML =
     "<div class='overlay'></div>" +
     "<div class='statusView'>" +
     "<div class='statusView-content'>" +
-    // "<div class='statusView-header'>" +
-    // "</div>" +
-    // "<div class='statusView-body'></div>" +
-    // "</div>" +
     "</div>" +
     "</div>"
-//  부모의 setting-no 값 가져오면 된다.
 const statuslViewCheck = () => {
     const statusViewBtn = $('.statusViewBtn');
     if ($(statusViewBtn).length != 0) {
@@ -20,32 +15,24 @@ const statuslViewCheck = () => {
 const statusViewSetting = (btn) => {
     $(btn).on('click', function (e) {
         let no = $(this).parent().data('no')
-        //  ($(btn).parent().data('no'));
         let statusViewData = statusViewMapping(no);
-        const statusViewUi = $('#ds-ui-statusView')
-        const statusViewSetting_children = $(statusViewUi).children();
+        // const statusViewUi = $('#ds-ui-statusView')
+        // const statusViewSettsing_children = $(statusViewUi).children();
 
-        let statusResult = {}
 
-        var keyname = ''
         let statusCols = [];
-        let statusItems = [];
-        for (var i = 0; i < statusViewSetting_children.length; i++) {
-            statusItems[i] = $(statusViewSetting_children[i]).data('detail')
-            statusCols[i] = $(statusViewSetting_children[i]).data('col')
-            $.each(statusViewData, function (key, value) {
-                if (statusItems[i] == key) {
-                    statusResult[keyname + statusItems[i]] = value
-                }
-            })
-        }
+        statusCols = statusViewData[1];
+        let statusResult = {};
+        statusResult = statusViewData[0];
+
+
         var header = ''
         var body = ''
         const defaultImgIcon =
             "<div class='status-img'>" +
             "<i class='far fa-image'></i>" +
             "</div>"
-        for (var i = 0; i < statusItems.length; i++) {
+        for (var i = 0; i < statusCols.length; i++) {
             if (statusCols[i] == 'header') {
                 let icon = (Object.values(statusResult)[i] == '') ? defaultImgIcon :
                     "<img data-imgurl='" + Object.values(statusResult)[i] + "'" + " class='imgUrl' src='" + Object.values(statusResult)[i] + "'" + "/>"
@@ -72,21 +59,18 @@ const statusViewSetting = (btn) => {
             "</div>" +
             "</div>" +
             "</div>"
-
-
+        if ($('#ds-ui-statusView').length == 0) {
+            $('.App').append(
+                "<div id='ds-ui-statusView'>" +
+                "</div>"
+            )
+        }
         $('#ds-ui-statusView')
             .hide()
             .append(html)
             .fadeIn('fast')
 
-
-
-        // $('.statusView').css({
-        // })
-
-
         let headerDiv = $('.statusView-header').height();
-        // type = 'img'가 없을 때 default icon 생성
         $('.col1').css({
             'width': '97%'
         })
@@ -106,6 +90,7 @@ const closeStatusView = (touchLocate) => {
     let size = $('.App').width()
     $(touchLocate).bind('touchstart mousedown', function (e) {
         sX = (e.type === 'mousedown') ? e.pageX : e.touches[0].screenX;
+
     })
     $(touchLocate).bind('touchend mouseup', function (e) {
         fX = (e.type === 'mouseup') ? e.pageX : e.changedTouches[0].screenX;
@@ -117,7 +102,8 @@ const closeStatusView = (touchLocate) => {
                     'transition-duration': '0.5s'
                 })
             setTimeout(function () {
-                $(touchLocate).parent()
+                $(touchLocate)
+                    .parent()
                     .remove();
             }, 500);
         }
@@ -142,16 +128,16 @@ const viewImgUrl = (imgBtn) => {
     imgBtn.click(function () {
         showImg(viewImgHTML, imgUrl)
     })
-}
+} 
 var viewImgHTML =
-    "<div class='statusViewBox'>" +
+    "<div class='imgViewBox'>" +
     "<div class='overlay'></div>" +
     "<div class='imgView'>" +
     "</div>" +
     "</div>";
 
 const showImg = (html, imgUrl) => {
-    $('body').append(html);
+    $('.App').append(html);
     $('.imgView').append(
         "<img src='" + imgUrl + "'>"
     )

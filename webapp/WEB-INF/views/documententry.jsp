@@ -33,8 +33,8 @@
 				<div data-href='currentassets'>현재 자산</div>
 				<div data-href='byperiod'>기간별</div>
 				<div data-href='documententry' class="selected">전표입력</div>
-				<div>ggggg</div>
 				<div data-href='index'>예시</div>
+				<div>ggggg</div>
 			</div>
 		</div>
 
@@ -70,8 +70,8 @@
 				data-ds-binding='exampleData' data-ds-form="count"></div>
 			<div class="ds-ui-input kwdnumber" data-ds-label="단가"
 				data-ds-binding='exampleData' data-ds-form="price"></div>
-			<div class="ds-ui-input kwdnumber" data-ds-label="공급가"></div>
-			<div class="ds-ui-input kwdnumber" data-ds-label="VAT"></div>
+			<!-- <div class="ds-ui-input kwdnumber" data-ds-label="공급가"></div>
+			<div class="ds-ui-input kwdnumber" data-ds-label="VAT"></div> -->
 			<div class="ds-ui-input kwdnumber"></div>
 			<div class="ds-ui-input" data-ds-rows="2"></div>
 			<div class="ds-ui-input onlynumber"></div>
@@ -85,37 +85,38 @@
 		</div>
 
 		<div class="footer">
-			<div class="ds-ui-footerBox">
-				<div data-color='#6498B5'>
-					<p>수입</p>
-					<p>200,200,000</p>
-				</div>
-				<div data-color='#E74D3A'>
-					<p>지출</p>
-					<p>200,200,000</p>
-				</div>
-			</div>
-			<div class="ds-ui-footerBox">
-				<div data-color='#6498B5' data-direction='horizen'>
-					<p>수입</p>
-					<p>200,200,000</p>
-				</div>
-			</div>
-			<div class="ds-ui-footerBox">
-				<div data-color='#6498B5'>
-					<p>수입</p>
-					<p>200,200,000</p>
-				</div>
-				<div data-color='#E74D3A'>
-					<p>지출</p>
-					<p>200,000</p>
-				</div>
-				<div data-color='#ABACB2'>
-					<p>미지급</p>
-					<p>322,432,000</p>
-				</div>
-			</div>
-		</div>
+           <!-- data-direction의 default direction은 vertical이다 -->
+            <div class="ds-ui-footerBox">
+                <div data-color='#6498B5' data-direction='horizen'>
+                    <p>A 회사 pc 총 수입 개수</p>
+                    <p data-standard='A tv plus' data-calc-detail='count '></p>
+                </div>
+                <div data-color='#E74D3A'>
+                    <p>총 수출 개수</p>
+                    <p data-standard='etc' data-calc-detail='count'></p>
+                </div>
+            </div>
+            <div class="ds-ui-footerBox">
+                <div data-color='#6498B5' data-direction='horizen'>
+                    <p>A 회사 총 수입 개수</p>
+                    <p data-standard='A plus' data-calc-detail='count'></p>
+                </div>
+            </div>
+            <div class="ds-ui-footerBox">
+                <div data-color='#6498B5' data-direction='vertical'>
+                    <p>C 회사 수출 금액</p>
+                    <p data-standard='D plus' data-calc-detail='add count'></p>
+                </div>
+                <div data-color='#E74D3A'>
+                    <p>총 수출 금액</p>
+                    <p data-standard='minus' data-calc-detail='mul price count'></p>
+                </div>
+                <div data-color='#ABACB2'>
+                    <p>총 수입 금액</p>
+                    <p data-standard='plus' data-calc-detail='mul price count'></p>
+                </div>
+            </div>
+        </div>
 		<div id='ds-ui-staticBtn'></div>
 		<div id='ds-ui-staticShowBtn'></div>
 	</div>

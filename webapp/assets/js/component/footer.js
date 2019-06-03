@@ -2,14 +2,27 @@
 const footerSetting = () => {
     const footerBoxList = $('.ds-ui-footerBox');
     const footerAllItem = $(footerBoxList).children('div');
+
+
     for (var i = 0; i < footerAllItem.length; i++) {
         let color = $(footerAllItem[i]).data('color');
         let direction = $(footerAllItem[i]).data('direction');
+        if (color == undefined) {
+            color = 'black'
+        }
+        if(direction == undefined){
+            direction = 'vertical'
+        }
         $(footerAllItem[i]).css('background-color', color)
         $(footerAllItem[i]).addClass(direction);
     }
-    initFooter(footerBoxList,0);
     
+    //  footerDataBinding
+    const footerAlltag = $(footerAllItem).children('p');
+    footerDataBinding(footerAlltag)
+  
+    
+    initFooter(footerBoxList, 0);
 }
 //initFooter 선택
 const initFooter = (footerBoxList, locate) => {

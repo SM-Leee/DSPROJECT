@@ -33,13 +33,13 @@
 				<div data-href='currentassets'>현재 자산</div>
 				<div data-href='byperiod'>기간별</div>
 				<div data-href='documententry'>전표입력</div>
-				<div>ggggg</div>
 				<div data-href='index' class="selected">예시</div>
+				<div>ggggg</div>
 			</div>
 		</div>
 
 		<div class="contents">
-			
+
 			<!--CircleChart 
 					적은 요의 비율 표시(양유형)
 			필수 옵션 : data-binding  --- binding 해줄 dataTable
@@ -63,7 +63,7 @@
 			<div class='ds-ui-chart circle' id='circle4'
 				data-binding='exampleData' data-standard='company'
 				data-calc-detail='price' data-index-position='right'></div>
-			
+
 			<!--BarChart 
 				요소의 크기 표시 ( 양 유형 )
 			필수 옵션 : data-binding  --- binding 해줄 dataTable
@@ -87,7 +87,7 @@
 			<div class="ds-ui-chart bar" id="bar2" data-binding='exampleData'
 				data-standard='category' data-transfer-naming='chartOption2'
 				data-calc-detail='mul price count' data-index-position="bottom"></div>
-			
+
 			<!--RadarChart 
 				표준값에 대한 차이를 다각도로 제시 ( 분포유형)
 				많은 데이터를 넣는 것을 기준으로 잡았음
@@ -102,8 +102,9 @@
 					 data-transfer-naming : table 안에 이름을 한글로 변경하거나 원하고 싶은 단어로 변경하고 싶을때 쓰는 옵션 -->
 
 			<div class='ds-ui-chart radar' id='radar1' data-binding='exampleData'
-				data-standard='category' data-calc-detail='mul price count' data-x='company' data-transfer-naming='chartOption2'></div>
-			
+				data-standard='category' data-calc-detail='mul price count'
+				data-x='company' data-transfer-naming='chartOption2'></div>
+
 			<!-- LineChart
 				시간 축에 따라 총량 변화 표시
 				라인 차트에서는 범례가 필요가 없음.
@@ -117,43 +118,58 @@
 				category의 수입만 추출해 해시오
 				data-calc-detail-standard= 'category plus'
 				
+				년도별 : year
+				 몇년에 분기별
+				분기별 : 2018 quarter
+				 몇년의 월별
+				월별 : 2018 month
+				몇년 몇월의 일별
+				일별 : day
+				mul price count
 			 -->
-			<!-- <div class='ds-ui-chart line' id='line1' data-binding='exampleData'
-					data-standard='company A' data-x-date='년도별/분기별/월별/일별' 
-					data-calc-detail='mul price count' data-calc-detail-standard= 'category plus'></div> -->
-			<div class='ds-ui-chart line' id='line1' data-set='dataSet'
-				data-x="7" data-dist-x="1" data-y="4.5" data-dist-y="0.5"></div>
+
+
+			<div class='ds-ui-chart line' id='line2' data-binding='exampleData'
+				data-standard='company' data-substandard='category' data-x='date'
+				data-calc-detail='count'></div>
+			<div class='ds-ui-chart line' id='line1' data-binding='exampleData'
+				data-standard='company' data-substandard='category' data-x='date'
+				data-calc-detail='mul price count'></div>
+
+			<!-- 버튼 클릭시 입력된 데이터가 넘어왔을때 binding 하나
+						 입력된 데이터가 안넘어 왔을때 하나 총 두개를 만들어라 -->
 		</div>
 
 		<div class="footer">
+			<!-- data-direction의 default direction은 vertical이다 -->
 			<div class="ds-ui-footerBox">
-				<div data-color='#6498B5'>
-					<p>수입</p>
-					<p>200,200,000</p>
+				<div data-color='#6498B5' data-direction='horizen'>
+					<p>A 회사 pc 총 수입 개수</p>
+					<p data-standard='A tv plus' data-calc-detail='count '></p>
 				</div>
 				<div data-color='#E74D3A'>
-					<p>지출</p>
-					<p>200,200,000</p>
+					<p>총 수출 개수</p>
+					<p data-standard='etc' data-calc-detail='count'></p>
 				</div>
 			</div>
 			<div class="ds-ui-footerBox">
 				<div data-color='#6498B5' data-direction='horizen'>
-					<p>수입</p>
-					<p>200,200,000</p>
+					<p>A 회사 총 수입 개수</p>
+					<p data-standard='A plus' data-calc-detail='count'></p>
 				</div>
 			</div>
 			<div class="ds-ui-footerBox">
-				<div data-color='#6498B5'>
-					<p>수입</p>
-					<p>200,200,000</p>
+				<div data-color='#6498B5' data-direction='vertical'>
+					<p>C 회사 수출 금액</p>
+					<p data-standard='D plus' data-calc-detail='add count'></p>
 				</div>
 				<div data-color='#E74D3A'>
-					<p>지출</p>
-					<p>200,000</p>
+					<p>총 수출 금액</p>
+					<p data-standard='minus' data-calc-detail='mul price count'></p>
 				</div>
 				<div data-color='#ABACB2'>
-					<p>미지급</p>
-					<p>322,432,000</p>
+					<p>총 수입 금액</p>
+					<p data-standard='plus' data-calc-detail='mul price count'></p>
 				</div>
 			</div>
 		</div>
@@ -174,9 +190,9 @@
 		/* 회사 : A,B,C,D,E */
 		/* 상품명 : tv, radio, pc, smartphone, teblet, monitor */
 		const exampleData = [ 
-			{no : 1, company : 'A', good : 'tv', count : 5,	price : 300000,	date : '2017-12-12', category : 'plus', desc : ''},
-			{no : 2, company : 'A', good : 'pc', count : 10, price : 700000, date : '2018-10-19', category : 'etc', desc : ''},
-			{no : 3, company : 'D', good : 'pc', count : 13, price : 700000, date : '2018-11-01', category : 'plus', desc : ''},
+			{no : 1, company : 'A', good : 'tv', count : 5,	price : 300000,	date : '2016-12-12', category : 'plus', desc : ''},
+			{no : 2, company : 'A', good : 'pc', count : 10, price : 700000, date : '2017-01-12', category : 'etc', desc : ''},
+			{no : 3, company : 'D', good : 'pc', count : 13, price : 700000, date : '2015-02-01', category : 'plus', desc : ''},
 			{no : 4, company : 'B', good : 'smartphone', count : 3, price : 500000, date : '2018-11-02', category : 'etc', desc : ''},
 			{no : 5, company : 'D',
 			good : 'pc',
@@ -236,8 +252,8 @@
 			good : 'pc',
 			count : 10,
 			price : 500000,
-			date : '2018-11-01',
-			category : 'etc',
+			date : '2019-11-01',
+			category : 'plus',
 			desc : ''
 		}, {
 			no : 12,
@@ -245,8 +261,8 @@
 			good : 'pc',
 			count : 14,
 			price : 400000,
-			date : '2018-11-01',
-			category : 'minus',
+			date : '2018-03-01',
+			category : 'plus',
 			desc : ''
 		}, {
 			no : 13,
@@ -511,6 +527,31 @@
 			category : 'minus',
 			transname : '지출'
 		} ];
+		const tableOption = [{
+            img: '이미지'
+        },
+        {
+            good: '상품'
+        },
+        {
+            company: '회사'
+        },
+        {
+            count: '개수'
+        },
+        {
+            price: '가격'
+        },
+        {
+            date: '일자'
+        },
+        {
+            category: '분류'
+        },
+        {
+            desc: '설명'
+        }
+    ];
 	</script>
 </body>
 </html>

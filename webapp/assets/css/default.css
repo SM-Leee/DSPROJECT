@@ -26,6 +26,7 @@ ul, ol			{ list-style-type: none }
 	background-color:#3498DB;
 	margin:0;
 	padding:0;
+	margin-bottom:3px;
 }
 .contents{
 	flex:7.8;
