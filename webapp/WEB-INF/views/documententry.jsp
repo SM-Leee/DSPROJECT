@@ -75,6 +75,7 @@
 			<div class="ds-ui-basicButton fileupload"></div>
 		</div>
 
+
 		<div class="footer" data-mapping='exampleData'>
 			<div class="ds-ui-footerBox">
 				<div data-color='#00AAF0' data-direction='horizen'>
