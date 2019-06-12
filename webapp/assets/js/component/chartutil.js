@@ -3,6 +3,7 @@ let layout = (className) => {
 	return ($(className).height() < $(className).width() ? $(className).height() : $(className).width());
 }
 let index_position = (select_tag, dataSet) => {
+	console.log(dataSet)
 	let typeofvalue = '';
 	let dataSetMake;
 	$.each(dataSet[0], function(key,value){
@@ -28,8 +29,7 @@ let index_position = (select_tag, dataSet) => {
 			'bottom':'column',
 			'none':''
 	}
-	let status = $(select).data('index-position');
-
+	let status = $(select_tag).data('ds-index-position');
 
 	if(status == 'none' || 10 < dataSetMake.length ) {
 		$(select_tag+'.chart-wrapper').css({'height':'100%', 'width':'100%'})
@@ -56,7 +56,7 @@ let index_position = (select_tag, dataSet) => {
 	}
 	let rightLegend = 100/dataSetMake.length;
 	let chartname;
-	status = $(select).data('index-position');
+	status = $(select).data('ds-index-position');
 
 	if(select_tag.indexOf('circle') != -1){
 		chartname = 'pie';
@@ -118,10 +118,10 @@ let data_background = (dataSet, select_tag) => {
 			'<div class="axis-X"></div>'
 	)
 
-	let x = $(select_tag).data('x')
-	let dist_x = $(select_tag).data('dist-x')
-	let y = $(select_tag).data('y')
-	let dist_y = $(select_tag).data('dist-y')
+	let x = $(select_tag).data('ds-x')
+	let dist_x = $(select_tag).data('ds-dist-x')
+	let y = $(select_tag).data('ds-y')
+	let dist_y = $(select_tag).data('ds-dist-y')
 
 	let dataAxisNum = chartAxisNumberFormat(dataSet);
 	let dataAxisString = dataAxisNum.toString();
@@ -180,7 +180,7 @@ let data_background = (dataSet, select_tag) => {
 					$(select_tag+'.axis-X').append('<label>'+dataSet[i]['grade']+'</label>')
 				}
 			} else {
-				let dataNamingTransfer = eval($(select_tag).data('transfer-naming'));
+				let dataNamingTransfer = eval($(select_tag).data('ds-transfer-naming'));
 				let falsetrue = false;
 				for(let i = 0; i < dataSet.length; i++){
 					if(dataNamingTransfer != undefined){
@@ -245,10 +245,8 @@ let data_background = (dataSet, select_tag) => {
 		}
 		$(select_tag+'.axis-Y').css({'justify-content':'space-between'})
 	} else if(typeof y === 'string'){
-		// console.log("string");
-		// console.log(dataSet[0][$(select_tag).data('x')])
 		for(let i = 0; i < dataSet.length; i++){
-			$(select_tag+'.axis-Y').append('<label>'+dataSet[i][$(select_tag).data('y')]+'</label>')
+			$(select_tag+'.axis-Y').append('<label>'+dataSet[i][$(select_tag).data('ds-y')]+'</label>')
 		}
 		$(select_tag+'.axis-Y').css({'justify-content':'space-around'})
 		$(select_tag+'.axis-Y>label').css({'flex':'1'})

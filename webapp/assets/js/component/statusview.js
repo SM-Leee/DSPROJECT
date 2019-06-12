@@ -15,10 +15,8 @@ const statuslViewCheck = () => {
 const statusViewSetting = (btn) => {
     $(btn).on('click', function (e) {
         let no = $(this).parent().data('no')
-        let statusViewData = statusViewMapping(no);
-        // const statusViewUi = $('#ds-ui-statusView')
-        // const statusViewSettsing_children = $(statusViewUi).children();
-
+        let data = $(this).parent().data('mapping')
+        let statusViewData = statusViewMapping(no, data);
 
         let statusCols = [];
         statusCols = statusViewData[1];
@@ -32,6 +30,7 @@ const statusViewSetting = (btn) => {
             "<div class='status-img'>" +
             "<i class='far fa-image'></i>" +
             "</div>"
+
         for (var i = 0; i < statusCols.length; i++) {
             if (statusCols[i] == 'header') {
                 let icon = (Object.values(statusResult)[i] == '') ? defaultImgIcon :
@@ -48,6 +47,8 @@ const statusViewSetting = (btn) => {
                     "</div>"
             }
         }
+
+
         let html =
             "<div class='statusViewBox'>" +
             "<div class='overlay'></div>" +
@@ -59,6 +60,8 @@ const statusViewSetting = (btn) => {
             "</div>" +
             "</div>" +
             "</div>"
+
+
         if ($('#ds-ui-statusView').length == 0) {
             $('.App').append(
                 "<div id='ds-ui-statusView'>" +
@@ -82,7 +85,7 @@ const statusViewSetting = (btn) => {
             'height': headerDiv + 'px'
         })
         $('.status-img').children('i').css('line-height', headerDiv + 'px');
-        viewImgUrl($('.imgUrl'))
+        imgview($('.imgUrl'))
         closeStatusView($('.statusView'))
     })
 }
@@ -123,23 +126,23 @@ const closeStatusView = (touchLocate) => {
 }
 
 // img Viewer
-const viewImgUrl = (imgBtn) => {
-    let imgUrl = imgBtn.data('imgurl');
-    imgBtn.click(function () {
-        showImg(viewImgHTML, imgUrl)
-    })
-} 
-var viewImgHTML =
-    "<div class='imgViewBox'>" +
-    "<div class='overlay'></div>" +
-    "<div class='imgView'>" +
-    "</div>" +
-    "</div>";
+// const imgview = (imgBtn) => {
+//     let imgUrl = imgBtn.data('imgurl');
+//     imgBtn.click(function () {
+//         showImg(viewImgHTML, imgUrl)
+//     })
+// } 
+// var viewImgHTML =
+//     "<div class='imgViewBox'>" +
+//     "<div class='overlay'></div>" +
+//     "<div class='imgView'>" +
+//     "</div>" +
+//     "</div>";
 
-const showImg = (html, imgUrl) => {
-    $('.App').append(html);
-    $('.imgView').append(
-        "<img src='" + imgUrl + "'>"
-    )
-    closeStatusView($('.imgView'))
-}
+// const showImg = (html, imgUrl) => {
+//     $('.App').append(html);
+//     $('.imgView').append(
+//         "<img src='" + imgUrl + "'>"
+//     )
+//     closeStatusView($('.imgView'))
+// }

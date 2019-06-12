@@ -5,17 +5,8 @@
 <head>
 <title>프로젝트 진행</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/assets/css/default.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/assets/css/dscomponent.css">
-<link rel="stylesheet"
-	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-	crossorigin="anonymous">
+<script type="text/javascript"
+		src="${pageContext.request.contextPath}/assets/js/ds-header-link.js"></script>
 </head>
 <body class="body">
 	<div class="App">
@@ -49,20 +40,24 @@
 			보조 옵션 : data-calc : 총합 / 평균 어떻게 비교할 껀지의 옵션 ( default값 : sum ) 
 					 data-index-position : 범례의 위치를 설정 ( default값 : bottom )
 					 data-transfer-naming : table 안에 이름을 한글로 변경하거나 원하고 싶은 단어로 변경하고 싶을때 쓰는 옵션 -->
+			<div class='ds-ui-chart circle' id='circle5'
+				data-ds-binding='exampleData' data-ds-standard='company'
+				data-ds-calc-detail='price'></div>
 			<div class='ds-ui-chart circle' id='circle2'
-				data-binding='exampleData' data-standard='category'
-				data-transfer-naming='chartOption2' data-calc='avg'
-				data-calc-detail='mul price count'></div>
+				data-ds-binding='exampleData' data-ds-standard='category'
+				data-ds-transfer-naming='chartOption2' data-ds-calc='avg'
+				data-ds-calc-detail='mul price count'></div>
+				
 			<div class='ds-ui-chart circle' id='circle1'
-				data-binding='exampleData' data-standard='company'
-				data-calc-detail='price' data-index-position='left'></div>
+				data-ds-binding='exampleData' data-ds-standard='company'
+				data-ds-calc-detail='price' data-ds-index-position='left'></div>
 			<div class='ds-ui-chart circle' id='circle3'
-				data-binding='exampleData' data-standard='category'
-				data-transfer-naming='chartOption2'
-				data-calc-detail='mul price count' data-index-position='top'></div>
+				data-ds-binding='exampleData' data-ds-standard='category'
+				data-ds-transfer-naming='chartOption2'
+				data-ds-calc-detail='mul price count' data-ds-index-position='top'></div>
 			<div class='ds-ui-chart circle' id='circle4'
-				data-binding='exampleData' data-standard='company'
-				data-calc-detail='price' data-index-position='right'></div>
+				data-ds-binding='exampleData' data-ds-standard='company'
+				data-ds-calc-detail='price' data-ds-index-position='right'></div>
 
 			<!--BarChart 
 				요소의 크기 표시 ( 양 유형 )
@@ -74,19 +69,19 @@
 					 data-calc : 총합 / 평균 어떻게 비교할 껀지의 옵션 ( default값 : sum ) 
 					 data-index-position : 범례의 위치를 설정 ( default값 : bottom )
 					 data-transfer-naming : table 안에 이름을 한글로 변경하거나 원하고 싶은 단어로 변경하고 싶을때 쓰는 옵션 -->
-			<div class="ds-ui-chart bar" id="bar2" data-binding='exampleData'
-				data-standard='category' data-calc-detail='mul price count'></div>
-			<div class="ds-ui-chart bar" id="bar1" data-binding='exampleData'
-				data-x='company' data-standard='category'
-				data-transfer-naming='chartOption2'
-				data-calc-detail='mul price count'></div>
-			<div class="ds-ui-chart bar" id="bar3" data-binding='exampleData'
-				data-x='category' data-standard='company'
-				data-transfer-naming='chartOption2'
-				data-calc-detail='mul price count' data-index-position="bottom"></div>
-			<div class="ds-ui-chart bar" id="bar2" data-binding='exampleData'
-				data-standard='category' data-transfer-naming='chartOption2'
-				data-calc-detail='mul price count' data-index-position="bottom"></div>
+			<div class="ds-ui-chart bar" id="bar2" data-ds-binding='exampleData'
+				data-ds-standard='category' data-ds-calc-detail='mul price count'></div>
+			<div class="ds-ui-chart bar" id="bar1" data-ds-binding='exampleData'
+				data-ds-x='company' data-ds-standard='category'
+				data-ds-transfer-naming='chartOption2'
+				data-ds-calc-detail='mul price count'></div>
+			<div class="ds-ui-chart bar" id="bar3" data-ds-binding='exampleData'
+				data-ds-x='category' data-ds-standard='company'
+				data-ds-transfer-naming='chartOption2'
+				data-ds-calc-detail='mul price count' data-ds-index-position="bottom"></div>
+			<div class="ds-ui-chart bar" id="bar2" data-ds-binding='exampleData'
+				data-ds-standard='category' data-ds-transfer-naming='chartOption2'
+				data-ds-calc-detail='mul price count' data-ds-index-position="bottom"></div>
 
 			<!--RadarChart 
 				표준값에 대한 차이를 다각도로 제시 ( 분포유형)
@@ -101,9 +96,12 @@
 					 data-index-position : 범례의 위치를 설정 ( default값 : bottom )
 					 data-transfer-naming : table 안에 이름을 한글로 변경하거나 원하고 싶은 단어로 변경하고 싶을때 쓰는 옵션 -->
 
-			<div class='ds-ui-chart radar' id='radar1' data-binding='exampleData'
-				data-standard='category' data-calc-detail='mul price count'
-				data-x='company' data-transfer-naming='chartOption2'></div>
+			<div class='ds-ui-chart radar' id='radar1' data-ds-binding='exampleData'
+				data-ds-standard='category' data-ds-calc-detail='mul price count'
+				data-ds-x='company' data-ds-transfer-naming='chartOption2'></div>
+				<div class='ds-ui-chart radar' id='radar2' data-ds-binding='exampleData'
+				data-ds-standard='category' data-ds-calc-detail='mul price count'
+				data-ds-x='company' data-ds-transfer-naming='chartOption2'></div>
 
 			<!-- LineChart
 				시간 축에 따라 총량 변화 표시
@@ -129,52 +127,43 @@
 			 -->
 
 
-			<div class='ds-ui-chart line' id='line2' data-binding='exampleData'
-				data-standard='company' data-substandard='category' data-x='date'
-				data-calc-detail='count'></div>
-			<div class='ds-ui-chart line' id='line1' data-binding='exampleData'
-				data-standard='company' data-substandard='category' data-x='date'
-				data-calc-detail='mul price count'></div>
+			<div class='ds-ui-chart line' id='line2' data-ds-binding='exampleData'
+				data-ds-standard='company' data-ds-substandard='category' data-ds-x='date'
+				data-ds-transfer-naming='chartOption2' data-ds-calc-detail='count'></div>
+			<div class='ds-ui-chart line' id='line1' data-ds-binding='exampleData'
+				data-ds-standard='company' data-ds-substandard='category' data-ds-x='date'
+				data-ds-calc-detail='mul price count'></div>
 
 			<!-- 버튼 클릭시 입력된 데이터가 넘어왔을때 binding 하나
 						 입력된 데이터가 안넘어 왔을때 하나 총 두개를 만들어라 -->
 		</div>
 
-		<div class="footer">
-			<!-- data-direction의 default direction은 vertical이다 -->
+		<div class="footer" data-mapping='exampleData'>
 			<div class="ds-ui-footerBox">
-				<div data-color='#6498B5' data-direction='horizen'>
-					<p>A 회사 pc 총 수입 개수</p>
-					<p data-standard='A tv plus' data-calc-detail='count '></p>
+				<div data-color='#00AAF0' data-direction='horizen'>
+					<p>A 회사 총 수입 금액</p>
+					<p data-standard='A plus' data-calc-detail='mul price count'></p>
 				</div>
+			</div>
+
+			<div class="ds-ui-footerBox">
 				<div data-color='#E74D3A'>
-					<p>총 수출 개수</p>
+					<p>총 미지급 횟수</p>
 					<p data-standard='etc' data-calc-detail='count'></p>
 				</div>
-			</div>
-			<div class="ds-ui-footerBox">
-				<div data-color='#6498B5' data-direction='horizen'>
-					<p>A 회사 총 수입 개수</p>
-					<p data-standard='A plus' data-calc-detail='count'></p>
+				<div data-color='#00AAF0'>
+					<p>A 회사 pc 수입 횟수</p>
+					<p data-standard='A pc plus' data-calc-detail='count'></p>
 				</div>
 			</div>
 			<div class="ds-ui-footerBox">
-				<div data-color='#6498B5' data-direction='vertical'>
-					<p>C 회사 수출 금액</p>
-					<p data-standard='D plus' data-calc-detail='add count'></p>
-				</div>
-				<div data-color='#E74D3A'>
-					<p>총 수출 금액</p>
-					<p data-standard='minus' data-calc-detail='mul price count'></p>
-				</div>
-				<div data-color='#ABACB2'>
-					<p>총 수입 금액</p>
-					<p data-standard='plus' data-calc-detail='mul price count'></p>
+				<div>
+					<p>B 회사 pc 수입 개수</p>
+					<p data-standard='B pc plus' data-calc-detail='add'></p>
 				</div>
 			</div>
 		</div>
-		<div id='ds-ui-staticBtn'></div>
-		<div id='ds-ui-staticShowBtn'></div>
+	<div id='ds-ui-staticBtn' data-float='true'></div>
 	</div>
 
 

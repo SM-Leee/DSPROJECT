@@ -23,6 +23,7 @@ const navigatorSubmenu = function(){
 						'<div class="ds-ui-subtopic-box" id="subtopic-box'+(Math.floor(i/4))+'" data-ds-page="'+(Math.floor(i/4))+'">'+
 						'</div>');
 			}
+			
 			if(subtopic[i] == undefined){
 				let subtopicItem =
 					"<div class='ds-ui-subtopicItem' id='subtopicItem"+i+"'>"+
@@ -34,13 +35,22 @@ const navigatorSubmenu = function(){
 				//$('#subtopicItem'+i+' a').prop("disabled", true)
 			} else {
 				subtopic_array.push({id : i, subtopictitle: subtopic.get()[i].textContent});
-
-				let subtopicItem =
-					"<div class='ds-ui-subtopicItem' id='subtopicItem"+i+"'>"+
-					"<div class='sub'>"+
-					"<a href='"+ subtopic[i].dataset.href +"'>"+subtopic_array[i].subtopictitle+"</a>"+
-					"</div>"+					
-					"</div>";
+				let subtopicItem;
+				if(subtopic[i].dataset.href == undefined){
+					subtopicItem =
+						"<div class='ds-ui-subtopicItem' id='subtopicItem"+i+"'>"+
+						"<div class='sub'>"+
+						"<a href=>"+subtopic_array[i].subtopictitle+"</a>"+
+						"</div>"+					
+						"</div>";										
+				} else {
+					subtopicItem =
+						"<div class='ds-ui-subtopicItem' id='subtopicItem"+i+"'>"+
+						"<div class='sub'>"+
+						"<a href='"+ subtopic[i].dataset.href +"'>"+subtopic_array[i].subtopictitle+"</a>"+
+						"</div>"+					
+						"</div>";					
+				}
 
 				$('#subtopic-box'+Math.floor(i/4)).append(subtopicItem);
 

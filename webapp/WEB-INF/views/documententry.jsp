@@ -5,17 +5,8 @@
 <head>
 <title>Insert title here</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.servletContext.contextPath}/assets/css/default.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/assets/css/dscomponent.css">
-<link rel="stylesheet"
-	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-	crossorigin="anonymous">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/assets/js/ds-header-link.js"></script>
 </head>
 <body class="body">
 	<div class="App">
@@ -39,7 +30,7 @@
 		</div>
 
 		<div class="contents">
-			<input type="text" id="date" data-ds-label="일  자">
+			<input type="text" id="date1" class="date" data-ds-label="일  자">
 			<!-- dropdownList 방법1 -->
 			<select class="ds-ui-dropdown-picker">
 				<option value="volvo">Volvo</option>
@@ -56,8 +47,8 @@
 			</select>
 			<!-- dropdownList 방법3 -->
 			<select class="ds-ui-dropdown-picker" data-ds-label="목 차"
-				data-ds-binding="option2" data-ds-value-field="category"
-				data-ds-text-field="transname">
+				data-ds-binding="exampleData" data-ds-item-binding="option2"
+				data-ds-value-field="category" data-ds-text-field="transname">
 			</select>
 
 			<div class="ds-ui-input" data-ds-rows="2" data-ds-label="거래처"
@@ -84,41 +75,32 @@
 			<div class="ds-ui-basicButton fileupload"></div>
 		</div>
 
-		<div class="footer">
-           <!-- data-direction의 default direction은 vertical이다 -->
-            <div class="ds-ui-footerBox">
-                <div data-color='#6498B5' data-direction='horizen'>
-                    <p>A 회사 pc 총 수입 개수</p>
-                    <p data-standard='A tv plus' data-calc-detail='count '></p>
-                </div>
-                <div data-color='#E74D3A'>
-                    <p>총 수출 개수</p>
-                    <p data-standard='etc' data-calc-detail='count'></p>
-                </div>
-            </div>
-            <div class="ds-ui-footerBox">
-                <div data-color='#6498B5' data-direction='horizen'>
-                    <p>A 회사 총 수입 개수</p>
-                    <p data-standard='A plus' data-calc-detail='count'></p>
-                </div>
-            </div>
-            <div class="ds-ui-footerBox">
-                <div data-color='#6498B5' data-direction='vertical'>
-                    <p>C 회사 수출 금액</p>
-                    <p data-standard='D plus' data-calc-detail='add count'></p>
-                </div>
-                <div data-color='#E74D3A'>
-                    <p>총 수출 금액</p>
-                    <p data-standard='minus' data-calc-detail='mul price count'></p>
-                </div>
-                <div data-color='#ABACB2'>
-                    <p>총 수입 금액</p>
-                    <p data-standard='plus' data-calc-detail='mul price count'></p>
-                </div>
-            </div>
-        </div>
-		<div id='ds-ui-staticBtn'></div>
-		<div id='ds-ui-staticShowBtn'></div>
+		<div class="footer" data-mapping='exampleData'>
+			<div class="ds-ui-footerBox">
+				<div data-color='#00AAF0' data-direction='horizen'>
+					<p>A 회사 총 수입 금액</p>
+					<p data-standard='A plus' data-calc-detail='mul price count'></p>
+				</div>
+			</div>
+
+			<div class="ds-ui-footerBox">
+				<div data-color='#E74D3A'>
+					<p>총 미지급 횟수</p>
+					<p data-standard='etc' data-calc-detail='count'></p>
+				</div>
+				<div data-color='#00AAF0'>
+					<p>A 회사 pc 수입 횟수</p>
+					<p data-standard='A pc plus' data-calc-detail='count'></p>
+				</div>
+			</div>
+			<div class="ds-ui-footerBox">
+				<div>
+					<p>B 회사 pc 수입 개수</p>
+					<p data-standard='B pc plus' data-calc-detail='add'></p>
+				</div>
+			</div>
+		</div>
+	<div id='ds-ui-staticBtn' data-float='true'></div>
 	</div>
 
 	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -135,7 +117,7 @@
 			price : 300000,
 			date : '2017-12-12',
 			category : 'plus',
-			desc : '안녕하세요? 최기석입니다 반갑습니다 하이하이'
+			desc : '^^'
 		}, {
 			no : 2,
 			company : 'A',

@@ -1,18 +1,16 @@
-// cardlist ui
 const cardlistSetting = () => {
+    refreshevent($('#refresh'), 500)
     const cardlistUi = $('.ds-ui-cardlistAll')
-    icons = []
-    let cardlistUi_children = $(cardlistUi).children('div');;
+    let icons = []
     var icons_input = [];
-    for(var i =0; i < $(cardlistUi).children('div').length; i ++){
+    let cardlistUi_children = $(cardlistUi).children('div');;
+    for (var i = 0; i < cardlistUi_children.length; i++) {
         icons_input[i] = $(cardlistUi_children[i]).data('icon') == null ? '' : $(cardlistUi_children[i]).data('icon');
     }
     // icon end
     icons = iconLoad(icons_input)
-
-    cardlistAfterWork_result = cardlistDataBinding();
+    let cardlistAfterWork_result = cardlistDataBinding();
     let data_length = ($(cardlistAfterWork_result[0]).length - 2)
-
 
     var colors = []
     cardlistAfterWork_result.map(function (dataSet, i) {
@@ -97,20 +95,125 @@ const cardlistSetting = () => {
             })
         }
     }
-
     if ($(cardlistUi).data('setting') === true) {
         let icon_item = [];
         icon_item[0] = $(cardlistUi).data('icon');
         let icons = icon_item[0].split(' ')
-        setting(cardlist, icons);
+        setting(cardlist, icons, $('.ds-ui-cardlistAll').data('mapping'));
     }
+
+
+    $('#search').click(function () {
+        let period_date = [];
+        period_date[0] = $('#fromDate').val();
+        period_date[1] = $('#toDate').val();
+
+        $(cardlistUi).empty()
+
+        cardlistSearch_result = cardlistSearch(cardlistAfterWork_result, period_date);
+
+        var colors = []
+        cardlistSearch_result.map(function (dataSet, i) {
+            if (data_length === 1) {
+                var dataSet_inner = "<div>" + dataSet[0] + "</div>"
+            }
+            if (data_length === 2) {
+                var dataSet_inner =
+                    "<div>" + dataSet[0] + "</div>" +
+                    "<div>" + dataSet[1] + "</div>"
+            }
+            if (data_length === 3) {
+                var dataSet_inner =
+                    "<div>" + dataSet[0] + "</div>" +
+                    "<div>" + dataSet[1] + "</div>" +
+                    "<div>" + dataSet[2] + "</div>"
+            }
+            $(cardlistUi).append(
+                "<div class ='ds-ui-cardlist' data-no='" + dataSet[dataSet.length - 1] + "'>" +
+                dataSet_inner +
+                "</div>"
+            )
+            colors[i] = dataSet[data_length];
+        })
+
+        //  setting
+        const cardlist = $('.ds-ui-cardlist');
+        let next = 0;
+        let cardlistTextAllItem = new Array();
+        const cardlistText = $('.ds-ui-cardlist').children();
+        for (var i = 0; i < cardlistText.length; i++) {
+            cardlistTextAllItem[i] = $(cardlistText[i]).text()
+        }
+        for (var i = 0; i < cardlist.length; i++) {
+            if (colors[i] == null) {
+                color = '#040404';
+            } else {
+                color = colors[i];
+            }
+            if (data_length === 3) {
+                let cardlistTextItem = cardlistTextAllItem.slice(0 + next, data_length + next);
+                const makeCardlist =
+                    "<div style='border-left : 15px solid " + color + "'class='cardlist'>" +
+                    "<div class='card-topic'>" + cardlistTextItem[0] + icons[0] + "</div>" +
+                    "<div class='card-content'>" +
+                    "<span>" + cardlistTextItem[1] + icons[1] + "</span>" +
+                    "<span style='color :" + color + "' >" + cardlistTextItem[2] + icons[2] + "</span>"
+                "</div>" +
+                "</div>"
+                $(cardlist[i]).empty();
+                $(cardlist[i]).append(makeCardlist);
+                next += data_length;
+            }
+            if (data_length === 2) {
+                let cardlistTextItem = cardlistTextAllItem.slice(0 + next, data_length + next);
+                const makeCardlist =
+                    "<div style='border-left : 15px solid " + color + "'class='cardlist'>" +
+                    "<div class='card-topic'>" + cardlistTextItem[0] + icons[0] + "</div>" +
+                    "<div class='card-content'>" +
+                    "<span>" + cardlistTextItem[1] + icons[1] + "</span>" +
+                    "</div>" +
+                    "</div>"
+
+                $(cardlist[i]).empty();
+                $(cardlist[i]).append(makeCardlist);
+                next += data_length;
+                $('.card-content > span').css({
+                    'fontSize': '1.5rem',
+                    'color': 'black'
+                })
+            }
+            if (data_length === 1) {
+                let cardlistTextItem = cardlistTextAllItem.slice(0 + next, data_length + next);
+                const makeCardlist =
+                    "<div style='border-left : 15px solid " + color + "'class='cardlist'>" +
+                    "<div class='card-topic'>" + cardlistTextItem[0] + icons[0] + "</div>" +
+                    "</div>"
+                $(cardlist[i]).empty();
+                $(cardlist[i]).append(makeCardlist);
+                next += data_length;
+                $('.card-topic').css({
+                    'maxWidth': '100%'
+                })
+            }
+        }
+
+        if ($(cardlistUi).data('setting') === true) {
+            let icon_item = [];
+            icon_item[0] = $(cardlistUi).data('icon');
+            let icons = icon_item[0].split(' ')
+            setting(cardlist, icons, $('.ds-ui-cardlistAll').data('mapping'));
+        }
+        deleteTargetCheck();
+        statuslViewCheck();
+    })
+
 }
 
-const setting = function (target, icon_target) {
+const setting = function (target, icon_target, data) {
     $('.App').append(
         "<div id='ds-ui-setting'>" +
         "</div>"
-        )
+    )
     const settingUi = $('#ds-ui-setting')
     const icons_items = iconLoad(icon_target)
     $(settingUi).empty();
@@ -120,7 +223,7 @@ const setting = function (target, icon_target) {
     let targetWidth = $(target).outerWidth();
     for (var i = 0; i < target.length; i++) {
         $(target[i]).append(
-            "<div class='ds-ui-setting'>" +
+            "<div class='ds-ui-setting'" + "data-mapping='" + data + "' >" +
             $(settingUi).html() +
             "</div>"
         );
@@ -137,7 +240,7 @@ const setting = function (target, icon_target) {
         let size = $('.App').width();
         dataNo = ($(this).attr('data-no'));
         fX = (e.type === 'mouseup') ? e.pageX : e.changedTouches[0].screenX;
-        let settingWidth = (icons_items.length * 40);
+        let settingWidth = (icons_items.length * 45);
         const showSetting = targetWidth + settingWidth;
         $('.ds-ui-setting').css('width', settingWidth + 'px')
         if (dataNo == no) {
@@ -162,29 +265,6 @@ const setting = function (target, icon_target) {
                     })
             }
         }
-    
     })
-}
-// delete cardlist
-const deleteTargetCheck = () => {
-    const removeBtn = $('.removeBtn');
-    if ($(removeBtn).length != 0) {
-        deleteSetting(removeBtn)
-    }
-}
-const deleteSetting = (btn) => {
-    $(btn).on('click', function () {
-        let no = $(this).parent().data('no')
-
-        const cardlistItem = $('.ds-ui-cardlist');
-
-        for (var i = 0; i < cardlistItem.length; i++) {
-            // console.log($(cardlistItem[i]).data('no'), 'no')
-            if ($(cardlistItem[i]).data('no') == no) {
-                $(cardlistItem[i]).css('display', 'none')
-                // $(cardlistItem[0]).css('display', 'none');
-                // $(this).parent().parent().css('display', 'none');
-            }
-        }
-    })
+    modifyevent();
 }

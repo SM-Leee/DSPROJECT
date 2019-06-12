@@ -3,9 +3,13 @@ const inputFormat = function(){
 	if($(".ds-ui-input").length !=0){
 		//$('.ds-ui-input label').wrap('<div></div>');
 		let no = getParameterByName('no');
+		if(no == ''){
+			no = 1;
+		}
+
 		//let no = getParameterByName('no');
 		$('.ds-ui-input').each(function() {
-			
+
 
 			let inputText = "<input/>";
 			$(this).append(inputText);
@@ -22,13 +26,14 @@ const inputFormat = function(){
 				$(this).append(columnlong);
 
 				$(this).addClass('columnlong');
+				if($(this).data('ds-label') == undefined){
+					$(this).children().css({'height': '95%'});
+				}
 			}
 			if($(this).data('ds-label') == undefined && !($(this).hasClass('kwdnumber'))){
 				$(this).find('input').css('width', '97%');
-				$(this).find('input').css('backgroundSize', '9%');
 			} else if($(this).data('ds-label') == undefined && $(this).hasClass('kwdnumber')){
 				$(this).find('input').css('width', '87%');
-				$(this).find('input').css('backgroundSize', '9%')
 			} else {
 				$(this).prepend('<div>'+
 						'<label>'+$(this).data('ds-label')+'</label>' +
@@ -37,41 +42,41 @@ const inputFormat = function(){
 
 
 			let statusData = eval($(this).data('ds-binding'));
-			
-			if(no  != '') {
-				let newArr;
-				no = no*1;
-				if(statusData != undefined){
-					$.each(statusData, function(){
-						newArr = statusData.filter(function (item) {
-							return item.no === no;
-						})
-					})
-					let dataform = newArr[0][$(this).data('ds-form')];
-					if($(this).find('textarea').length >0){
-						$(this).find('textarea').val(dataform);								
-					}
-					if($(this).find('input').length >0){
-						if($(this).hasClass('kwdnumber')){
-							$(this).find('input').val(dataform);
 
-							$(this).find('input').val(function(index, value) {
-								return value
-								.replace(/\D/g, "")
-								.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-							})
-						} else {
-							$(this).find('input').val(dataform);							
-						}
+			let newArr;
+			no = no*1;
+			if(statusData != undefined){
+				$.each(statusData, function(){
+					newArr = statusData.filter(function (item) {
+						return item.no === no;
+					})
+				})
+				let dataform = newArr[0][$(this).data('ds-form')];
+				console.log(dataform)
+				if($(this).find('textarea').length >0){
+					$(this).find('textarea').val(dataform);								
+				}
+				if($(this).find('input').length >0){
+					if($(this).hasClass('kwdnumber')){
+						$(this).find('input').val(dataform);
+
+						$(this).find('input').val(function(index, value) {
+							return value
+							.replace(/\D/g, "")
+							.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+						})
+					} else {
+						$(this).find('input').val(dataform);							
 					}
 				}
 			}
 		})
 	}
 }
+
 function getParameterByName(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+	results = regex.exec(location.search);
+	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }

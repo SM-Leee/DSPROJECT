@@ -8,27 +8,37 @@ const defaultIcon = [{
 	dollor: "<i class='fas fa-dollar-sign'></i>",
 	status: "<i class='statusViewBtn fas fa-search'></i>",
 	modify: "<i class='modifyBtn fas fa-wrench'></i>",
-	remove: "<i class='removeBtn fas fa-trash-alt'></i>"
+	remove: "<i class='removeBtn fas fa-trash-alt'></i>",
+	add: "<i class='addBtn fas fa-plus'></i>",
+	refresh: "<i class='refresh fas fa-sync-alt'></i>",
+	none: "<i class='none fas fa-times'></i>",
+	location : "<i class='location fas fa-door-open'></i>"
 }]
 $(document).ready(function () {	
+
 	let pielinedata;
-	if($(".circle").length!=0){
+	/*if($(".circle").length!=0){
 		pielinedata =chartDataBinding('circle');		
-	}
+	}*/
 	ToggleButton();
 	DropdownPicker();
 	inputBoxFormat();
 	fileUploadButton();
 	buttonClick();
 	footerTouchSlider($('.ds-ui-footerBox'));
-	staticBtnTouchMove($('#ds-ui-staticBtn'), $('#ds-ui-staticShowBtn'));
 	pieChartClick();
 	barClick($('.bar-showdata'), $('.bar-showValue'));
 	SubtopicTouchSlider($('.ds-ui-subtopic-box'));
 	modifyevent();
 	legendPick();
 	lineChartTileClick($('.line-title'));
+	iconLoader();
+	refreshevent();
 	dataTableOper();
+	deleteTargetCheck();
+	statuslViewCheck();
+	imgview();
+	locationevent();
 });
 const lineChartTileClick = (Target) => {
 	let clickparent;
@@ -42,8 +52,9 @@ const lineChartTileClick = (Target) => {
 			"</div>" +
 			"<div class='filter'>" +
 			"</div>" +
-			"<div class='filter-submit'>" +
-			"<div class='filterBtn'>Filter</div>"
+			"<div class='filter-click'>" +
+			"<div class='filterBtn filterEnd'>확 인</div>" +
+			"<div class='filterBtn filterCancel'>취 소</div>" +
 			"</div>"
 			"</div>" +
 			"</div>"
@@ -77,18 +88,23 @@ const lineChartTileClick = (Target) => {
 		let clickDate = [];
 
 		$(filter_topic).click(function () {
-			$(filter_topic[3]).off('click');
 			// border 초기화
 			$(filter_topic).css({
 				'border': ''
 			})
 			$(this).css({
-				'border': '1px solid blue'
+				'border': '1px solid #A0A0FF'
 			})
 			no = $(this).data('filter');
 			let filter_value = '';
 			// 초기화
 			$('.filter').empty();
+
+			if (no == 3) {
+
+				$(filter_topic[3]).off('click');
+			}
+
 			for (var i = 0; i < filterData[no].length; i++) {
 				if (no == 3) {
 					$('.filter').append(
@@ -97,9 +113,22 @@ const lineChartTileClick = (Target) => {
 							"</div>"
 					)
 				} else {
+					let dataTransferMapping = '';
+					if(eval(clickparent.data('ds-transfer-naming')) != undefined){
+						$.each(eval(clickparent.data('ds-transfer-naming')), function(key, value){
+							if(value[clickparent.data('ds-substandard')] != filterData[no][i]){
+								dataTransferMapping = filterData[no][i];
+							} else {
+								dataTransferMapping = value['transname']
+								return false;
+							}
+						})
+					} else {
+						dataTransferMapping = filterData[no][i];
+					}
 					$('.filter').append(
 							"<div class='filter-item'>" +
-							filterData[no][i] +
+							dataTransferMapping +
 							"</div>"
 					)
 				}
@@ -107,15 +136,6 @@ const lineChartTileClick = (Target) => {
 			let topic = ''
 				const filter_item = $('.filter-item');
 			$(filter_item).click(function () {
-				if ($(filter_topic[(no - 1)]) != '') {
-					topic = ($(filter_topic[(no - 1)]).children('.filter-topic-item').text(), 'text')
-				}
-				for (var i = 0; i < $(filter_item).length; i++) {
-					if (topic == ($(filter_item[i]).text())) {
-						console.log('####')
-						$(filter_item[i]).css({'background' : 'green'})
-					}
-				}
 				filter_value = $(this).text();
 				$(filter_topic[(no - 1)]).children('.filter-topic-item').text(filter_value)
 			})
@@ -129,7 +149,10 @@ const lineChartTileClick = (Target) => {
 				"</div>" +
 				"</div>"
 
+
 				const date = new Date();
+
+
 			//  detail Year
 			const dateFilterDetail = (target, num) => {
 				let date_set = (date.getFullYear() - num) == 0 ? 1 : (date.getFullYear() - num) + 1;
@@ -151,6 +174,7 @@ const lineChartTileClick = (Target) => {
 					)
 				}
 			}
+
 			// 년도별, 해당년도에 해당하는 월별, 
 			$('.date-item').click(function () {
 				let date_no = $(this).data('date-filter');
@@ -198,21 +222,33 @@ const lineChartTileClick = (Target) => {
 		})
 		const filter_item = $('.filter-topic-item')
 		let filter_result = []
-		$('.filterBtn').click(function () {
+		$('.filterEnd').click(function () {
 
 			for (var i = 0; i < filter_item.length; i++) {
-				filter_result[i] = $(filter_item[i]).text();
+				if(eval(clickparent.data('ds-transfer-naming')) != undefined){
+					$.each(eval(clickparent.data('ds-transfer-naming')), function(key, value){
+						if(value['transname'] == $(filter_item[i]).text()){
+							filter_result[i] = value[clickparent.data('ds-substandard')];
+							return false;
+						} else {
+							filter_result[i] = $(filter_item[i]).text();						
+						}
+					})					
+				} else {
+					filter_result[i] = $(filter_item[i]).text();
+				}
 				if (clickDate.length == 2) {
 					filter_result[3] = clickDate[0]
 					filter_result[4] = clickDate[1]
 				}
+
 			}
 			let validdate = 0;
 			for (var i = 0; i < filter_result.length; i++) {
 				if (filter_result[i] == '') {
 					validdate++;
 					$(filter_topic[i]).css({
-						'border': '1px solid red'
+						'border': '1px solid #2080D0'
 					})
 				} else {}
 
@@ -224,17 +260,19 @@ const lineChartTileClick = (Target) => {
 			$(select+' .line-background').remove();
 			lineChart(chartDataBinding('line',filter_result), select,filter_result);
 		})
+		$('.filterCancel').click(function () {
+			$('.filterBox').remove();
+		})
 	})
-
 }
 const filterMapping = (target) => {
 
 	target = target.parent().parent();
-	let dataItem = eval(target.data('binding'));
+	let dataItem = eval(target.data('ds-binding'));
 	let filter_item = [];
-	let filter_item_space = $(target).data('standard');
+	let filter_item_space = $(target).data('ds-standard');
 	filter_item.push(filter_item_space);
-	filter_item_space = $(target).data('substandard');
+	filter_item_space = $(target).data('ds-substandard');
 	filter_item.push(filter_item_space);
 
 	let dataAfter = []
@@ -319,9 +357,9 @@ const modifyevent = () => {
 
 }
 
-//cardlistBinding
+
 const cardlistDataBinding = () => {
-//	data mapping, binding
+	// data mapping, binding
 	const cardlistUi = $('.ds-ui-cardlistAll');
 	let cardlist_detail = [];
 	let cardlistAfterWork = [];
@@ -371,7 +409,7 @@ const cardlistDataBinding = () => {
 			cardlistAfterWork[i].push('black')
 		})
 	}
-//	no
+	// no
 	$.each(cardItem, function (i) {
 		var data = [];
 		data = (this['no'])
@@ -379,11 +417,101 @@ const cardlistDataBinding = () => {
 	})
 	return cardlistAfterWork;
 }
+
+
+//search
+const cardlistSearch = (cardlistAfterData, period_date) => {
+	let before_date = period_date[0].split('-');
+	let after_date = period_date[1].split('-');
+	let before_detail = '';
+	let after_detail = '';
+	console.log('period 정보 가져오기 : ', before_date, after_date)
+
+	for (var i = 0; i < before_date.length; i++) {
+		before_detail += before_date[i];
+		after_detail += after_date[i];
+	}
+
+	let item_sort = [];
+	let item_basic = [];
+
+	let item_num = [];
+	let item_numResult = [];
+
+	let cardlistSearch_result = [];
+	cardlistAfterData.map(function (dataSet, i) {
+		let item_detail = ''
+			let filter_date = dataSet[0].split('-');
+		for (var j = 0; j < filter_date.length; j++) {
+			item_detail += filter_date[j]
+		}
+		if (before_detail <= item_detail && after_detail >= item_detail) {
+			// push
+			item_basic.push(item_detail);
+			item_sort.push(item_detail)
+			item_num.push(i)
+		}
+	})
+	let item_sortResult = []
+	item_sortResult = item_sort.sort(function (a, b) {
+		return a - b;
+	});
+	for (var z = 0; z < item_sortResult.length; z++) {
+		for (var z1 = 0; z1 < item_sortResult.length; z1++) {
+			if (item_sortResult[z] == item_basic[z1]) {
+				item_numResult.push(item_num[z1])
+			}
+		}
+	}
+	for (var r = 0; r < item_numResult.length; r++) {
+		cardlistSearch_result.push(cardlistAfterData[item_numResult[r]])
+	}
+
+
+	return cardlistSearch_result;
+}
+
+
+//delete cardlist
+const deleteTargetCheck = () => {
+	const removeBtn = $('.removeBtn');
+	if ($(removeBtn).length != 0) {
+		deleteSetting(removeBtn)
+	}
+}
+const deleteSetting = (btn) => {
+	$(btn).on('click', function () {
+		let no = $(this).parent().data('no')
+		if (no == undefined) {
+			$(this).parent().css('display', 'none')
+		}
+
+		const cardlistItem = $('.ds-ui-cardlist');
+		for (var i = 0; i < cardlistItem.length; i++) {
+			if ($(cardlistItem[i]).data('no') == no) {
+				$(cardlistItem[i]).css('display', 'none')
+			}
+		}
+
+		// 삭제
+		// let test = {};
+		// test = eval(exampleData2);
+
+		// console.log(no)
+		// const itemToFind = test.find(function (item) {
+		//    return item.no === no
+		// });
+		// const idx = test.indexOf(itemToFind)
+		// if (idx > -1) test.splice(idx, 1)
+
+
+		// console.log(eval(exampleData2))
+
+	})
+}
+
+
 const iconLoad = (icons_result) => {
-	// var icons = []
-	// for (var i = 0; i < target.length; i++) {
-	//    icons[i] = ($(target[i]).data('icon') == null) ? '' : ($(target[i]).data('icon'));
-	// }
 	for (var i = 0; i < icons_result.length; i++) {
 		$.each(defaultIcon[0], function (key, value) {
 			if (key == icons_result[i]) {
@@ -394,32 +522,27 @@ const iconLoad = (icons_result) => {
 	return icons_result;
 }
 
-
 //statusViewMapping
-const statusViewMapping = (no) => {
-
-	let statusData = eval(exampleData);
-	let statusAfterWork = [];
+const statusViewMapping = (no, data) => {
+	let statusData = eval(data);
 	let newArr;
 	$.each(statusData, function (i) {
 		newArr = statusData.filter(function (item) {
 			return item.no === no;
 		})
 	})
-
 	const colName = []
 	const newName = {}
 	var keyname = ''
-//		json key rename
+		//  json key rename
 		for (var i = 0; i < statusViewOption.length; i++) {
 			$.each(statusViewOption[i], function (key, value) {
 				if (key == 'col') {
 					colName[i] = value;
 				}
-				for (var j = 0; j < statusViewOption.length; j++) {
+				for (var j = 0; j < Object.keys(newArr[0]).length; j++) {
 					if (key == Object.keys(newArr[0])[j + 1]) {
 						newName[keyname + value] = Object.values(newArr[0])[j + 1];
-						// newName[keyname + 'col'] = colName[j]
 					}
 				}
 			})
@@ -427,8 +550,21 @@ const statusViewMapping = (no) => {
 	return [newName, colName];
 
 }
-
-
+const iconLoader = () => {
+	let icon_set = $('.ds-ui-icon');
+	let icon_result = ''
+		for (var j = 0; j < icon_set.length; j++) {
+			let div_icon = ($(icon_set[j]).data('icon') == undefined) ? 'none' : $(icon_set[j]).data('icon');
+			$.each(defaultIcon[0], function (key, value) {
+				if (key == div_icon) {
+					icon_result = value;
+				}
+			})
+			$(icon_set[j]).append(
+					icon_result
+			)
+		}
+}
 const ToggleButton = function(){
 	/* ToggleMenu */
 	if($("#ds-ui-menu").length != 0){
@@ -540,7 +676,12 @@ const pieChartClick = function(){
 			value = $(this).data('ds-value')/sum;
 			let percent = Math.floor(value*100);
 			$('#'+parentPie+' .circle-title').text($(this).data('ds-circletitle'));
-			$('#'+parentPie+' .circle-percent-item').text(percent+"%");		
+			$('#'+parentPie+' .circle-percent-item').text(percent+"%");
+			for(let i=0; i< dataSetPie.length;i++){
+				$(dataSetPie).css({'zIndex' : '-1'})
+			}
+			$(this).css({'zIndex': '2'});
+
 		})
 	}
 }
@@ -576,11 +717,11 @@ const SubtopicTouchSlider = function(SubtopicList){
 	})
 }
 
-//footerBinding
-const footerDataBinding = (footerAlltag) => {
-	for (var i = 0; i < footerAlltag.length; i++) {
-		dataItem = eval(exampleData);
 
+//footerBinding
+const footerDataBinding = (footerAlltag, data_set) => {
+	for (var i = 0; i < footerAlltag.length; i++) {
+		dataItem = eval(data_set);
 		let calc_standard;
 		let calc_detail;
 		// circle-data-binding
@@ -615,18 +756,14 @@ const footerDataBinding = (footerAlltag) => {
 			}
 			if (calc_detail[0] === 'mul' || calc_detail[0] === 'add' || calc_detail[0] === 'sub' || calc_detail[0] === 'div') {
 				// data-calc에서 총합 / 평균을 바로 구하는게 아니라 두개 이상의 데이터를 연관지어 계산해서 총합 / 평균을 구하고 싶을 경우 여기에 들어온다.
-				//곱하기 / 더하기 / 빼기 / 나누기
-
 				if (calc_detail[0] == 'add') {
 					let totalData = 0;
+
 					$.each(dataItem, function () {
-						totalData += this[calc_detail[1]];
+						totalData += this['count'];
 					})
 					data = totalData;
 				}
-				// if (calc_detail[0] == 'sub') {
-
-				// }
 				if (calc_detail[0] == 'mul') {
 					let totalData = 0;
 					$.each(dataItem, function () {
@@ -646,7 +783,8 @@ const footerDataBinding = (footerAlltag) => {
 	}
 }
 //footerTouchSlider
-const footerTouchSlider = function(footerBoxList){
+const footerTouchSlider = (footerBoxList) => {
+	let size = $('.App').width();
 	let sX = 0,
 	fX = 0,
 	locate = 0;
@@ -654,11 +792,11 @@ const footerTouchSlider = function(footerBoxList){
 		e.preventDefault();
 		sX = (e.type === 'mousedown') ? e.pageX : e.touches[0].screenX;
 	})
-
 	$('.footer').bind('touchend mouseup', function (e) {
 		fX = (e.type === 'mouseup') ? e.pageX : e.changedTouches[0].screenX;
 		// 왼쪽
 		if ((fX - sX) / size > 0.20) {
+
 			setLocate = (locate - 1) < 0 ? (footerBoxList.length - 1) : (locate - 1);
 			slideFooter(footerBoxList, locate, setLocate);
 			locate--;
@@ -666,6 +804,7 @@ const footerTouchSlider = function(footerBoxList){
 		}
 		// 오른쪽
 		if ((fX - sX) / size < -0.20) {
+
 			setLocate = (locate + 1) == footerBoxList.length ? 0 : (locate + 1);
 			slideFooter(footerBoxList, locate, setLocate);
 			locate++;
@@ -676,13 +815,13 @@ const footerTouchSlider = function(footerBoxList){
 
 //dataTable
 const dataTableOper = () => {
-	// if($('.data-table').length == 0) return;
+	if($('.data-table').length == 0) return;
 	dataTable_Customizing();
 	dataTable_Render();
 	dataTable_Search();
 }
 
-// 표시하길 원하는 컬럼의 명과 그의 별명부여.
+//표시하길 원하는 컬럼의 명과 그의 별명부여.
 const dataTable_Customizing = () => {
 
 	let $dataTable = $('.data-table'),
@@ -732,7 +871,7 @@ const dataTable_Render = function(dataTableObject) {
 	viewImgUrl($('.data-table .grid-row .ext-img'));
 }
 
-// dataTable - search... : s
+//dataTable - search... : s
 const dataTable_Search = () => {
 	let $inputSearchBox = $('.ds-ui-data-table-options').find('.search'),
 	$inputSearch = $inputSearchBox.children();
@@ -777,12 +916,12 @@ const dataTable_Re_Render = function (searchedTableData) {
 	$('.data-table').unwrap('.data-table-wrap');
 	$('.data-table').parents('.popupBox').remove();
 	// dataTable render
-	dataTable_Html();
+	dataTable();
 	dataTable_Render(searchedTableData);
 }
-// dataTable - search... : e
+//dataTable - search... : e
 
-// dataTable - DataBinding...
+//dataTable - DataBinding...
 const dataTableBind = (tableData) => {
 	let $dataTable = $('.data-table'),
 	dataObject = eval($dataTable.data('dsBinding'));
@@ -859,12 +998,12 @@ const dataTableBind = (tableData) => {
 	}
 }
 
-// data-table Total Function : start
-// 1. value type : number check
-// 2. Without false => func oper
-// 3. data-rendering...
+//data-table Total Function : start
+//1. value type : number check
+//2. Without false => func oper
+//3. data-rendering...
 
-// toggle totals & average
+//toggle totals & average
 const fx_Toggle = () => {
 	let $fx = $('.data-table .grid-footer-header');
 	if($fx.length != 0) {
@@ -916,9 +1055,9 @@ const fxRendering = () => {
 		} else $('.data-table .grid-footer .' + column.classList[1]).text('NaN');
 	});
 }
-// data-table Total Function : end
+//data-table Total Function : end
 
-// data-table Sort : s , sort event mapping
+//data-table Sort : s , sort event mapping
 const dataTable_Sort = () => {
 	$('.grid-header .header-column').on('click', (e) => {
 		let self = e.target;
@@ -926,7 +1065,7 @@ const dataTable_Sort = () => {
 		sortTable(self);
 	});
 };
-// data-table Sort handler
+//data-table Sort handler
 const sortTable = (self) => {
 	let currentTable = '#' + findRootParentId('.data-table', self),
 	$self = $(self),
@@ -1001,7 +1140,7 @@ const rowRendering = ($currentTable, rows) => {
 
 }
 
-// data-table Sort : e
+//data-table Sort : e
 
 //columnOption : s
 const columnOptionHandler = () => {
@@ -1047,7 +1186,7 @@ const columnSwitch = (self, dataTableId) => {
 			switchOn(switchConfig) : switchOff(switchConfig);
 }
 
-// rendering popupBox & dataTable
+//rendering popupBox & dataTable
 const switchOn = (config) => {
 	config.$selectedRow.removeClass('column-off');
 	config.$selectedRow.find('.toggle').addClass('toggle--active');
@@ -1059,7 +1198,7 @@ const switchOff = (config) => {
 	$(config.dataTableId).find(config.selectedColumnClass).addClass('off');
 }
 
-// decorate
+//decorate
 const dataTableOptionModal = ($dataTable) => {
 	$dataTable.data('dsIsPopup', false);
 
@@ -1070,7 +1209,6 @@ const dataTableOptionModal = ($dataTable) => {
 }
 
 const decorateModalDataTable = ($dataTable) => {
-	console.log(1111);
 	let $targetPB = $('#' + $dataTable[0].id + '_pb');
 	//headerViewRender
 	let standardColumn = $dataTable.data('dsColumnHeader');
@@ -1130,7 +1268,7 @@ const decorateModalDataTable = ($dataTable) => {
 	$('#'+$dataTable[0].id+'_pb').find('.popup-set-tb').append(row);
 }
 
-// standardColumn change Action
+//standardColumn change Action
 const stdColumnChange_Action = ($dataTable, $targetPB) => {
 	$std_changeBody = $targetPB.find('.popup-change-body');
 	$std_changeBody.find('a').on('click', (e) => {
@@ -1144,7 +1282,7 @@ const stdColumnChange_Action = ($dataTable, $targetPB) => {
 		} else return;
 	});
 }
-// standardColumn change Mode...
+//standardColumn change Mode...
 const stdColumnChange_Mode = ($targetPB) => {
 	$targetPB.find('.standard-change-btn').on('click', () => {
 		let $body = $targetPB.find('.popup-body'),
@@ -1176,8 +1314,8 @@ const dataTable_Scroll = () => {
 	});
 }
 
-// util : start
-// event oper.. find current-target's box-root (... class two more)
+//util : start
+//event oper.. find current-target's box-root (... class two more)
 const findRootParentId = (findroot, curent) => {
 	$currentParents = $(curent).parents();
 	for(i=0; i<$currentParents.length; i++) {
@@ -1186,7 +1324,7 @@ const findRootParentId = (findroot, curent) => {
 	console.error("cannot find the root...");
 	return null;
 }
-// check extension
+//check extension
 const checkExtension = function(file_url) {
 	let ext_check = '';
 	ext_check = imageExtension(file_url);
@@ -1218,26 +1356,27 @@ const slideFooter = (footerBoxList, locate, setLocate) => {
 };
 
 //staticMove
-const staticBtnTouchMove = function(staticBtn, staticShowBtn){
-	$(staticBtn).bind('touchmove', function (e) {
+const staticBtnTouchMove = (target, staticShowBtn) => {
+	let size = $('.App').width();
+
+	$(target).bind('touchmove', function (e) {
 		e.preventDefault();
 		var touchLocation = e.targetTouches[0];
 		var left = touchLocation.pageX;
 		var top = touchLocation.clientY;
-		$(staticBtn).children('div').css('display', 'none')
-		$(staticBtn).css('left', left - 25 + 'px');
-		$(staticBtn).css('top', top - 25 + 'px');
+		$(target).children('div').css('display', 'none')
+		$(target).css('left', left - 20 + 'px');
+		$(target).css('top', top - 20 + 'px');
 		if (left < 0 || left > size || top < 0 || top > heightSize) {
-			$(staticBtn).css('display', 'none');
+			$(target).css('display', 'none');
 			$(staticShowBtn).css('display', 'block');
 		}
 	});
 }
-//일단 붙
-const staticBtnTouchEnd = function(left, top, staticBtn, staticShowBtn){
-	$(staticBtn).bind('touchend', function (e) {
+const staticBtnTouchEnd = (left, top, target, staticShowBtn) => {
+	$(target).bind('touchend', function (e) {
 		if (left < 0 || left > size || top < 0 || top > heightSize) {
-			$(staticBtn).css('display', 'none');
+			$(target).css('display', 'none');
 			$(staticShowBtn).css('display', 'block');
 		}
 	})
@@ -1348,7 +1487,7 @@ const formItems = function (formData, select) {
 		chartAfterData.push(ex2Object)
 	}
 	var keyItem = [];
-	var data;
+	var data = '';
 	// key 값 구하기
 	for (var i = 0; i < chartAfterData.length; i++) {
 		$.each(chartAfterData[i], function (key, value) {
@@ -1387,24 +1526,24 @@ let dataAfterWork = []; //새로운 dataSet 만들기
 let dataItem; // 매핑된 data 새롭게 저장
 let dataStandard; // data-standard 가져오기
 //색깔 저장
-let chartColor = ['Aqua','blue','blueviolet','burlywood','coral','cornflowerblue','crimson','darkblue','darkorange','deeppink','deepskyblue','forestgreen','gold','green','greenyellow','hotpink','indeianred','indigo','khaki','lightgreen','lightseagreen','lime','mediumaquamarine','mediumseagreen','midnightblue','mistyrose','orangered','orchid','palegreen','plum','powderblue','red','royalblue','silver','slateblue','steelblue','teal','tomato','yellow','yellowgreen'];
-
+let chartColor = ['Aqua','blue','blueviolet','RoyalBlue','burlywood','coral','cornflowerblue','crimson','darkblue','darkorange','deeppink','deepskyblue','forestgreen','gold','green','greenyellow','hotpink','indeianred','indigo','khaki','lightgreen','lightseagreen','lime','mediumaquamarine','mediumseagreen','midnightblue','mistyrose','orangered','orchid','palegreen','plum','powderblue','red','royalblue','silver','slateblue','steelblue','teal','tomato','yellow','yellowgreen'];
+let chartColor2 = ['blue','blueviolet', 'Aqua', 'coral']
 //bar chart databinding
 const chartDataBinding = function(name, clickdata){
 	dataAfterWork = [];
-	dataStandard = $(select).data('standard');
-	chartData = $(select).data('binding');
-	dataCalc = $(select).data('calc');
+	dataStandard = $(select).data('ds-standard');
+	chartData = $(select).data('ds-binding');
+	dataCalc = $(select).data('ds-calc');
 	dataItem = eval(chartData);
-	dataSubStandard = $(select).data('substandard');
+	dataSubStandard = $(select).data('ds-substandard');
 	resultArr3 = [];
-	//button click시 넘어올 데이터가 담길 객체
+	//button click시 넘어올 데이터가 담길 객체ds-
 	let btnClickDataset = clickdata;
 
-	let dataNamingTransfer = eval($(select).data('transfer-naming'));
+	let dataNamingTransfer = eval($(select).data('ds-transfer-naming'));
 
 	// circle-data-binding
-	let data_detail_space = $(select).data('calc-detail');
+	let data_detail_space = $(select).data('ds-calc-detail');
 	if(data_detail_space != null){
 		calc_detail = data_detail_space.split(' ');
 	}
@@ -1439,14 +1578,13 @@ const chartDataBinding = function(name, clickdata){
 		if(calc_detail[0] == 'div'){
 
 		}
-		let x = $(select).data('x')
+		let x = $(select).data('ds-x')
 		if(typeof x === 'string'){
 			let resultArr2 = [];
 			if(name == 'line' && dataStandard != null){
 
 				if(btnClickDataset != ''){
 					// button click 시 데이터가 넘어왔을때 binding
-					console.log('ok!!')
 					$.each(dataItem, function(){
 						if(this[dataStandard] == btnClickDataset[0] && this[dataSubStandard] == btnClickDataset[1]){
 							resultArr.push(this)
@@ -1705,7 +1843,7 @@ const chartDataBinding = function(name, clickdata){
 		}
 	} else {
 		// 하나의 data로 인하여 총합과 평균을 구해서 차트를 그리거나, 총합 / 평균을 구하지 않고 차트를 그리는 경우
-		let x = $(select).data('x')
+		let x = $(select).data('ds-x')
 		if(typeof x === 'string'){
 			let resultArr2 = [];
 			if(name == 'line' && dataStandard != null){
@@ -1717,7 +1855,6 @@ const chartDataBinding = function(name, clickdata){
 				})
 				if(btnClickDataset != ''){
 					// button click 시 데이터가 넘어왔을때 binding
-					console.log('ok!!');
 					if(btnClickDataset[2] == '년도별'){
 						for(let i =0; i< (btnClickDataset[4]-btnClickDataset[3])+1;i++){
 							resultArr3.push((btnClickDataset[3])*1+i);
@@ -1832,6 +1969,7 @@ const chartDataBinding = function(name, clickdata){
 				}
 
 			} else {
+
 				$.each(dataItem, function(){
 					let data = this[x];
 					if($.inArray(data, resultArr2) === -1){
@@ -1903,10 +2041,8 @@ const chartDataBinding = function(name, clickdata){
 					dataAfterWork.push(ex2Object);
 				}
 			}
-		}
-		else {
+		} else {
 			//하나의 데이터로 line chart를 그릴때
-
 			$.each(dataItem, function(){
 				let data = this[dataStandard];
 				if($.inArray(data, resultArr) === -1){
@@ -1936,7 +2072,7 @@ const chartDataBinding = function(name, clickdata){
 				let j = 0;
 				$.each(dataItem, function(){
 					if(this[dataStandard] == resultArr[i]){
-						calc=calc+this['calc'];
+						calc=calc+this[data_detail_space];
 						j++;
 					}
 				})
@@ -1963,4 +2099,41 @@ function getParameterByName(name) {
 	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
 	results = regex.exec(location.search);
 	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+//location
+const locationevent = () => {
+	$('.location').click(function () {
+		let location_addr = $(this).parent().data('location');
+		if (location_addr == undefined) {
+			location_addr = '#'
+		}
+		// location.replace(location_addr);
+		location.href = location_addr;
+	})
+}
+
+//refresh 기능
+//fresh time의 단위는 s이다
+const refreshevent = (target, time) => {
+	if (target == undefined) {
+		target = $('.refresh')
+	}
+	if (time == undefined) {
+		time = 500;
+	}
+	$(target).click(function () {
+		$('.App').append(
+				"<div class='overlay'>" +
+				"<div class='loader'>" +
+				"</div>" +
+				"</div>"
+		)
+		let time_set = time / 1000;
+		$('.loader').css({
+			'animation': "spin " + time_set + "s linear"
+		})
+		setTimeout(function () {
+			location.reload();
+		}, time);
+	})
 }
