@@ -218,7 +218,7 @@
    border-bottom-right-radius: 5px;
    margin-bottom: 9px;
 }
-.periodpicker {
+.ds-ui-periodpicker {
    flex: 1;
    display: flex;
    flex-direction: row;
@@ -839,8 +839,10 @@
 
 /*  추가  */
 .ds-ui-imgView {
-   display: inline-block;
+	/*
    width: calc(100% - (73px));
+	*/
+	width : 100px;
 }
 
 .ds-ui-imgView>img {
@@ -963,7 +965,7 @@
    margin: 2%;
 }
 
-.data-table {
+.ds-ui-data-table {
    font-size: 12px;
    color: #444;
    font-family: "museo-sans", "aller", arial;
@@ -1134,10 +1136,9 @@
    width: 24px;
 }
 .popup-columns {
-   text-align: left;
-   background-color: white;
-   box-shadow: inset 0px 17px 53px -31px rgba(0,0,0,0.2);
-   grid-row-gap: 1px;
+    text-align: left;
+    background-color: white;
+    box-shadow: inset 0px 17px 53px -31px rgba(0,0,0,0.2);
 }
 .popup-column {
    padding: 0 0 0 10%;
@@ -1157,9 +1158,6 @@
 }
 .popup-body .column-off {
    background-color: white;
-   -webkit-box-shadow: inset 260px 0px 85px -45px rgba(255,0,0,0.59);
-   -moz-box-shadow: inset 260px 0px 85px -45px rgba(255,0,0,0.59);
-   box-shadow: inset 260px 0px 85px -45px rgba(255,0,0,0.59);
    transition: cubic-bezier(0.4, 0, 1, 1) all 0.3s;
 }
 .off {
@@ -1715,7 +1713,7 @@
 .messageView {
    position: absolute;
    width: 90%;
-   height: 24%;
+   height: auto;
    top: 50%;
    left: 50%;
    transform: translate(-50%, -50%);
@@ -1735,7 +1733,7 @@
    height: 100%;
    font-size: 1.2em;
    align-items: center;
-   margin-left: 5%;
+   margin-left: 3%;
 }
 .message-wrap .message-footer {
    align-items: flex-end;
@@ -1745,6 +1743,7 @@
    height: 100%;
    font-size: 1.2em;
    margin-right: 5%;
+   margin-bottom: 2%;
 }
 .message-footer .set-wrap {
    display: flex;
@@ -1768,13 +1767,17 @@
    padding: 2% 0 2% 0;
 }
 .message-content .message-desc {
-   font-size: medium;
+   font-size: 0.9rem;
    padding: 4% 0 4% 0;
    text-align: left;
+   width: 71%;
+}
+.message-desc span {
+   vertical-align: middle;
 }
 .message-content .message-img {
-   margin-right: 7%;
-   width: 64px;
+   margin-right: 3%;
+   width: 50px;
 }
 .error-content .error-desc {
    height: 100px;

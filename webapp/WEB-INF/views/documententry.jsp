@@ -110,7 +110,7 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/app.js"></script>
 	<script>
-		const exampleData = [ {
+		/* const exampleData = [ {
 			no : 1,
 			company : 'A',
 			good : 'tv',
@@ -480,7 +480,7 @@
 		}, {
 			category : 'minus',
 			transname : '지출'
-		} ];
+		} ]; */
 	</script>
 
 </body>

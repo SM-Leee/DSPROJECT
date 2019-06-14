@@ -1,6 +1,6 @@
 // 해당 elment에 data-imgurl이 있다면
-const imgview = () => {
-    let img = $('img');
+const imgView = () => {
+    let img = $('.ds-ui-img');
     img.click(function () {
         let imgUrl = $(this).data('imgurl');
         showImg(viewImgHTML, imgUrl)

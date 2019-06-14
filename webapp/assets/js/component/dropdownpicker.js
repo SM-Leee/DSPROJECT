@@ -24,22 +24,30 @@ const dropdownPicker = function(){
 			if(databinding != undefined){
 				let value_field;
 				let text_field;
-				for(let i = 0; i<eval(databinding).length; i++){
+				try{
+					for(let i = 0; i<eval(databinding).length; i++){
 
-					$.each(eval(databinding)[i], function(key,value){
-						if(key == thiscomponent.data('ds-value-field')){
-							value_field = value;
-						}
-						if(key == thiscomponent.data('ds-text-field')){
-							text_field = value;
-						}
-					})
-					$(this).append('<option value="'+value_field+'">'+text_field+'</option>')
+						$.each(eval(databinding)[i], function(key,value){
+							if(key == thiscomponent.data('ds-value-field')){
+								value_field = value;
+							}
+							if(key == thiscomponent.data('ds-text-field')){
+								text_field = value;
+							}
+						})
+						$(this).append('<option value="'+value_field+'">'+text_field+'</option>')
+					}
+				} catch(error) {
+					console.error('ds-item-binding : Json Object dose not exist.');
 				}
 			}
-			let statusData = eval($(this).data('ds-binding'));
-			//no 값이 존재할때 data 넘기는것!
-
+			try{
+				statusData = eval($(this).data('ds-binding'));
+			}catch(error) {
+				statusData=undefined;
+				console.error('Json Object dose not exist.');
+			}
+			
 			no = no*1;
 			let newArr;
 			if(statusData != undefined){

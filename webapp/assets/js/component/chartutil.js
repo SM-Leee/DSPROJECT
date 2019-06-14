@@ -3,7 +3,6 @@ let layout = (className) => {
 	return ($(className).height() < $(className).width() ? $(className).height() : $(className).width());
 }
 let index_position = (select_tag, dataSet) => {
-	console.log(dataSet)
 	let typeofvalue = '';
 	let dataSetMake;
 	$.each(dataSet[0], function(key,value){
@@ -180,7 +179,12 @@ let data_background = (dataSet, select_tag) => {
 					$(select_tag+'.axis-X').append('<label>'+dataSet[i]['grade']+'</label>')
 				}
 			} else {
-				let dataNamingTransfer = eval($(select_tag).data('ds-transfer-naming'));
+				let dataNamingTransfer = '';
+				try{
+					dataNamingTransfer = eval($(select_tag).data('ds-transfer-naming'));
+				} catch(error){
+					console.error('ds-transfer-naming : Json Object dose not exist.');
+				}
 				let falsetrue = false;
 				for(let i = 0; i < dataSet.length; i++){
 					if(dataNamingTransfer != undefined){

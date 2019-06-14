@@ -1,6 +1,6 @@
 const cardlistSetting = () => {
     refreshevent($('#refresh'), 500)
-    const cardlistUi = $('.ds-ui-cardlistAll')
+    const cardlistUi = $('.ds-ui-cardlistAllBox')
     let icons = []
     var icons_input = [];
     let cardlistUi_children = $(cardlistUi).children('div');;
@@ -10,6 +10,8 @@ const cardlistSetting = () => {
     // icon end
     icons = iconLoad(icons_input)
     let cardlistAfterWork_result = cardlistDataBinding();
+    if (!cardlistAfterWork_result) return
+
     let data_length = ($(cardlistAfterWork_result[0]).length - 2)
 
     var colors = []
@@ -99,7 +101,7 @@ const cardlistSetting = () => {
         let icon_item = [];
         icon_item[0] = $(cardlistUi).data('icon');
         let icons = icon_item[0].split(' ')
-        setting(cardlist, icons, $('.ds-ui-cardlistAll').data('mapping'));
+        setting(cardlist, icons, $('.ds-ui-cardlistAllBox').data('ds-mapping'));
     }
 
 
@@ -111,7 +113,6 @@ const cardlistSetting = () => {
         $(cardlistUi).empty()
 
         cardlistSearch_result = cardlistSearch(cardlistAfterWork_result, period_date);
-
         var colors = []
         cardlistSearch_result.map(function (dataSet, i) {
             if (data_length === 1) {
@@ -201,7 +202,7 @@ const cardlistSetting = () => {
             let icon_item = [];
             icon_item[0] = $(cardlistUi).data('icon');
             let icons = icon_item[0].split(' ')
-            setting(cardlist, icons, $('.ds-ui-cardlistAll').data('mapping'));
+            setting(cardlist, icons, $('.ds-ui-cardlistAllBox').data('ds-mapping'));
         }
         deleteTargetCheck();
         statuslViewCheck();
@@ -223,7 +224,7 @@ const setting = function (target, icon_target, data) {
     let targetWidth = $(target).outerWidth();
     for (var i = 0; i < target.length; i++) {
         $(target[i]).append(
-            "<div class='ds-ui-setting'" + "data-mapping='" + data + "' >" +
+            "<div class='ds-ui-setting'" + "data-ds-mapping='" + data + "' >" +
             $(settingUi).html() +
             "</div>"
         );

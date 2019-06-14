@@ -2,7 +2,8 @@
 const footerSetting = () => {
     let disabled,
         data;
-    data = $('.footer').data('mapping');
+    
+    data = $('.footer').data('ds-binding');
     if ($('.footer').data('disabled') == true) {
         $('.footer').css('visibility', 'hidden')
     }
@@ -32,6 +33,8 @@ const footerSetting = () => {
 
     //  footerDataBinding
     const footerAlltag = $(footerAllItem).children('p');
+    
+  
     footerDataBinding(footerAlltag, data)
 
 

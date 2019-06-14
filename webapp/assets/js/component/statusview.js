@@ -15,7 +15,7 @@ const statuslViewCheck = () => {
 const statusViewSetting = (btn) => {
     $(btn).on('click', function (e) {
         let no = $(this).parent().data('no')
-        let data = $(this).parent().data('mapping')
+        let data = $(this).parent().data('ds-mapping')
         let statusViewData = statusViewMapping(no, data);
 
         let statusCols = [];
@@ -34,7 +34,7 @@ const statusViewSetting = (btn) => {
         for (var i = 0; i < statusCols.length; i++) {
             if (statusCols[i] == 'header') {
                 let icon = (Object.values(statusResult)[i] == '') ? defaultImgIcon :
-                    "<img data-imgurl='" + Object.values(statusResult)[i] + "'" + " class='imgUrl' src='" + Object.values(statusResult)[i] + "'" + "/>"
+                    "<img data-imgurl='" + Object.values(statusResult)[i] + "'" + " class='ds-ui-img' src='" + Object.values(statusResult)[i] + "'" + "/>"
                 header +=
                     "<div class='statusView-header'>" +
                     icon +
@@ -85,7 +85,7 @@ const statusViewSetting = (btn) => {
             'height': headerDiv + 'px'
         })
         $('.status-img').children('i').css('line-height', headerDiv + 'px');
-        imgview($('.imgUrl'))
+        imgView($('.ds-ui-img'))
         closeStatusView($('.statusView'))
     })
 }
@@ -124,25 +124,3 @@ const closeStatusView = (touchLocate) => {
         }
     })
 }
-
-// img Viewer
-// const imgview = (imgBtn) => {
-//     let imgUrl = imgBtn.data('imgurl');
-//     imgBtn.click(function () {
-//         showImg(viewImgHTML, imgUrl)
-//     })
-// } 
-// var viewImgHTML =
-//     "<div class='imgViewBox'>" +
-//     "<div class='overlay'></div>" +
-//     "<div class='imgView'>" +
-//     "</div>" +
-//     "</div>";
-
-// const showImg = (html, imgUrl) => {
-//     $('.App').append(html);
-//     $('.imgView').append(
-//         "<img src='" + imgUrl + "'>"
-//     )
-//     closeStatusView($('.imgView'))
-// }

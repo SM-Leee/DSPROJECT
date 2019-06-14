@@ -138,7 +138,7 @@
 						 입력된 데이터가 안넘어 왔을때 하나 총 두개를 만들어라 -->
 		</div>
 
-		<div class="footer" data-mapping='exampleData'>
+		<!-- <div class="footer" data-mapping='exampleData'>
 			<div class="ds-ui-footerBox">
 				<div data-color='#00AAF0' data-direction='horizen'>
 					<p>A 회사 총 수입 금액</p>
@@ -164,7 +164,7 @@
 			</div>
 		</div>
 	<div id='ds-ui-staticBtn' data-float='true'></div>
-	</div>
+	</div> -->
 
 
 	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>

@@ -9,7 +9,7 @@ ds_msgbox.html =
                 "</div>" +
                 "<div class='message-content'>" +
                     "<img class='message-img'>" +
-                    "<div class='message-desc'><pre></pre></div>" +
+                    "<div class='message-desc'><span></span></div>" +
                 "</div>" +
                 "<div class='message-footer'>" +
                     "<div class='set-wrap'>" +
@@ -39,7 +39,7 @@ ds_msgbox.alert = (msg, ico) => {
     
     if(msg_img == '') $('.messageBox .message-img').remove();
     $('.messageBox .message-title').append("<span>확인</span");
-    $('.messageBox .message-desc>pre').text(msg);
+    $('.messageBox .message-desc>span').text(msg);
     $('.messageBox .message-img').attr('src', msg_img);
     
 
@@ -71,14 +71,13 @@ ds_msgbox.confirm = (msg, ico) => {
         default :
             msg_img = '../assets/images/icon-check.png';
             break;
-            
     }
     
     if(msg_img == '') $('.messageBox .message-img').remove();
     else $('.messageBox .message-img').attr('src', msg_img);
 
     $('.messageBox .message-title').append("<span>선택</span");
-    $('.messageBox .message-desc>pre').text(msg);
+    $('.messageBox .message-desc>span').text(msg);
     $('.messageBox .message-footer a').remove();
     $('.messageBox .message-footer .set-wrap').append("<a class='yes'>예</a>");
     $('.messageBox .message-footer .set-wrap').append("<a class='no'>아니요</a>");
@@ -115,20 +114,18 @@ ds_msgbox.error = (msg) => {
     $('.messageBox .message-title').append("<span>오류</span");
     if(typeof msg == "object") {
         $('.messageBox .message-footer .set-wrap').append("<a class='detail'>자세히 ▼</a>");
-        $('.messageBox .message-desc>pre').text(msg.message);
+        $('.messageBox .message-desc>span').text(msg.message);
         $('.messageBox .message-content').after("<div class='error-content off'><pre class='error-desc'>" + msg.error + "</pre></div>");
         $('.messageBox .set-wrap').find('.detail').unbind('click').bind('click', (e) => {
             let $msgWindow = $('.messageBox .messageView');
             if($msgWindow.find('.error-content').is('.off')) {
-                $msgWindow.attr('style', 'height:43%');
                 $msgWindow.find('.error-content').removeClass('off');
             } else {
-                $msgWindow.removeAttr('style');
                 $msgWindow.find('.error-content').addClass('off');
             }
         });
     } else{
-        $('.messageBox .message-desc>pre').text(msg);
+        $('.messageBox .message-desc>span').text(msg);
     }
 
     $('.messageBox').children('.overlay').unbind('click').bind('click', (e) => {

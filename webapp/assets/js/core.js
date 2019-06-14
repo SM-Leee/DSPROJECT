@@ -1,35 +1,35 @@
 /*document.open();*/
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/falsepiechart.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/falsepiechart.js' ><" + "/script>");
 
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/input.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/header-title.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/header-togglemenu.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/navigator-submenu.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/dropdownpicker.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/datepicker.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/periodpicker.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/input.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/header-title.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/header-togglemenu.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/navigator-submenu.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/dropdownpicker.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/datepicker.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/periodpicker.js' ><" + "/script>");
 
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/chartutil.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/piechart.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/radarchart.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/linechart.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/bubblechart.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/barchart.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/chartutil.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/piechart.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/radarchart.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/linechart.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/bubblechart.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/barchart.js' ><" + "/script>");
 
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/footer.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/button.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/cardlist.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/staticbutton.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/statusview.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/footer.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/button.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/cardlist.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/staticbutton.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/statusview.js' ><" + "/script>");
 
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/dataTable.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/accordion.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/checkbox.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/radiobutton.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/rangeslider.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/msgbox.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/toggle-button.js' ><" + "/script>");
-document.write("<script type='text/javascript' src='"+window.location.pathname+"/../assets/js/component/imgview.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/dataTable.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/accordion.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/checkbox.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/radiobutton.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/rangeslider.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/msgbox.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/toggle-button.js' ><" + "/script>");
+document.write("<script type='text/javascript' src='"+window.location.pathname+"/../../assets/js/component/imgview.js' ><" + "/script>");
 
 /*docuemnt.close();*/
 function component(){
@@ -37,10 +37,11 @@ function component(){
 	headerTitle()
 	headerToggleMenu();
 	navigatorSubmenu();
+	dataTable();
 	inputFormat();
 	dropdownPicker();
-	periodPicker();
 	datePicker();
+	periodPicker();
 	falsepiechart();
 	cardlistSetting();
 	footerSetting();
@@ -48,9 +49,6 @@ function component(){
 	
 	toggleButton(); 
 	messageBox();
-	if($('.data-table').length != 0) {
-		dataTable();
-	}
 	/* 원형 차트 */
 	/* 기본적인 형태는 갖춰졌지만 UI적인 수정이 필요함 */
 	$('.circle').each(function(){

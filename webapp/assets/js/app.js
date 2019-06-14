@@ -14,12 +14,22 @@ const defaultIcon = [{
 	none: "<i class='none fas fa-times'></i>",
 	location : "<i class='location fas fa-door-open'></i>"
 }]
+const dataObjectExistenceCheck = ($target) => {
+	try {
+		eval($target.data('ds-binding'))
+		eval($target.data('ds-mapping'))
+	} catch (error) {
+		console.error('Json Object dose not exist.');
+		return false;
+	}
+	return true;
+}
 $(document).ready(function () {	
 
 	let pielinedata;
-	/*if($(".circle").length!=0){
-		pielinedata =chartDataBinding('circle');		
-	}*/
+	/*
+	 * if($(".circle").length!=0){ pielinedata =chartDataBinding('circle'); }
+	 */
 	ToggleButton();
 	DropdownPicker();
 	inputBoxFormat();
@@ -37,7 +47,7 @@ $(document).ready(function () {
 	dataTableOper();
 	deleteTargetCheck();
 	statuslViewCheck();
-	imgview();
+	imgView();
 	locationevent();
 });
 const lineChartTileClick = (Target) => {
@@ -63,7 +73,7 @@ const lineChartTileClick = (Target) => {
 			.append(chartFilterHtml)
 
 
-			//  기간
+			// 기간
 			let filterData = filterMapping($(this))
 
 			filterData[0].push('기간')
@@ -153,7 +163,7 @@ const lineChartTileClick = (Target) => {
 				const date = new Date();
 
 
-			//  detail Year
+			// detail Year
 			const dateFilterDetail = (target, num) => {
 				let date_set = (date.getFullYear() - num) == 0 ? 1 : (date.getFullYear() - num) + 1;
 				for (var i = 0; i < date_set; i++) {
@@ -175,7 +185,7 @@ const lineChartTileClick = (Target) => {
 				}
 			}
 
-			// 년도별, 해당년도에 해당하는 월별, 
+			// 년도별, 해당년도에 해당하는 월별,
 			$('.date-item').click(function () {
 				let date_no = $(this).data('date-filter');
 				filter_value = $(this).text();
@@ -360,14 +370,19 @@ const modifyevent = () => {
 
 const cardlistDataBinding = () => {
 	// data mapping, binding
-	const cardlistUi = $('.ds-ui-cardlistAll');
+
+
+	let jsonObjectlsTure = dataObjectExistenceCheck($('.ds-ui-cardlistAllBox'))
+	if(!jsonObjectlsTure) return;
+
+	const cardlistUi = $('.ds-ui-cardlistAllBox');
 	let cardlist_detail = [];
 	let cardlistAfterWork = [];
 	let data_cardlist_detail = [];
-	cardlistData = $(cardlistUi).data('mapping');
+	cardlistData = $(cardlistUi).data('ds-mapping');
 	let col_num = $(cardlistUi).children('div');
 	for (var i = 0; i < col_num.length; i++) {
-		data_cardlist_detail[i] = $(col_num[i]).data('detail');
+		data_cardlist_detail[i] = $(col_num[i]).data('ds-detail');
 	}
 	cardItem = eval(cardlistData)
 	if (col_num.length == 1) {
@@ -385,7 +400,7 @@ const cardlistDataBinding = () => {
 	})
 	cardlistUi.empty()
 
-	category = $(cardlistUi).data('category');
+	category = $(cardlistUi).data('ds-category');
 	if (category != null) {
 		const category_obj = []
 		$.each(cardItem, function (j) {
@@ -472,6 +487,7 @@ const cardlistSearch = (cardlistAfterData, period_date) => {
 }
 
 
+
 //delete cardlist
 const deleteTargetCheck = () => {
 	const removeBtn = $('.removeBtn');
@@ -482,17 +498,26 @@ const deleteTargetCheck = () => {
 const deleteSetting = (btn) => {
 	$(btn).on('click', function () {
 		let no = $(this).parent().data('no')
-		if (no == undefined) {
-			$(this).parent().css('display', 'none')
-		}
-
+		let delete_target = $(this);
 		const cardlistItem = $('.ds-ui-cardlist');
-		for (var i = 0; i < cardlistItem.length; i++) {
-			if ($(cardlistItem[i]).data('no') == no) {
-				$(cardlistItem[i]).css('display', 'none')
-			}
+		if (no == undefined) {
+			ds_msgbox.confirm('삭제하시겠습니까?')
+			.yes(function () {
+				$(delete_target).parent().css('display', 'none')
+			}).no(function () {});
+		} else {
+			// cardlist
+			ds_msgbox.confirm('삭제하시겠습니까?')
+			.yes(function () {
+				// delete_target.parent().parent().css('display', 'none')
+				for(var i = 0; i < cardlistItem.length; i ++) {
+					if($(cardlistItem[i]).data('no') == no){
+						$(cardlistItem[i]).css('display', 'none');
+					}
+				}
+			}).no(function () {
+			});
 		}
-
 		// 삭제
 		// let test = {};
 		// test = eval(exampleData2);
@@ -503,10 +528,7 @@ const deleteSetting = (btn) => {
 		// });
 		// const idx = test.indexOf(itemToFind)
 		// if (idx > -1) test.splice(idx, 1)
-
-
 		// console.log(eval(exampleData2))
-
 	})
 }
 
@@ -534,7 +556,7 @@ const statusViewMapping = (no, data) => {
 	const colName = []
 	const newName = {}
 	var keyname = ''
-		//  json key rename
+		// json key rename
 		for (var i = 0; i < statusViewOption.length; i++) {
 			$.each(statusViewOption[i], function (key, value) {
 				if (key == 'col') {
@@ -632,32 +654,32 @@ const fileUploadButton = function(){
 		} else{
 			$(this).val("");
 		}
-		// 추출한 파일명 삽입 
+		// 추출한 파일명 삽입
 		$(this).siblings('.upload-name').val(filename);
 	});
 }
 
 const buttonClick = function(){
-	/*input data*/
+	/* input data */
 	$('.basicBtn').click(function(){
 		if(getParameterByName('no') != ''){
 			location.href='byperiod';
 		}
 
-		/*datepicker data*/
+		/* datepicker data */
 		console.log($('.ds-ui-datepicker-box input').val());
-		/*dropdown data*/
+		/* dropdown data */
 		console.log($('.dropdown-picker').val())
 		$('.ds-ui-input input').each(function(){
 			if($(this).closest("div").hasClass("kwdnumber")===true){
-				/*input kwdnumber가 존재하는경우 , 삭제 된 상태*/
+				/* input kwdnumber가 존재하는경우 , 삭제 된 상태 */
 				console.log($(this).val().replace(/\D/g, ""));
 			} else{
-				/*input data*/
+				/* input data */
 				console.log($(this).val());
 			}
 		});
-		/*textarea data (Big input 창)*/
+		/* textarea data (Big input 창) */
 		console.log($('.ds-ui-input textarea').val());
 	});
 }
@@ -720,20 +742,21 @@ const SubtopicTouchSlider = function(SubtopicList){
 
 //footerBinding
 const footerDataBinding = (footerAlltag, data_set) => {
+	let jsonObjectlsTure = dataObjectExistenceCheck($('.footer'))
+	if(!jsonObjectlsTure) return;
 	for (var i = 0; i < footerAlltag.length; i++) {
 		dataItem = eval(data_set);
 		let calc_standard;
 		let calc_detail;
 		// circle-data-binding
-		let data_standard_space = $(footerAlltag[i]).data('standard')
+		let data_standard_space = $(footerAlltag[i]).data('ds-standard')
 		if (data_standard_space != null) {
 			calc_standard = data_standard_space.split(' ');
 		}
-		let data_detail_space = $(footerAlltag[i]).data('calc-detail');
+		let data_detail_space = $(footerAlltag[i]).data('ds-calc-detail');
 		if (data_detail_space != null) {
 			calc_detail = data_detail_space.split(' ');
 		}
-
 		let data = 0;
 		if (calc_detail != undefined && calc_standard != undefined) {
 			let dataAfter = []
@@ -755,7 +778,8 @@ const footerDataBinding = (footerAlltag, data_set) => {
 				}
 			}
 			if (calc_detail[0] === 'mul' || calc_detail[0] === 'add' || calc_detail[0] === 'sub' || calc_detail[0] === 'div') {
-				// data-calc에서 총합 / 평균을 바로 구하는게 아니라 두개 이상의 데이터를 연관지어 계산해서 총합 / 평균을 구하고 싶을 경우 여기에 들어온다.
+				// data-calc에서 총합 / 평균을 바로 구하는게 아니라 두개 이상의 데이터를 연관지어 계산해서 총합 /
+				// 평균을 구하고 싶을 경우 여기에 들어온다.
 				if (calc_detail[0] == 'add') {
 					let totalData = 0;
 
@@ -782,6 +806,7 @@ const footerDataBinding = (footerAlltag, data_set) => {
 		}
 	}
 }
+
 //footerTouchSlider
 const footerTouchSlider = (footerBoxList) => {
 	let size = $('.App').width();
@@ -815,7 +840,7 @@ const footerTouchSlider = (footerBoxList) => {
 
 //dataTable
 const dataTableOper = () => {
-	if($('.data-table').length == 0) return;
+	if($('.ds-ui-data-table').length == 0) return;
 	dataTable_Customizing();
 	dataTable_Render();
 	dataTable_Search();
@@ -824,7 +849,7 @@ const dataTableOper = () => {
 //표시하길 원하는 컬럼의 명과 그의 별명부여.
 const dataTable_Customizing = () => {
 
-	let $dataTable = $('.data-table'),
+	let $dataTable = $('.ds-ui-data-table'),
 	dsCustomize = eval($dataTable.data('dsCustomizing')),
 	customize_Object = Object.entries(dsCustomize),
 	dataTableObject = eval($dataTable.data('dsBinding')),
@@ -856,7 +881,7 @@ const dataTable_Customizing = () => {
 	});
 	// $dataTable.data('dsColumnHeader')
 
-	// console.log(dataTableObject);    // after
+	// console.log(dataTableObject); // after
 
 }
 
@@ -868,7 +893,7 @@ const dataTable_Render = function(dataTableObject) {
 	fxRendering();
 	fx_Toggle();
 	dataTable_Sort();
-	viewImgUrl($('.data-table .grid-row .ext-img'));
+	imgView();
 }
 
 //dataTable - search... : s
@@ -881,8 +906,9 @@ const dataTable_Search = () => {
 		$inputSearch.on('keyup', (e) => {
 			let input = e.target.value.toLowerCase().trim();
 			if(input == '') {
-				// $('.data-table .grid-row-header .header-column, .data-table .grid-body .grid-row').removeClass('searched');
-				console.log('removeClass : searched!');
+				// $('.data-table .grid-row-header .header-column, .data-table
+				// .grid-body .grid-row').removeClass('searched');
+				// console.log('removeClass : searched!');
 				dataTable_Re_Render();
 				return;
 			}
@@ -892,7 +918,7 @@ const dataTable_Search = () => {
 };
 
 const onFilter = function(val) { // get value from input
-	let tableData = eval($('.data-table').data('dsBinding')),
+	let tableData = eval($('.ds-ui-data-table').data('dsBinding')),
 	searchedTableData = [],
 	filter_reg = new RegExp(val);
 	$.each(tableData, function(index, row) {
@@ -912,9 +938,9 @@ const onFilter = function(val) { // get value from input
 
 const dataTable_Re_Render = function (searchedTableData) {
 	// dataTable remove
-	$('.data-table-wrap .data-table').children().remove();
-	$('.data-table').unwrap('.data-table-wrap');
-	$('.data-table').parents('.popupBox').remove();
+	$('.data-table-wrap .ds-ui-data-table').children().remove();
+	$('.ds-ui-data-table').unwrap('.data-table-wrap');
+	$('.ds-ui-data-table').parents('.popupBox').remove();
 	// dataTable render
 	dataTable();
 	dataTable_Render(searchedTableData);
@@ -923,7 +949,7 @@ const dataTable_Re_Render = function (searchedTableData) {
 
 //dataTable - DataBinding...
 const dataTableBind = (tableData) => {
-	let $dataTable = $('.data-table'),
+	let $dataTable = $('.ds-ui-data-table'),
 	dataObject = eval($dataTable.data('dsBinding'));
 	if(tableData.length != 0)   dataObject = tableData;
 	// console.log(dataObject);
@@ -932,7 +958,7 @@ const dataTableBind = (tableData) => {
 
 		// dsColumnHeader Presence Check
 		if(columnHeaderName != undefined) {
-			//is True -> in dataObject's key check
+			// is True -> in dataObject's key check
 			if(!columnHeaderName in dataObject[0]) {
 				console.error('data-ds-column-Header does not exist in DataObject');
 				return ;
@@ -973,11 +999,11 @@ const dataTableBind = (tableData) => {
 					const EXT = checkExtension(cell_data);
 					switch(EXT) {
 					case "Image" : {
-						cell_data = "<img data-imgurl=" + cell_data + " src=" + 'https://cdn3.iconfinder.com/data/icons/galaxy-open-line-gradient-i/200/image-512.png' + " class=ext-img />";
+						cell_data = "<img data-imgurl=" + cell_data + " src=" + 'https://cdn3.iconfinder.com/data/icons/galaxy-open-line-gradient-i/200/image-32.png' + " class='ds-ui-img' />";
 						break;
 					}
 					case "Document" : {
-						cell_data = "<a href=" + cell_data + "><img src='https://cdn3.iconfinder.com/data/icons/galaxy-open-line-gradient-i/200/memo-512.png' alt='documentfile' class='ext-doc' /></a>";
+						cell_data = "<a href=" + cell_data + "><img src='https://cdn3.iconfinder.com/data/icons/galaxy-open-line-gradient-i/200/memo-32.png' alt='documentfile' class='ds-ui-doc' /></a>";
 						break;
 					}
 					}
@@ -989,10 +1015,10 @@ const dataTableBind = (tableData) => {
 				rowHeader += '<div class="header-column r' + (index + 1) + '">' + rowData[columnHeaderName] +'</div>';
 
 			});
-			$('.data-table .grid-row-header').append(rowHeader);
-			$('.data-table .grid-body').append(rowsColumns);
-			$('.data-table .grid-header').append(columnHeader);
-			$('.data-table .grid-footer').append(columnFooter);
+			$('.ds-ui-data-table .grid-row-header').append(rowHeader);
+			$('.ds-ui-data-table .grid-body').append(rowsColumns);
+			$('.ds-ui-data-table .grid-header').append(columnHeader);
+			$('.ds-ui-data-table .grid-footer').append(columnFooter);
 
 		}
 	}
@@ -1005,7 +1031,7 @@ const dataTableBind = (tableData) => {
 
 //toggle totals & average
 const fx_Toggle = () => {
-	let $fx = $('.data-table .grid-footer-header');
+	let $fx = $('.ds-ui-data-table .grid-footer-header');
 	if($fx.length != 0) {
 		$fx.children().on('click', (e) => {
 			if($fx.children().text() == 'Totals') $fx.children().text('Average');
@@ -1017,13 +1043,13 @@ const fx_Toggle = () => {
 
 const fxRendering = () => {
 	// Totals, Average인지 구분
-	if(!$('.data-table .grid-footer-header')) return console.error('The .grid-footer-header does not exist.');
+	if(!$('.ds-ui-data-table .grid-footer-header')) return console.error('The .grid-footer-header does not exist.');
 
-	let $footerHeader = $('.data-table .grid-footer-header');
+	let $footerHeader = $('.ds-ui-data-table .grid-footer-header');
 	let columnText = $footerHeader.children().text();
 
 	// Included characters check...
-	let $footerColumns = $('.data-table .grid-footer').children(),
+	let $footerColumns = $('.ds-ui-data-table .grid-footer').children(),
 	fx = {
 		sum:[],
 		average:[]
@@ -1031,7 +1057,7 @@ const fxRendering = () => {
 
 	$footerColumns.each((index1, column) => {
 		let cellNumber = null;
-		$('.data-table-wrap .data-table .grid-body .' + column.classList[1]).each((index2, cell) => {
+		$('.data-table-wrap .ds-ui-data-table .grid-body .' + column.classList[1]).each((index2, cell) => {
 			if(index2==0) cellNumber = 0;
 			let cellText = cell.innerText;
 			if(cellNumber == 'NaN') return;
@@ -1042,17 +1068,17 @@ const fxRendering = () => {
 			cellNumber += parseFloat(cellText);
 		});
 
-		//render
+		// render
 		if(cellNumber != 'NaN') {
 			fx.sum.push( { 'column': '.' + column.classList[1], 'value':cellNumber } );
 
-			let avg = cellNumber / $('.data-table-wrap .data-table .grid-body .' + column.classList[1]).length;
+			let avg = cellNumber / $('.data-table-wrap .ds-ui-data-table .grid-body .' + column.classList[1]).length;
 			if(columnText == 'Average') cellNumber = avg;
 			fx.average.push( { 'column': '.' + column.classList[1], 'value':avg } );
 
-			$('.data-table .grid-footer .' + column.classList[1]).text(cellNumber);
+			$('.ds-ui-data-table .grid-footer .' + column.classList[1]).text(cellNumber);
 
-		} else $('.data-table .grid-footer .' + column.classList[1]).text('NaN');
+		} else $('.ds-ui-data-table .grid-footer .' + column.classList[1]).text('NaN');
 	});
 }
 //data-table Total Function : end
@@ -1067,7 +1093,7 @@ const dataTable_Sort = () => {
 };
 //data-table Sort handler
 const sortTable = (self) => {
-	let currentTable = '#' + findRootParentId('.data-table', self),
+	let currentTable = '#' + findRootParentId('.ds-ui-data-table', self),
 	$self = $(self),
 	clickedColumnClass = '.' +  $(self)[0].classList[1],
 	$currentTable = $(currentTable),
@@ -1082,7 +1108,7 @@ const sortTable = (self) => {
 	}
 	// type check number, character
 	let cellNumber = null;
-	$('.data-table-wrap .data-table .grid-body ' + clickedColumnClass).each((index2, cell) => {
+	$('.data-table-wrap .ds-ui-data-table .grid-body ' + clickedColumnClass).each((index2, cell) => {
 		if(index2==0) cellNumber = 0;
 		let cellText = cell.innerText;
 		if(cellNumber == 'NaN') return;
@@ -1094,7 +1120,7 @@ const sortTable = (self) => {
 	});
 
 
-	///////////////////////////////
+	// /////////////////////////////
 	if(cellNumber != 'NaN') {
 		rows.sort((next, current) => { return next.column-current.column; });
 	} else {
@@ -1145,13 +1171,13 @@ const rowRendering = ($currentTable, rows) => {
 //columnOption : s
 const columnOptionHandler = () => {
 	$('.columnSetting-btn').unbind('click').bind('click', (e1) => {
-		let targetRootId = findRootParentId('.data-table', e1.target);
+		let targetRootId = findRootParentId('.ds-ui-data-table', e1.target);
 		// let $dataTablePB = $('#' + targetRootId + '_pb');
 		let dataTablePBId = '#' + targetRootId + '_pb';
 
 		if(targetRootId != null && $(dataTablePBId).length == 0) {
 			dataTableOptionModal($('#' + targetRootId)); // popupBox에 id 부여됨
-			$(dataTablePBId).find('.data-table').attr('style','border:unset');
+			$(dataTablePBId).find('.ds-ui-data-table').attr('style','border:unset');
 			$(dataTablePBId).find('.popup-body').attr('style','padding:unset');
 			$(dataTablePBId).find('#' + targetRootId + '-check').on('click', (e2) => $(dataTablePBId).addClass('popup-off'));
 			$(dataTablePBId).find('.grid-cell').on('click', (e2) => columnSwitch(e2.target ,targetRootId));
@@ -1164,10 +1190,16 @@ const columnSwitch = (self, dataTableId) => {
 	dataTableId = '#' + dataTableId;
 	// let dataTablePBId = dataTableId + '_pb';
 
-	//popupBox's Row
+	// popupBox's Row
 	let $self = $(self); 
 
-	if($self[0].className.indexOf('toggle') != -1 || $self.parent()[0].className.indexOf('toggle') != -1) { // 'toggle has true => find Parent grid-cell
+	if($self[0].className.indexOf('toggle') != -1 || $self.parent()[0].className.indexOf('toggle') != -1) { // 'toggle
+		// has
+		// true
+		// =>
+		// find
+		// Parent
+		// grid-cell
 		$self = $self.parents('.grid-cell');
 	}
 
@@ -1210,7 +1242,7 @@ const dataTableOptionModal = ($dataTable) => {
 
 const decorateModalDataTable = ($dataTable) => {
 	let $targetPB = $('#' + $dataTable[0].id + '_pb');
-	//headerViewRender
+	// headerViewRender
 	let standardColumn = $dataTable.data('dsColumnHeader');
 	// console.log(standardColumn);
 
@@ -1218,18 +1250,18 @@ const decorateModalDataTable = ($dataTable) => {
 		"<div class='popup-data-header'>" +
 		"<div class='data-title'>" +
 		"<span>" + standardColumn + "</span>" +
-		"<img class='standard-change-btn' src='assets/images/arrow-down.png'>" +
+		"<img class='standard-change-btn' src='../assets/images/arrow-down.png'>" +
 		"</div>" +
 		"</div>";
 
 	$targetPB.find('.popup-header')
 	.append(dateHeader);
 
-	//bodyViewRender
-	let dateBody = '<div class="data-table"><div class="grid-body popup-columns">';
+	// bodyViewRender
+	let dateBody = '<div class="ds-ui-data-table"><div class="grid-body popup-columns">';
 	let standardDataBody = 
 		'<div class="popup-change-body off" style="padding:unset;">' +
-		'<div class="data-table" style="border:unset">' +
+		'<div class="ds-ui-data-table" style="border:unset">' +
 		'<div class="grid-body popup-columns">';
 	$dataTable.find('.grid-header').children().each((index, column) => {
 		var columnText = (column.innerText).replace(/▼/gi, '').replace(/▲/gi, '');
@@ -1270,17 +1302,19 @@ const decorateModalDataTable = ($dataTable) => {
 
 //standardColumn change Action
 const stdColumnChange_Action = ($dataTable, $targetPB) => {
-	$std_changeBody = $targetPB.find('.popup-change-body');
-	$std_changeBody.find('a').on('click', (e) => {
-		let clicked_data = $(e.target)[0].previousSibling.data;
-		$dataTable.data('dsColumnHeader', clicked_data);
-		// data-table Re_Render
-		let result = window.confirm("Do you really want to change ? [ " + clicked_data + " ]");
-		if(result  == true) {
-			$('.ds-ui-input.search').children().val('');
-			dataTable_Re_Render([]);
-		} else return;
-	});
+   $std_changeBody = $targetPB.find('.popup-change-body');
+   $std_changeBody.find('a').on('click', (e) => {
+      let clicked_data = $(e.target)[0].previousSibling.data;
+      $dataTable.data('dsColumnHeader', clicked_data);
+      // data-table Re_Render
+      ds_msgbox.confirm("변경하시겠습니까 ? \n [ " + clicked_data + " ]")
+            .yes(function() {
+               $('.ds-ui-input.search').children().val('');
+               dataTable_Re_Render([]);
+            }).no(function() {
+               return;
+            });
+   });
 }
 //standardColumn change Mode...
 const stdColumnChange_Mode = ($targetPB) => {
@@ -1291,12 +1325,12 @@ const stdColumnChange_Mode = ($targetPB) => {
 			$body.removeClass('off');
 			$changeBody.addClass('off');
 			$targetPB.find('.popup-footer').removeClass('off');
-			$targetPB.find('.standard-change-btn').attr('src', 'assets/images/arrow-down.png');
+			$targetPB.find('.standard-change-btn').attr('src', '../assets/images/arrow-down.png');
 		} else {
 			$changeBody.removeClass('off');
 			$body.addClass('off');
 			$targetPB.find('.popup-footer').addClass('off');
-			$targetPB.find('.standard-change-btn').attr('src', 'assets/images/arrow-up.png');
+			$targetPB.find('.standard-change-btn').attr('src', '../assets/images/arrow-up.png');
 		}
 	});
 }
@@ -1335,7 +1369,7 @@ const checkExtension = function(file_url) {
 	return "None";
 }
 const imageExtension = function(file_url) {
-	const IMG_FORMAT = "\.(bmp|gif|jpg|jpeg|png)$"; //image reg
+	const IMG_FORMAT = "\.(bmp|gif|jpg|jpeg|png)$"; // image reg
 	if((new RegExp(IMG_FORMAT, "i")).test(file_url)) return true;
 	return false;
 }
@@ -1397,7 +1431,7 @@ const statusItems = function(formData) {
 		urls = formItemList[i].url;
 		types = formItemList[i].type;
 		icon = ((formItemList[i].type === 'img') ?
-				"<img data-imgurl='" + urls + "'" + " class='imgUrl' src='" + urls + "'" + "/>" :
+				"<img data-imgurl='" + urls + "'" + " class='ds-ui-icon' src='" + urls + "'" + "/>" :
 		"");
 		titles = ((formItemList[i].title != '') ?
 				"<span class='status-title'>" + formItemList[i].title + "</span>" :
@@ -1416,7 +1450,7 @@ const statusItems = function(formData) {
 			if(icon != ''){
 				appendHtml(headerContent, '.statusView-header');
 			}
-		//  body
+		// body
 		formContent =
 			"<div class='" + types + "'>" +
 			titles +
@@ -1428,7 +1462,6 @@ const statusItems = function(formData) {
 			}
 	}
 }
-
 
 
 //radar chart 여러가지 데이터로 만들기
@@ -1462,7 +1495,7 @@ const formItems = function (formData, select) {
 	let chartAfterData = [];
 	for (var i = 0; i < formData.length; i++) {
 
-		//  maxvalue 구하기
+		// maxvalue 구하기
 		let ex2Object = new Object();
 		$.each(formData[i], function (key, value) {
 			let chartMiddleData = [];
@@ -1471,7 +1504,7 @@ const formItems = function (formData, select) {
 				let exObject = new Object();
 				$.each(value2, function (key3, value3) {
 					if (key3 == 'data') {
-						//  소수점 자리수 고정
+						// 소수점 자리수 고정
 						exObject[key3] = ((value3 / maxValues[count]).toFixed(1) * 1);
 
 					} else {
@@ -1514,15 +1547,14 @@ const barClick = (chartBar, chartBarValue) => {
 			'opacity' : '0.5'
 		})
 		chartBarValue.css('display', 'none');
-		/*$(this).children('div').css({
-			'display' : 'block',
-		})
+		/*
+		 * $(this).children('div').css({ 'display' : 'block', })
 		 */
 	})
 }
-let chartData; //data-set 가져오기
+let chartData; // data-set 가져오기
 let calc_detail; // data-calc-detail 가져오기
-let dataAfterWork = []; //새로운 dataSet 만들기
+let dataAfterWork = []; // 새로운 dataSet 만들기
 let dataItem; // 매핑된 data 새롭게 저장
 let dataStandard; // data-standard 가져오기
 //색깔 저장
@@ -1531,27 +1563,52 @@ let chartColor2 = ['blue','blueviolet', 'Aqua', 'coral']
 //bar chart databinding
 const chartDataBinding = function(name, clickdata){
 	dataAfterWork = [];
-	dataStandard = $(select).data('ds-standard');
+	try{
+		dataStandard = $(select).data('ds-standard');		
+	}catch(error) {
+		console.error('data-ds-standard : standard option does not exist.')
+	}
+
+	try{
+		chartData = $(select).data('ds-binding');		
+	}catch(error) {
+		console.error('data-ds-binding : standard option does not exist.')
+	}
 	chartData = $(select).data('ds-binding');
 	dataCalc = $(select).data('ds-calc');
-	dataItem = eval(chartData);
+	try{
+		dataItem = eval(chartData);		
+	}catch(error){
+		console.error('Json Object dose not exist.');
+	}
 	dataSubStandard = $(select).data('ds-substandard');
 	resultArr3 = [];
-	//button click시 넘어올 데이터가 담길 객체ds-
+	// button click시 넘어올 데이터가 담길 객체ds-
 	let btnClickDataset = clickdata;
+	let dataNamingTransfer = '';
+	try{
+		dataNamingTransfer = eval($(select).data('ds-transfer-naming'));
+	}catch(error){
+		console.error('ds-transfer-naming : Json Object dose not exist.');
+	}
 
-	let dataNamingTransfer = eval($(select).data('ds-transfer-naming'));
 
 	// circle-data-binding
-	let data_detail_space = $(select).data('ds-calc-detail');
+	let data_detail_space = '';
+	try{
+		data_detail_space = $(select).data('ds-calc-detail');
+	}catch(error){
+		console.error('data-ds-calc-detail : standard option does not exist.');
+	}
 	if(data_detail_space != null){
 		calc_detail = data_detail_space.split(' ');
 	}
 
 	let resultArr = [];
 	if(calc_detail[0] === 'mul' || calc_detail[0] === 'add' || calc_detail[0] === 'sub' || calc_detail[0] === 'div'){
-		// data-calc에서 총합 / 평균을 바로 구하는게 아니라 두개 이상의 데이터를 연관지어 계산해서 총합 / 평균을 구하고 싶을 경우 여기에 들어온다.
-		//곱하기 / 더하기 / 빼기 / 나누기
+		// data-calc에서 총합 / 평균을 바로 구하는게 아니라 두개 이상의 데이터를 연관지어 계산해서 총합 / 평균을 구하고
+		// 싶을 경우 여기에 들어온다.
+		// 곱하기 / 더하기 / 빼기 / 나누기
 		if(calc_detail[0] == 'add'){
 			$.each(dataItem, function(){
 				let add_item = 0;
@@ -1599,19 +1656,19 @@ const chartDataBinding = function(name, clickdata){
 						$.each(resultArr, function(key,value){
 							if(value[x].split('-',1)[0] == btnClickDataset[3]){
 								let quarterDay = value[x].split('-',2)[1];
-								//1분기
+								// 1분기
 								if(1<=quarterDay && quarterDay <=3){
 									this.calcquarter = btnClickDataset[3]+'-1';
 								}
-								//2분기
+								// 2분기
 								if(4<=quarterDay && quarterDay <=6){
 									this.calcquarter = btnClickDataset[3]+'-2';
 								}
-								//3분기
+								// 3분기
 								if(7<=quarterDay && quarterDay <=9){
 									this.calcquarter = btnClickDataset[3]+'-3';
 								}
-								//4분기
+								// 4분기
 								if(10<=quarterDay && quarterDay <=12){
 									this.calcquarter = btnClickDataset[3]+'-4';
 								}
@@ -1719,7 +1776,7 @@ const chartDataBinding = function(name, clickdata){
 						resultArr2.push(data)
 					};
 				})
-				//오름차순 정렬
+				// 오름차순 정렬
 				resultArr2.sort(function (a, b){
 					return a < b ?-1 : a > b ? 1 : 0;
 				})
@@ -1794,7 +1851,7 @@ const chartDataBinding = function(name, clickdata){
 				}
 			}
 		} else {
-			//x의 기준이 없는 경우
+			// x의 기준이 없는 경우
 			// line은 x가 없기때문에 여기에 들어온다
 			$.each(dataItem, function(){
 				let data = this[dataStandard];
@@ -1863,19 +1920,19 @@ const chartDataBinding = function(name, clickdata){
 						$.each(resultArr, function(key,value){
 							if(value[x].split('-',1)[0] == btnClickDataset[3]){
 								let quarterDay = value[x].split('-',2)[1];
-								//1분기
+								// 1분기
 								if(1<=quarterDay && quarterDay <=3){
 									this.calcquarter = btnClickDataset[3]+'-1';
 								}
-								//2분기
+								// 2분기
 								if(4<=quarterDay && quarterDay <=6){
 									this.calcquarter = btnClickDataset[3]+'-2';
 								}
-								//3분기
+								// 3분기
 								if(7<=quarterDay && quarterDay <=9){
 									this.calcquarter = btnClickDataset[3]+'-3';
 								}
-								//4분기
+								// 4분기
 								if(10<=quarterDay && quarterDay <=12){
 									this.calcquarter = btnClickDataset[3]+'-4';
 								}
@@ -1976,7 +2033,7 @@ const chartDataBinding = function(name, clickdata){
 						resultArr2.push(data)
 					};
 				})
-				//오름차순 정렬
+				// 오름차순 정렬
 				resultArr2.sort(function (a, b){
 					return a < b ?-1 : a > b ? 1 : 0;
 				})
@@ -2042,7 +2099,7 @@ const chartDataBinding = function(name, clickdata){
 				}
 			}
 		} else {
-			//하나의 데이터로 line chart를 그릴때
+			// 하나의 데이터로 line chart를 그릴때
 			$.each(dataItem, function(){
 				let data = this[dataStandard];
 				if($.inArray(data, resultArr) === -1){

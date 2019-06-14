@@ -3,8 +3,18 @@ let lineChart = (dataSet, select, title) => {
 	let point = '';
 	let lineChartTitleName = '';
 	let transferTitle = '';
-	let dataTransfer = eval($(select).data('ds-transfer-naming'));
-	let dataTable = eval($(select).data('ds-binding'))[0];
+	let dataTransfer = '';
+	try{
+		dataTransfer = eval($(select).data('ds-transfer-naming'));
+	} catch(error){
+		console.error('ds-transfer-naming : Json Object dose not exist.');
+	}
+	let dataTable = '';
+	try{
+		dataTable = eval($(select).data('ds-binding'))[0];
+	} catch(error) {
+		console.error('ds-binding : Json Object dose not exist.');
+	}
 	if(dataTransfer != undefined){
 		$.each(dataTransfer, function(key, value){
 			if(title== ''){
@@ -33,12 +43,16 @@ let lineChart = (dataSet, select, title) => {
 			titlecalcdetail = '평균'
 		}
 	} else {
-		for(let i=0; i < eval('tableOption').length; i++){
-			$.each(eval('tableOption')[i], function(key, value){
-				if(key == $(select).data('ds-calc-detail')){
-					titlecalcdetail = value;
-				}
-			})
+		try{
+			for(let i=0; i < eval('tableOption').length; i++){
+				$.each(eval('tableOption')[i], function(key, value){
+					if(key == $(select).data('ds-calc-detail')){
+						titlecalcdetail = value;
+					}
+				})
+			}			
+		} catch(error) {
+			console.error('tabelOption : Json Object dose not exist.');
 		}
 	}
 	if(title == ''){

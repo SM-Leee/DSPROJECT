@@ -74,7 +74,7 @@
 				</div>
 			</div>
 		</div>
-	<div id='ds-ui-staticBtn' data-float='true'></div>
+		<div id='ds-ui-staticBtn' data-float='true'></div>
 	</div>
 
 

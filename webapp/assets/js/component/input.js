@@ -2,11 +2,11 @@
 const inputFormat = function(){
 	if($(".ds-ui-input").length !=0){
 		//$('.ds-ui-input label').wrap('<div></div>');
-		let no = getParameterByName('no');
-		if(no == ''){
-			no = 1;
-		}
-
+		
+			let no = getParameterByName('no');
+			if(no == ''){
+				no = 1;
+			}
 		//let no = getParameterByName('no');
 		$('.ds-ui-input').each(function() {
 
@@ -39,10 +39,13 @@ const inputFormat = function(){
 						'<label>'+$(this).data('ds-label')+'</label>' +
 				'</div>');				
 			}
-
-
-			let statusData = eval($(this).data('ds-binding'));
-
+			let statusData = ''
+			try{
+				statusData = eval($(this).data('ds-binding'));
+			}catch(error) {
+				console.error('Json Object dose not exist.');
+				statusData=undefined;
+			}
 			let newArr;
 			no = no*1;
 			if(statusData != undefined){

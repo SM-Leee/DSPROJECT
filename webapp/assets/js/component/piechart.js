@@ -27,7 +27,6 @@ let pieChart = (dataSet, select) => {
 	let startClip = 0;
 	let endClip = 0;
 	let prevAngle = 0;
-	console.log(dataSet)
 	dataSet.map(function(d, index){
 		prevAngle = angle;
 		value = d.data / sum;

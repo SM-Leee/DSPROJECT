@@ -1,50 +1,39 @@
+
 /*date-picker*/
 // datePicker setting
 const datePicker = () => {
    // datepicker render
-   if($('.date').length != 0) {
-      $.each($('.date'), (index, component) => {
+   if($('.ds-ui-datepicker').length != 0) {
+      $.each($('.ds-ui-datepicker'), (index, component) => {
          htmlInputDate($(component));
          // datepicker click event on
          datepickerListener($(component));
          initDate($(component));
+         if($(component).data('dsBinding') == undefined || $(component).data('dsForm') == undefined) return true;
+         dateBind($(component));
       });
    }
-   if($('.date').length != 0) {
-      $.each($('.date'), (index, component) => {
-         if($(component).data('dsBinding') == undefined || $(component).data('dsForm') == undefined) return;
-         dateBind();
-      });
-   }
-   
-   if($('#fromDate').length != 0 && $('#fromDate').data('dsIsPopup') == undefined) {
-      $('#fromDate').addClass('period-option');
-      htmlInputDate($('#fromDate'));
-      // datepicker click event on
-      datepickerListener($('#fromDate'));
-      initDate($('#fromDate'));
-   }
-   if($('#toDate').length != 0 && $('#toDate').data('dsIsPopup') == undefined) {
-      $('#toDate').addClass('period-option');
-      htmlInputDate($('#toDate'));
-      // datepicker click event on
-      datepickerListener($('#toDate'));
-      initDate($('#toDate'));
-   }
-   
 }
-const dateBind = () => {
-   let dataObject = eval($('.date').data('dsBinding')),
-       targetColumn = $('.date').data('dsForm'),
+
+const dateBind = ($target) => {
+   let dataObject = '',
+       targetColumn = '',
        init_value = '',
-       unique_value = getParameterByName('no');
+       unique_value = '';
+   let jsonObjectIsTure = dataObjectExistenceCheck($target);
+   if(!jsonObjectIsTure) return;
+   if($(eval($target.data('dsBinding'))) == undefined) return;
+   else dataObject = eval($target.data('dsBinding'));
+   if($target.data('dsForm') == undefined) return ;
+   else targetColumn = $target.data('dsForm');
+   if(getParameterByName('no') != undefined) unique_value = getParameterByName('no');
+   if($(dataObject)[0].no == undefined) return console.warn("JsonObject's unique_column[no] does not exist.");
    if(unique_value == '') unique_value = $(dataObject)[0].no;
    if(unique_value == '') return;
-   
    $.each(dataObject, (index, row)=>{
       if(row.no==unique_value) {
          init_value = row[targetColumn];
-         $('.date').val(init_value);
+         $target.val(init_value);
          return ;
       }
    });
@@ -200,8 +189,10 @@ function buildCalendar($targetPB) {
    isMove = null;
    // popup touchstart
    $targetPB.find('.date-tb td').unbind('touchstart mousedown').bind('touchstart mousedown', (e) => {
+      // e.preventDefault();
       isMove = false;
-      if($(e.target)[0].innerHTML == '' && $(e.target).is('td')) {
+//      console.log(e.target.innerHTML)
+      if(!$(e.target).is('td') || ($(e.target).is('td') && e.target.innerHTML == '') ) {
          $prevTarget = $currentTarget = null;
          return ;
       }
@@ -210,14 +201,11 @@ function buildCalendar($targetPB) {
    });
    // popup touchmove
    $targetPB.find('.date-tb td').unbind('touchmove mousemove').bind('touchmove mousemove', (e) => {
-      if(isMove != false) return;
+      e.preventDefault();
+      isMove = true;
       if($currentTarget == null) return;
       
-      if($targetPB.find('.date-tb td').hasClass('selected')) 
-         $targetPB.find('.date-tb td').removeClass('selected');
-      
       $currentTarget = $(targetFromPoint(e));
-
       if ($currentTarget.is('td') && $currentTarget[0].innerHTML != '') {
          if($prevTarget == null) $prevTarget = $currentTarget;
          if($prevTarget != $currentTarget) {
@@ -225,35 +213,24 @@ function buildCalendar($targetPB) {
             $currentTarget.addClass('selecting');
             $prevTarget = $currentTarget;
          }
-      } else if (!$currentTarget.is('td')) {
+      } 
+      else { // if (!$currentTarget.is('td') || (!$currentTarget.is('td') && $currentTarget[0].innerHTML == ''))
          $currentTarget = $prevTarget;
       }
    });
    // popup touchend
    $targetPB.find('.date-tb td').unbind('touchend mouseup').bind('touchend mouseup', (e) => {
-      if(isMove == false) {
-         if($targetPB.find('.date-tb td').hasClass('selected')) 
-            $targetPB.find('.date-tb td').removeClass('selected');
-         
-         if ($currentTarget.is('td') && $currentTarget[0].innerHTML != '') {
-            if($prevTarget == null) $prevTarget = $currentTarget;
-            if($prevTarget != $currentTarget) {
-               $prevTarget.removeClass('selecting');
-               $currentTarget.addClass('selecting');
-               $prevTarget = $currentTarget;
-            }
-         } else if (!$currentTarget.is('td')) {
-            $currentTarget = $prevTarget;
-         }
-
-      }
-      isMove = true;
-      if($currentTarget == null) return true;
+      e.preventDefault();
       
+      if($currentTarget == null) return;
+
+      $targetPB.find('.date-tb td').removeClass('selected');
+   
       if ($currentTarget.is('td') && $currentTarget[0].innerHTML != '') {
          currentDate = $currentTarget[0].innerHTML;
       } 
-      if ($currentTarget.is('td') && $currentTarget[0].innerHTML == '') {
+      if (!$currentTarget.is('td') || ( $currentTarget.is('td') && $currentTarget[0].innerHTML == '' )) {
+         if($prevTarget == null) return;
          $currentTarget = $prevTarget;
          currentDate = $currentTarget[0].innerHTML;
       };
